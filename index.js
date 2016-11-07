@@ -1,5 +1,5 @@
 const express = require('express'),
-    cheerio = require('cheerio.js');
+    cheerio = require('./modules/cheerio.js');
 
 
 var app = express();
@@ -8,8 +8,13 @@ app.use(express.static(__dirname + '/'));
 app.use(express.static(__dirname + '/public'));
 
 app.post('/parse', function(req,res){
-    console.log("parsing scenario entered");
-
+    console.log(req.query.url);
+    cheerio(req.query.url).then(function(results){
+        res.json({
+            success: true,
+            info: results
+        });
+    });
 });
 
 app.listen(8080, function(){
