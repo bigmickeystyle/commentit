@@ -2,15 +2,16 @@
 <html>
 <head>
     <title>Comment It</title>
-    <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+    <link type="text/css" rel="stylesheet" href="/CSS/stylesheet.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
-    <script src="/JS/upload.js"></script>
+    <script src="/JS/angular-router.js"></script>
 </head>
 <body ng-app="CommentIt">
     <div id="header">
         <h1>Comment It</h1>
     </div>
+    <!-- <div ui-view="upload"></div> -->
     <div ng-controller="uploadpage" class="fullpagedisplay" id="uploadpage">
         <h2>Upload a link to share!</h2>
         <form name="uploadform" ng-submit="parse()" ng-show="!submited" novalidate>
@@ -29,10 +30,9 @@
                 <button type="submit" class="submit-link">Submit</button>
             </div>
             <div class="help-block" ng-messages="uploadform.link.$error" ng-show="uploadform.link.$touched">
-                <div ng-messages-include="/more-html/messages.html"></div>
+                <div ng-messages-include="/HTML/error-messages.html"></div>
             </div>
         </form>
-        <
     </div>
 </body>
 </html>

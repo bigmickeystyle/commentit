@@ -1,6 +1,7 @@
-var page = angular.module('CommentIt', ['ngMessages']);
+var app = angular.module('CommentIt', ['ngMessages']);
 
-page.controller('uploadpage', function($scope, $http) {
+
+app.controller('uploadpage', function($scope, $http) {
     console.log("loaded");
     $scope.submitted = false;
     $scope.parse = function(){
@@ -11,6 +12,9 @@ page.controller('uploadpage', function($scope, $http) {
             params: {
                 'url': this.link.url,
                 'tags': this.link.tags
+            },
+            success: function(parsed_info){
+                console.log(parsed_info);
             }
         });
     };
