@@ -13,7 +13,6 @@ app.controller('uploadpage', function($scope, $http) {
                 'tags': this.link.tags
             }
         }).then(function(parsed_info){
-            console.log(parsed_info.data);
             var details = parsed_info.data.info;
             $scope.parsed_info = details;
             $scope.submitted = true;
@@ -21,7 +20,14 @@ app.controller('uploadpage', function($scope, $http) {
     };
     // create the handlers for the angular
     $scope.submit = function(){
-
+        console.log("submitted in angular");
+        $http({
+            url: '/save/link',
+            method: 'POST',
+            params: $scope.parsed_info
+        }).then(function(){
+            "Saved";
+        });
     };
     $scope.edit = function(){
         $scope.editing = true;

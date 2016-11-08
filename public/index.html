@@ -9,7 +9,7 @@
 </head>
 <body ng-app="CommentIt">
     <div id="header">
-        <h1>Comment It</h1>
+        <a href="/"><h1>Comment It</h1></a>
     </div>
     <!-- <div ui-view="upload"></div> -->
     <div ng-controller="uploadpage" class="fullpagedisplay" id="uploadpage">
@@ -40,6 +40,9 @@
             <div class="parsed-info" name="type">{{parsed_info.type}}</div>
             <div class="parsed-info" name="title">{{parsed_info.title}}</div>
             <div class="parsed-info" name="description">{{parsed_info.description}}</div>
+            <div class="parsed-info" name="tags" ng-if="parsed_info.tags.length > 0">
+                <p ng-repeat="tag in parsed_info.tags">{{tag}}</p>
+            </div>
             <div id="verify_accuracy">
                 <h3>Would you be happy with this?</h3>
                 <button ng-submit="submit()">Yes</button>
