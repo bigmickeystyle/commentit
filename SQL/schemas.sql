@@ -20,14 +20,16 @@ CREATE TABLE users (
 CREATE TABLE links (
     id SERIAL primary key,
     url TEXT not null,
-    username VARCHAR(25) not null references users(username),
+    -- Need to change username to username VARCHAR(25) not null references users(username),
+    -- once users table is created
+    username VARCHAR(25),
     created TIMESTAMP DEFAULT now(),
     siteName VARCHAR(225),
     siteType VARCHAR(50),
     headline TEXT not null,
-    alt_headline TEXT,
     description TEXT,
     -- image used as the thumbnail, saved as a url
+    image TEXT,
     thumbnail TEXT,
     tags TEXT[],
     upvote_count INT DEFAULT 0,
