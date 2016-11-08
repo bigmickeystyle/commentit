@@ -7,6 +7,10 @@ var app = express();
 app.use(express.static(__dirname + '/'));
 app.use(express.static(__dirname + '/public'));
 
+
+app.get('/', function(req,res){
+    console.log("started");
+});
 app.post('/parse', function(req,res){
     console.log(req.query.url);
     cheerio(req.query.url).then(function(results){
