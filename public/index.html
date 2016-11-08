@@ -14,7 +14,7 @@
     <!-- <div ui-view="upload"></div> -->
     <div ng-controller="uploadpage" class="fullpagedisplay" id="uploadpage">
         <h2>Upload a link to share!</h2>
-        <form name="uploadform" ng-submit="parse()" ng-show="!submitted" novalidate>
+        <form name="uploadform" ng-submit="parse()" ng-show="!parsed" novalidate>
             <div class="form-group" ng-class="{'input-error': uploadform.link.$error && uploadform.link.$touched}">
                 <label>Link</label>
                 <input type="url" name="link" class="form-input"
@@ -33,7 +33,7 @@
                 <div ng-messages-include="/HTML/error-messages.html"></div>
             </div>
         </form>
-        <div name="verification" id="verify-parse" ng-show="submitted && !editing">
+        <div name="verification" id="verify-parse" ng-show="parsed && !editing && !saved">
             <img class="parsed-info" name="image" src="{{parsed_info.image}}"/>
             <img class="parsed-info" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
             <div class="parsed-info" name="url">{{parsed_info.url}}</div>
@@ -45,23 +45,47 @@
             </div>
             <div id="verify_accuracy">
                 <h3>Would you be happy with this?</h3>
-                <button ng-submit="submit()">Yes</button>
-                <button ng-submit="edit()">No</button>
+                <button ng-click="submit()">Yes</button>
+                <button ng-click="edit()">No</button>
             </div>
         </div>
         <!-- work on this div including the form to edit information.  -->
-        <div name="verification" id="verify-parse" ng-show="submitted && editing">
+        <div name="editlink" id="verify-parse" ng-show="parsed && editing">
             <form ng-submit="submit()">
-                <img class="parsed-info" name="image" src="{{parsed_info.image}}"/>
-                <img class="parsed-info" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
                 <div class="parsed-info" name="url">{{parsed_info.url}}</div>
-                <div class="parsed-info" name="type">{{parsed_info.type}}</div>
                 <div class="parsed-info" name="title">{{parsed_info.title}}</div>
-                <div class="parsed-info" name="description">{{parsed_info.description}}</div>
+                <div class="form-group" ng-class="{'input-error': verification.thumbnail.$error && verification.thumbnail.$touched}">
+                    <img class="parsed-info" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
+                    <label>Thumbnail</label>
+                    <input type="url" name="thumbnail" class="form-input"
+                    ng-model="parsed_info.thumbnail" required>
+                </div>
+                <div class="form-group" ng-class="{'input-error': verification.description.$error && verification.description.$touched}">
+                    <label>Description</label>
+                    <input type="text" name="description" class="form-input"
+                    ng-model="parsed_info.description" required>
+                </div>
+                <div class="form-group" ng-class="{'input-error': verification.tags.$error && verification.tags.$touched}">
+                    <label>Tags</label>
+                    <input type="text" name="tags" class="form-input"
+                    ng-model="parsed_info.original_tags" required>
+                </div>
                 <div class="form-group">
                     <button type="submit" class="submit-link">Submit</button>
-                </div
+                </div>
+                <!-- Make sure this message block works for any input -->
+                <div class="help-block" ng-messages="verification.$error" ng-show="verification.$touched">
+                    <div ng-messages-include="/HTML/error-messages.html"></div>
+                </div>
             </form>
+        </div>
+        <div name="saved" id="saved-parse" ng-show="parsed && !editing && saved">
+            <div>Thanks for submitting {{parsed_info.title}}!</div>
+            <!-- add this once the angular router is instantiated -->
+            <!-- <div>Would you like to:</div>
+            <button ui-sref=".upload">Submit another link!</button>
+            <button ui-sref=".link">Add some comments!</button>
+            </button ui-sref=".home">See all the links!</button> -->
         </div>
 </body>
 </html>
