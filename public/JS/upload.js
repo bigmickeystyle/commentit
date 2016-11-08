@@ -1,7 +1,4 @@
-var app = angular.module('CommentIt', ['ngMessages']);
-
-
-app.controller('uploadpage', function($scope, $http) {
+var uploadcontroller = function($scope, $http) {
     $scope.parsed = false;
     $scope.parse = function(){
         var page = this;
@@ -48,4 +45,6 @@ app.controller('uploadpage', function($scope, $http) {
             $scope.parsed_info.tags = [];
         }
     }
-});
+};
+
+uploadcontroller.$inject = ['$scope', '$http'];
