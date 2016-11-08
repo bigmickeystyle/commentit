@@ -1,0 +1,32 @@
+{
+  "name": "commentit",
+  "version": "1.0.0",
+  "description": "an attempt at making a better reddit",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bigmickeystyle/commentit.git"
+  },
+  "keywords": [
+    "comments",
+    "fun",
+    "excitement"
+  ],
+  "author": "karen and mike",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bigmickeystyle/commentit/issues"
+  },
+  "homepage": "https://github.com/bigmickeystyle/commentit#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-formly": "^8.4.0",
+    "api-check": "^7.5.5",
+    "cheerio": "^0.22.0",
+    "express": "^4.14.0",
+    "request": "^2.78.0"
+  }
+}
