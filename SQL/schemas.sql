@@ -22,6 +22,8 @@ CREATE TABLE links (
     url TEXT not null,
     username VARCHAR(25) not null references users(username),
     created TIMESTAMP DEFAULT now(),
+    siteName VARCHAR(225),
+    siteType VARCHAR(50),
     headline TEXT not null,
     alt_headline TEXT,
     description TEXT,
