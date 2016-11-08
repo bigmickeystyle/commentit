@@ -11,7 +11,13 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         url: '/load',
         templateUrl: '../HTML/upload.html',
         controller: 'uploadcontroller'
+    })
+    .state('register', {
+        url: '/register',
+        templateUrl: '..//HTML/register.html',
+        controller: 'registercontroller'
     });
 });
 
 myapp.controller('uploadcontroller', uploadcontroller);
+myapp.controller('registercontroller', registercontroller);

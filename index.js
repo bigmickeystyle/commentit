@@ -1,10 +1,12 @@
 const express = require('express'),
     cheerio = require('./modules/cheerio.js'),
     util = require('util'),
-    dbconnect = require('./modules/dbconnect.js');
-
+    dbconnect = require('./modules/dbconnect.js'),
+    parser = require('body-parser');
 
 var app = express();
+
+app.use(parser.json());
 
 app.use(function logUrl(req, res, next) {
     console.log('requesting: ' + req.url);
@@ -13,6 +15,19 @@ app.use(function logUrl(req, res, next) {
 
 app.get('/', function(req,res){
     res.sendFile(__dirname + '/public/index.html');
+});
+
+app.post('/register', function(req, res) {
+    var user = req.body.user;
+    var call = "INSERT INTO users (username, email, age, location, interests) VALUES ($1, $2, $3, $4, $5)";
+    var params = [user.username, user.email, user.age, user.location, user.interests.split(", ")];
+    dbconnect.pgConnect(call, params).then(function(){
+        res.json({
+            success: true
+        });
+    }).catch(function(err){
+        console.log(err);
+    });
 });
 
 app.post('/parse', function(req,res){
