@@ -1,15 +1,32 @@
-var app = angular.module('CommentIt', ['ngMessages', 'ui.router']);
+var myapp = angular.module('CommentIt', ['ngMessages', 'ui.router']);
 
-app.config(function($stateProvider, $urlRouterProvider){
-    $urlRouterProvider.otherwise('/home');
+myapp.config(function($stateProvider, $urlRouterProvider){
+    $urlRouterProvider.otherwise('/');
     $stateProvider
-        .state('home', {
-            url: '/',
-            templateURL: 'home.html'
-        })
+    .state('home', {
+        url: '/home',
+        templateUrl: '../HTML/home.html'
+    })
         .state('upload', {
             url: '/load',
-            templateURL: 'upload.html',
-            controller: 'upload.js'
+            templateUrl: '../HTML/upload.html',
+            controller: function($scope, $http) {
+                console.log("loaded");
+                $scope.submitted = false;
+                $scope.parse = function(){
+                    $scope.submitted = true;
+                    $http({
+                        url: '/parse',
+                        method: 'POST',
+                        params: {
+                            'url': this.link.url,
+                            'tags': this.link.tags
+                        },
+                        success: function(parsed_info){
+                            console.log(parsed_info);
+                        }
+                    });
+                };
+            }
         });
 });
