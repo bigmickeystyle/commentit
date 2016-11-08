@@ -14,9 +14,15 @@ app.get('/', function(req,res){
 app.post('/parse', function(req,res){
     console.log(req.query.url);
     cheerio(req.query.url).then(function(results){
+        console.log("yay");
         res.json({
             success: true,
             info: results
+        });
+    }).catch(function(error){
+        res.json({
+            success: false,
+            info: error
         });
     });
 });
