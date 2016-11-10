@@ -1,5 +1,5 @@
 <div class="fullpagedisplay" id="registerpage">
-    <form name="registerform" ng-submit="register()" novalidate>
+    <form name="registerform" ng-submit="register()">
         <div class="form-group">
             <label>Username</label>
             <input name="username" class="form-input" ng-model="user.username" type="text" required>
@@ -9,26 +9,7 @@
             <input name="password" class="form-input" ng-model="user.password" type="password" ng-minlength="6" ng-maxlength="10" required>
         </div>
         <div class="form-group">
-            <label>Email</label>
-            <input name="email" class="form-input" ng-model="user.email" type="email">
-        </div>
-        <div class="form-group">
-            <label>Age</label>
-            <input name="age" class="form-input" ng-model="user.age" type="number">
-        </div>
-        <div class="form-group">
-            <label>Location</location>
-            <input name="location" class="form-input" ng-model="user.location" type="text">
-        </div>
-        <div class="form-group">
-            <label>Interests</label>
-            <input name="interest" class="form-input" ng-model="user.interests" type="text">
-        </div>
-        <div class="form-group">
             <button type="submit" ng-click="register" class="submit-link">Register</button>
-        </div>
-        <div class="help-block" ng-messages="registerform.$error" ng-show="registerform.$touched">
-            <div ng-messages-include="/HTML/error-messages.html"></div>
         </div>
     </form>
 </div>

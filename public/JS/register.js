@@ -1,11 +1,12 @@
-var registercontroller = function($scope, $http){
+var registercontroller = function($scope, $http, $location){
     $scope.register = function(){
         var user = this.user;
-        console.log(user);
         $http.post('/register', {
             user: user
+        }).then(function(){
+            $location.path('/profile');
         });
     };
 };
 
-uploadcontroller.$inject = ['$scope', '$http'];
+registercontroller.$inject = ['$scope', '$http', '$location'];

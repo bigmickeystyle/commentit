@@ -4,6 +4,7 @@ const express = require('express'),
     user = require('./modules/user-handlers.js'),
     link = require('./modules/link-handlers.js'),
     check_inputs = require('./modules/check-inputs.js'),
+    cheerio = require('./modules/cheerio.js'),
     chalk = require('chalk'),
     green = chalk.green,
     blue = chalk.blue,
@@ -33,28 +34,79 @@ app.post('/register', function(req, res) {
         throw error_field;
     }).then(function(){
         console.log(green("correct"));
-        user.check_for_user(req.body.user.username).then(function(exists){
+        user.check_for_user(req.body.user.username).catch(function(err){
+            console.log(error("Error in Register Post"));
+            throw err;
+            //message
+        }).then(function(exists){
             if (exists) {
                 console.log(blue("username exists: " + exists));
                 //message "that username has already been registered. try logging in."
             } else {
                 console.log(blue("Adding user to database"));
-                user.unique_register(req,res);
+                user.unique_register(req.body.user).catch(function(err){
+                    console.log(error("error putting info in database"));
+                    throw err;
+                }).then(function(){
+                    console.log(property("Success!"));
+                    res.json({
+                        success: true
+                    });
+                });
             }
-        }).catch(function(err){
-            console.log(error("Error in Register Post"));
+        });
+    });
+});
+app.get('/profile', function(req,res){
+    user.get_profile(req.query.username).catch(function(err){
+        console.log(error("error getting profile info from database"));
+        throw err;
+    }).then(function(info){
+        console.log(blue("Info got"));
+        res.json({
+            success: true,
+            info: info
+        });
+    });
+});
+app.post('/profile', function(req,res){
+    check_inputs.profile(req.body.info).catch(function(error_field){
+        console.log(error("input " + error_field + " not correct"));
+        //make sure an error message shows up.
+        throw error_field;
+    }).then(function(){
+        user.edit_profile(req.body.info).catch(function(err){
+            console.log(error("error saving to the database"));
             throw err;
-            //message
+            //give message about error
+        }).then(function(){
+            res.json({success:true});
         });
     });
 });
 
 app.post('/parse', function(req,res){
-    link.parse(req,res);
+    cheerio(req.query.url).then(function(results){
+        res.json({
+            success: true,
+            info: results
+        });
+    }).catch(function(error){
+        res.json({
+            success: false,
+            info: error
+        });
+    });
 });
 
 app.post('/save/link', function(req,res){
-    link.upload(req,res);
+    link.upload(req,res).catch(function(error){
+        console.log(error("error saving to database"));
+        //show this in a message
+        throw error;
+    }).then(function(){
+        res.json({success:true});
+    });
 });
 
 app.listen(8080, function(){

@@ -1,4 +1,4 @@
-var myapp = angular.module('CommentIt', ['ngMessages', 'ui.router']);
+var myapp = angular.module('CommentIt', ['ui.router']);
 
 myapp.config(function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise('/');
@@ -20,9 +20,10 @@ myapp.config(function($stateProvider, $urlRouterProvider){
     .state('profile', {
         url: '/profile',
         templateUrl: '..//HTML/profile.html',
-        controller: 'registercontroller'
+        controller: 'profilecontroller'
     });
 });
 
 myapp.controller('uploadcontroller', uploadcontroller);
 myapp.controller('registercontroller', registercontroller);
+myapp.controller('profilecontroller', profilecontroller);
