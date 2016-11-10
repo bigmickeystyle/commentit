@@ -1,0 +1,15 @@
+
+.comments {
+    height: 1000px;
+    background-color: grey;
+}
+
+.item {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+}
+
+.item:hover {
+    background-color: yellow;
+}
