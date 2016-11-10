@@ -16,6 +16,16 @@ const dbconnect = require('./dbconnect.js');
 //     }
 // };
 
+exports.retrieve = function (){
+    return new Promise(function(resolve, reject){
+        dbconnect.pgConnect('SELECT * from links').then(function(results){
+            resolve(results.rows    );
+        }).catch(function(err){
+            reject(err);
+        });
+    });
+};
+
 exports.upload = function(req,res){
     return new Promise(function(resolve,reject){
         var tags = req.query.tags;
