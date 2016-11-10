@@ -9,7 +9,7 @@ var blue = chalk.blue;
 
 exports.checkDB = function(username) {
     return new Promise(function(resolve, reject){
-        var call = "SELECT id FROM users WHERE username = $1;";
+        var call = "SELECT id, password FROM users WHERE username = $1;";
         callDB(call,[username],resolve,reject);
     });
 };

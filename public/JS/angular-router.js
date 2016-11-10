@@ -1,4 +1,4 @@
-var myapp = angular.module('CommentIt', ['ui.router']);
+var myapp = angular.module('CommentIt', ['ui.router', 'ngCookies']);
 
 myapp.config(function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise('/home');
@@ -9,7 +9,7 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         controller: 'homecontroller'
     })
     .state('upload', {
-        url: '/load',
+        url: '/upload',
         templateUrl: '../HTML/upload.html',
         controller: 'uploadcontroller'
     })
