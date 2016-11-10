@@ -6,6 +6,8 @@ CREATE TABLE users (
     id SERIAL primary key,
     username VARCHAR(25) unique not null,
     oauth VARCHAR(25),
+    oauth_token TEXT,
+    password TEXT not null,
     created TIMESTAMP DEFAULT now(),
     email VARCHAR(225),
     age INT,

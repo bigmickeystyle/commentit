@@ -16,6 +16,11 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         url: '/register',
         templateUrl: '..//HTML/register.html',
         controller: 'registercontroller'
+    })
+    .state('profile', {
+        url: '/profile',
+        templateUrl: '..//HTML/profile.html',
+        controller: 'registercontroller'
     });
 });
 
