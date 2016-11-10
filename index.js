@@ -4,6 +4,7 @@ const express = require('express'),
     bcrypt = require('./modules/bcrypt.js'),
     user = require('./modules/user-handlers.js'),
     link = require('./modules/link-handlers.js'),
+    comments = require('./modules/comment-handlers.js');
     check_inputs = require('./modules/check-inputs.js'),
     cheerio = require('./modules/cheerio.js'),
     chalk = require('chalk'),
@@ -55,6 +56,26 @@ app.post('/register', function(req, res) {
         });
     });
 });
+
+app.get('/comments', function(req, res){
+    console.log(req.query.id);
+    comments.retrieve(req.query.id).then(function(comments){
+        res.json({
+            success: true,
+            comments: comments
+        });
+    });
+});
+
+app.get('/links', function(req, res){
+    link.retrieve().then(function(links){
+        res.json({
+            success: true,
+            links: links
+        });
+    });
+});
+
 app.get('/profile', function(req,res){
     user.get_profile(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
@@ -67,6 +88,7 @@ app.get('/profile', function(req,res){
         });
     });
 });
+
 app.post('/profile', function(req,res){
     check_inputs.profile(req.body.info).catch(function(error_field){
         console.log(error("input " + error_field + " not correct"));
