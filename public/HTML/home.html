@@ -1,2 +1,17 @@
-<!DOCTYPE html>
-<div> <h1>HELLO HELLO HELLO HELLO HELLO</h1> </div>
+<div class="container-fluid">
+    <div class="col-md-5 pull-right comments">
+        <div><a href="{{link.url}}"><img class="col-md-3-circle img-responsive" src="{{link.picture}}"></a></div>
+    </div>
+    <div class="col-md-7">
+        <div ng-repeat="link in links track by $index">
+            <div class="row item" ng-click="showComments()" ng-style="myStyle">
+                <div><a href="{{link.url}}"><img class="col-md-1 img-circle img-responsive" src="{{link.thumbnail}}"></a></div>
+                <div class="col-md-9 text-center">{{link.headline}}</div>
+                <div class="row">
+                    <div class="col-md-7 pull-right">{{link.description}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<scripts src="homes.js"></scripts>
