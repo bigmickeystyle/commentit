@@ -21,9 +21,15 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         url: '/profile',
         templateUrl: '..//HTML/profile.html',
         controller: 'profilecontroller'
+    })
+    .state('login', {
+        url: '/login',
+        templateUrl: '..//HTML/login.html',
+        controller: 'logincontroller'
     });
 });
 
 myapp.controller('uploadcontroller', uploadcontroller);
 myapp.controller('registercontroller', registercontroller);
 myapp.controller('profilecontroller', profilecontroller);
+myapp.controller('logincontroller', logincontroller);

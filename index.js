@@ -1,6 +1,7 @@
 const express = require('express'),
     util = require('util'),
     parser = require('body-parser'),
+    bcrypt = require('./modules/bcrypt.js'),
     user = require('./modules/user-handlers.js'),
     link = require('./modules/link-handlers.js'),
     check_inputs = require('./modules/check-inputs.js'),
@@ -28,32 +29,57 @@ app.get('/', function(req,res){
 app.post('/register', function(req, res) {
     //handle passport registration
     //console.log("serverside");
-    check_inputs.register(req.body.user).catch(function(error_field){
+    check_inputs.signin(req.body.user).catch(function(error_field){
         console.log(error("input " + error_field + " not correct"));
         //make sure an error message shows up.
         throw error_field;
     }).then(function(){
-        console.log(green("correct"));
-        user.check_for_user(req.body.user.username).catch(function(err){
+        user.checkDB(req.body.user.username).catch(function(err){
             console.log(error("Error in Register Post"));
             throw err;
             //message
-        }).then(function(exists){
-            if (exists) {
-                console.log(blue("username exists: " + exists));
+        }).then(function(id){
+            if (id.id) {
+                console.log(blue("username already exists"));
                 //message "that username has already been registered. try logging in."
             } else {
-                console.log(blue("Adding user to database"));
-                user.unique_register(req.body.user).catch(function(err){
+                user.save_registration(req.body.user).catch(function(err){
                     console.log(error("error putting info in database"));
                     throw err;
                 }).then(function(){
-                    console.log(property("Success!"));
                     res.json({
                         success: true
                     });
                 });
             }
+        });
+    });
+});
+app.post('/login', function(req,res){
+    console.log(green("login"));
+    check_inputs.signin(req.body.user).catch(function(error_field){
+        console.log(error("input " + error_field + " not correct"));
+        //make sure an error message shows up.
+        throw error_field;
+    }).then(function(){
+        user.checkDB(req.body.user.username).catch(function(){
+            console.log(error("Username not found"));
+            throw "error";
+            //message for username not found, please try again or register
+        }).then(function(data){
+            bcrypt.checkPassword(req.body.user.password, data[0].password).catch(function(err){
+                console.log(error("Error checking password"));
+                throw err;
+                //message please try again
+            }).then(function(matches){
+                //set cookie
+                if (matches) {
+                    res.json({success:true});
+                } else {
+                    console.log(blue("Incorrect password"));
+                    //message
+                }
+            });
         });
     });
 });
@@ -65,7 +91,7 @@ app.get('/profile', function(req,res){
         console.log(blue("Info got"));
         res.json({
             success: true,
-            info: info
+            info: info[0]
         });
     });
 });
