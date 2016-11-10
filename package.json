@@ -23,6 +23,7 @@
   "homepage": "https://github.com/bigmickeystyle/commentit#readme",
   "dependencies": {
     "angular": "^1.5.8",
+    "angular-cookies": "^1.5.8",
     "angular-formly": "^8.4.0",
     "api-check": "^7.5.5",
     "bcrypt": "^0.8.7",

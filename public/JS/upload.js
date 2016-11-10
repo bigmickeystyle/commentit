@@ -1,4 +1,7 @@
-var uploadcontroller = function($scope, $http) {
+var uploadcontroller = function($scope, $http, $location, $cookies) {
+    if (!$cookies.get("username")) {
+        $location.path('/login');
+    }
     $scope.parsed = false;
     $scope.parse = function(){
         var page = this;
@@ -45,4 +48,4 @@ var uploadcontroller = function($scope, $http) {
     };
 };
 
-uploadcontroller.$inject = ['$scope', '$http'];
+uploadcontroller.$inject = ['$scope', '$http', '$location', '$cookies'];

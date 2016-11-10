@@ -1,11 +1,13 @@
-var profilecontroller = function($scope, $http, $location){
+var profilecontroller = function($scope, $http, $location, $cookies){
     //change username to cookie value
     //look into database, based on username return all values for this form excpet password
+    var username = $cookies.get("username");
+    if (!username) {
+        $location.path('/login');
+    }
     $scope.user = {
-        username: 'karen'
+        username: username
     };
-    console.log("scope");
-    console.log($scope.user);
     $http.get('/profile', {
         params: {
             username: $scope.user.username
@@ -23,4 +25,4 @@ var profilecontroller = function($scope, $http, $location){
     };
 };
 
-profilecontroller.$inject = ['$scope', '$http', '$location'];
+profilecontroller.$inject = ['$scope', '$http', '$location', '$cookies'];
