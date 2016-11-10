@@ -1,4 +1,4 @@
-exports.register = function(inputs){
+exports.signin = function(inputs){
     return new Promise(function(resolve,reject){
         if (!inputs.username){
             reject("username");
