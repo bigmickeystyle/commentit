@@ -17,15 +17,18 @@
             </div>
             <!-- add error handlers -->
         </form>
+        <div name="spinner" id="loader" ng-show="loading"></div>
         <div name="verification" id="verify-parse" ng-show="parsed && !editing && !saved">
-            <img class="parsed-info" name="image" src="{{parsed_info.image}}"/>
-            <img class="parsed-info" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
-            <div class="parsed-info" name="url">{{parsed_info.url}}</div>
-            <div class="parsed-info" name="type">{{parsed_info.type}}</div>
-            <div class="parsed-info" name="title">{{parsed_info.title}}</div>
-            <div class="parsed-info" name="description">{{parsed_info.description}}</div>
-            <div class="parsed-info" name="tags" ng-if="parsed_info.tags.length > 0">
-                <p ng-repeat="tag in parsed_info.tags">{{tag}}</p>
+            <div class="row">
+                <img class="parsed-info col-md-3 img-circle img-responsive" name="image" src="{{parsed_info.image}}"/>
+                <img class="parsed-info col-md-1 img-circle img-responsive" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
+                <div class="parsed-info" name="url">URL : {{parsed_info.url}}</div>
+                <div class="parsed-info" name="type">Type : {{parsed_info.type}}</div>
+                <div class="parsed-info" name="title">Title : {{parsed_info.title}}</div>
+                <div class="parsed-info" name="description">Description : {{parsed_info.description}}</div>
+                <div class="parsed-info" name="tags" ng-if="parsed_info.tags.length > 0">
+                    <p ng-repeat="tag in parsed_info.tags">{{tag}}</p>
+                </div>
             </div>
             <div id="verify_accuracy">
                 <h3>Would you be happy with this?</h3>
@@ -39,7 +42,7 @@
                 <div class="parsed-info" name="url">{{parsed_info.url}}</div>
                 <div class="parsed-info" name="title">{{parsed_info.title}}</div>
                 <div class="form-group" ng-class="{'input-error': verification.thumbnail.$error && verification.thumbnail.$touched}">
-                    <img class="parsed-info" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
+                    <img class="parsed-info col-md-3 img-circle img-responsive" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
                     <label>Thumbnail</label>
                     <input type="url" name="thumbnail" class="form-input"
                     ng-model="parsed_info.thumbnail" required>

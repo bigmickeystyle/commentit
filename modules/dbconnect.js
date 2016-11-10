@@ -1,5 +1,7 @@
 const pg = require('pg');
-var dbUrl = process.env.DATABASE_URL || 'postgres://Karen:password@localhost/commentit' || 'postgres://mike:awesome@localhost/commentit';
+const password = require('../passwords.json');
+
+var dbUrl = process.env.DATABASE_URL || 'postgres://' + password.username + ':' + password.password + '@localhost/commentit';
 dbUrl = require('url').parse(dbUrl);
 var dbUser = dbUrl.auth.split(':');
 

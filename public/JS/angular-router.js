@@ -5,7 +5,8 @@ myapp.config(function($stateProvider, $urlRouterProvider){
     $stateProvider
     .state('home', {
         url: '/home',
-        templateUrl: '../HTML/home.html'
+        templateUrl: '../HTML/home.html',
+        controller: 'homecontroller'
     })
     .state('upload', {
         url: '/upload',
@@ -29,6 +30,7 @@ myapp.config(function($stateProvider, $urlRouterProvider){
     });
 });
 
+myapp.controller('homecontroller', homecontroller);
 myapp.controller('uploadcontroller', uploadcontroller);
 myapp.controller('registercontroller', registercontroller);
 myapp.controller('profilecontroller', profilecontroller);

@@ -3,7 +3,9 @@ var uploadcontroller = function($scope, $http, $location, $cookies) {
         $location.path('/login');
     }
     $scope.parsed = false;
+    $scope.loading = false;
     $scope.parse = function(){
+        $scope.loading = true;
         var page = this;
         $http({
             url: '/parse',
@@ -14,6 +16,9 @@ var uploadcontroller = function($scope, $http, $location, $cookies) {
         }).then(function(parsed_info){
             var details = parsed_info.data.info;
             $scope.parsed_info = details;
+            if (!$scope.parsed_info.thumbnail){
+                $scope.parsed_info.thumbnail = './public/images/logo.png';
+            }
             $scope.parsed_info.original_tags = page.link.tags;
             var tags = $scope.parsed_info.original_tags;
             if (tags) {
@@ -29,6 +34,7 @@ var uploadcontroller = function($scope, $http, $location, $cookies) {
                 $scope.parsed_info.tags = [];
             }
             $scope.parsed = true;
+            $scope.loading = false;
         });
     };
     // create the handlers for the angular

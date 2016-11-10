@@ -55,34 +55,6 @@ app.post('/register', function(req, res) {
         });
     });
 });
-app.post('/login', function(req,res){
-    console.log(green("login"));
-    check_inputs.signin(req.body.user).catch(function(error_field){
-        console.log(error("input " + error_field + " not correct"));
-        //make sure an error message shows up.
-        throw error_field;
-    }).then(function(){
-        user.checkDB(req.body.user.username).catch(function(){
-            console.log(error("Username not found"));
-            throw "error";
-            //message for username not found, please try again or register
-        }).then(function(data){
-            bcrypt.checkPassword(req.body.user.password, data[0].password).catch(function(err){
-                console.log(error("Error checking password"));
-                throw err;
-                //message please try again
-            }).then(function(matches){
-                //set cookie
-                if (matches) {
-                    res.json({success:true});
-                } else {
-                    console.log(blue("Incorrect password"));
-                    //message
-                }
-            });
-        });
-    });
-});
 app.get('/profile', function(req,res){
     user.get_profile(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
