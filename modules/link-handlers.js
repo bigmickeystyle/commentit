@@ -1,6 +1,16 @@
 const dbconnect = require('./dbconnect.js');
 
-exports.upload = function(req,res){
+exports.retrieve = function (){
+    return new Promise(function(resolve, reject){
+        dbconnect.pgConnect('SELECT * from links').then(function(results){
+            resolve(results.rows    );
+        }).catch(function(err){
+            reject(err);
+        });
+    });
+};
+
+exports.upload = function(req){
     return new Promise(function(resolve,reject){
         var tags = req.query.tags;
         if (tags) {
