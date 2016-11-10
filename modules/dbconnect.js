@@ -1,5 +1,5 @@
 const pg = require('pg');
-var dbUrl = process.env.DATABASE_URL || 'postgres://mike:awesome@localhost/commentit';
+var dbUrl = process.env.DATABASE_URL || 'postgres://Karen:password@localhost/commentit' || 'postgres://mike:awesome@localhost/commentit';
 dbUrl = require('url').parse(dbUrl);
 var dbUser = dbUrl.auth.split(':');
 
