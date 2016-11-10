@@ -7,21 +7,14 @@ var property = chalk.cyan;
 var green = chalk.green;
 var blue = chalk.blue;
 
-exports.check_for_user = function(username) {
+exports.checkDB = function(username) {
     return new Promise(function(resolve, reject){
         var call = "SELECT id FROM users WHERE username = $1;";
-        dbconnect.pgConnect(call,[username]).then(function(id){
-            if (id.rows.length == 1){
-                resolve(true);
-            } else {
-                resolve();
-            }
-        }).catch(function(err){
-            reject(err);
-        });
+        callDB(call,[username],resolve,reject);
     });
 };
-exports.unique_register = function(user) {
+exports.save_registration = function(user) {
+
     return new Promise(function(resolve,reject){
         bcrypt.hashPassword(user.password).catch(function(err){
             reject(err);
@@ -73,7 +66,8 @@ exports.edit_profile = function(info){
 
 function callDB(call,params,resolve,reject){
     dbconnect.pgConnect(call, params).then(function(output){
-        resolve(output.rows[0]);
+        console.log(output.rows);
+        resolve(output.rows);
     }).catch(function(err){
         reject(err);
     });

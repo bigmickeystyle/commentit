@@ -13,8 +13,6 @@ exports.hashPassword = function(password){
                 resolve(hash);
             });
         });
-    }).catch(function(err){
-        console.log("error hashing password:" + err);
     });
 };
 exports.checkPassword = function(loginText, hash){
@@ -25,7 +23,5 @@ exports.checkPassword = function(loginText, hash){
             }
             resolve(matches);
         });
-    }).catch(function(err){
-        console.log("error checking password:" + err);
     });
 };
