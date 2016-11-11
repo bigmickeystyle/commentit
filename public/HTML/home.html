@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <div class="col-md-5 pull-right comments">
+        <div><img src="{{image}}" class="col-md-12 img-responsive"></div>
+        <textarea ng-model="commenttext"></textarea>
+        <div ng-repeat="comment in comments track by $index">
+            <div class="row">
+                <div>{{comment.username}}: {{comment.comment}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div ng-repeat="link in links track by $index">
+            <div class="row item" ng-click="showComments()" ng-style="myStyle">
+                <div><a href="{{link.url}}"><img class="col-md-1 img-circle img-responsive" src="{{link.thumbnail}}"></a></div>
+                <div class="col-md-9 text-center">{{link.headline}}</div>
+                <div class="row">
+                    <div class="col-md-7">{{link.description}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<scripts src="homes.js"></scripts>

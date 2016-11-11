@@ -1,0 +1,73 @@
+    <div class="fullpagedisplay" id="uploadpage">
+        <h2>Upload a link to share!</h2>
+        <form name="uploadform" ng-submit="parse()" ng-show="!parsed">
+            <div class="form-group" ng-class="{'input-error': uploadform.link.$error && uploadform.link.$touched}">
+                <label>Link</label>
+                <input type="url" name="link" class="form-input"
+                ng-model="link.url"
+                required>
+            </div>
+            <div class="form-group">
+                <label>Tags</label>
+                <input type="text" name="tags" class="form-input"
+                ng-model="link.tags">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="submit-link">Submit</button>
+            </div>
+            <!-- add error handlers -->
+        </form>
+        <div name="spinner" id="loader" ng-show="loading"></div>
+        <div name="verification" id="verify-parse" ng-show="parsed && !editing && !saved">
+            <div class="row">
+                <img class="parsed-info col-md-3 img-circle img-responsive" name="image" src="{{parsed_info.image}}"/>
+                <img class="parsed-info col-md-1 img-circle img-responsive" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
+                <div class="parsed-info" name="url">URL : {{parsed_info.url}}</div>
+                <div class="parsed-info" name="type">Type : {{parsed_info.type}}</div>
+                <div class="parsed-info" name="title">Title : {{parsed_info.title}}</div>
+                <div class="parsed-info" name="description">Description : {{parsed_info.description}}</div>
+                <div class="parsed-info" name="tags" ng-if="parsed_info.tags.length > 0">
+                    <p ng-repeat="tag in parsed_info.tags">{{tag}}</p>
+                </div>
+            </div>
+            <div id="verify_accuracy">
+                <h3>Would you be happy with this?</h3>
+                <button ng-click="submit()">Yes</button>
+                <button ng-click="edit()">No</button>
+            </div>
+        </div>
+        <!-- work on this div including the form to edit information.  -->
+        <div name="editlink" id="verify-parse" ng-show="parsed && editing">
+            <form ng-submit="submit()">
+                <div class="parsed-info" name="url">{{parsed_info.url}}</div>
+                <div class="parsed-info" name="title">{{parsed_info.title}}</div>
+                <div class="form-group" ng-class="{'input-error': verification.thumbnail.$error && verification.thumbnail.$touched}">
+                    <img class="parsed-info col-md-3 img-circle img-responsive" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
+                    <label>Thumbnail</label>
+                    <input type="url" name="thumbnail" class="form-input"
+                    ng-model="parsed_info.thumbnail" required>
+                </div>
+                <div class="form-group" ng-class="{'input-error': verification.description.$error && verification.description.$touched}">
+                    <label>Description</label>
+                    <input type="text" name="description" class="form-input"
+                    ng-model="parsed_info.description" required>
+                </div>
+                <div class="form-group" ng-class="{'input-error': verification.tags.$error && verification.tags.$touched}">
+                    <label>Tags</label>
+                    <input type="text" name="tags" class="form-input"
+                    ng-model="parsed_info.original_tags" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="submit-link">Submit</button>
+                </div>
+                <!-- add an error block for anything -->
+            </form>
+        </div>
+        <div name="saved" id="saved-parse" ng-show="parsed && !editing && saved">
+            <div>Thanks for submitting {{parsed_info.title}}!</div>
+            <!-- add this once the angular router is instantiated -->
+            <div>Would you like to:</div>
+            <button ui-sref="upload">Submit another link!</button>
+            <!-- <button ui-sref=".link">Add some comments!</button> -->
+            <button ui-sref="home">See all the links!</button>
+        </div>
