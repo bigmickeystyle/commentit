@@ -146,7 +146,8 @@ app.post('/parse', function(req,res){
 });
 
 app.post('/save/link', function(req,res){
-    link.upload(req,res).catch(function(error){
+    console.log("saving to datavase");
+    link.upload(req).catch(function(error){
         console.log(error("error saving to database"));
         //show this in a message
         throw error;
