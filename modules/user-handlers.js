@@ -14,7 +14,6 @@ exports.checkDB = function(username) {
     });
 };
 exports.save_registration = function(user) {
-
     return new Promise(function(resolve,reject){
         bcrypt.hashPassword(user.password).catch(function(err){
             reject(err);

@@ -1,4 +1,9 @@
-var registercontroller = function($scope, $http, $location, $cookies){
+var registercontroller = function($scope, $http, $window, $location, $cookies){
+    $window.location.assign('/#/register');
+    $scope.username = $cookies.get("username");
+    if ($scope.username != undefined) {
+        $window.location.assign('/#/profile');
+    }
     $scope.register = function(){
         var user = this.user;
         $http.post('/register', {
@@ -10,4 +15,4 @@ var registercontroller = function($scope, $http, $location, $cookies){
     };
 };
 
-registercontroller.$inject = ['$scope', '$http', '$location', '$cookies'];
+registercontroller.$inject = ['$scope', '$http', '$window', '$location', '$cookies'];
