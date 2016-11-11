@@ -11,23 +11,13 @@ exports.retrieve = function (){
 };
 
 exports.upload = function(req){
+
     return new Promise(function(resolve,reject){
-        var tags = req.query.tags;
-        if (tags) {
-            if (tags.search(",") == -1) {
-                req.query.tags = [tags];
-            } else {
-                tags = tags.split(",");
-                req.query.tags = tags.map(function(elem){
-                    return elem.trim();
-                });
-            }
-        } else {
-            req.query.tags = [];
-        }
-
         var data = req.query;
-
+        
+        if (!Array.isArray(data.tags)){
+            data.tags = [data.tags];
+        }
         //db save stuff
         //need to handle saving the username, once user is handled
 
