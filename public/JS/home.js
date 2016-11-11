@@ -1,4 +1,8 @@
-var homecontroller = function($scope, $http){
+var homecontroller = function($scope, $http, $rootScope, $cookies){
+    $scope.username = $cookies.get("username");
+    if ($scope.username != undefined) {
+        $rootScope.username = $scope.username;
+    }
     $http.get('/links').then(function(links){
         console.log(links);
         $scope.links = links.data.links;
@@ -16,4 +20,4 @@ var homecontroller = function($scope, $http){
     };
 };
 
-homecontroller.$inject = ['$scope', '$http'];
+homecontroller.$inject = ['$scope', '$http', '$rootScope', '$cookies'];

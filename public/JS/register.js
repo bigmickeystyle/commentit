@@ -1,4 +1,4 @@
-var registercontroller = function($scope, $http, $window, $location, $cookies){
+var registercontroller = function($scope, $http, $rootScope, $window, $location, $cookies){
     $window.location.assign('/#/register');
     $scope.username = $cookies.get("username");
     if ($scope.username != undefined) {
@@ -10,9 +10,10 @@ var registercontroller = function($scope, $http, $window, $location, $cookies){
             user: user
         }).then(function(){
             $cookies.put("username", user.username);
+            $rootScope.username = user.username;
             $location.path('/profile');
         });
     };
 };
 
-registercontroller.$inject = ['$scope', '$http', '$window', '$location', '$cookies'];
+registercontroller.$inject = ['$scope', '$http', '$rootScope', '$window', '$location', '$cookies'];

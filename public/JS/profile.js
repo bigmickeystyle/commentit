@@ -1,8 +1,10 @@
-var profilecontroller = function($scope, $http, $window, $cookies){
+var profilecontroller = function($scope, $http, $rootScope, $window, $cookies){
     $window.location.assign('/#/profile');
     $scope.username = $cookies.get("username");
     if ($scope.username == undefined) {
         $window.location.assign('/#/login');
+    } else {
+        $rootScope.username = $scope.username;
     }
     $scope.user = {
         username: $scope.username
@@ -24,4 +26,4 @@ var profilecontroller = function($scope, $http, $window, $cookies){
     };
 };
 
-profilecontroller.$inject = ['$scope', '$http', '$window', '$cookies'];
+profilecontroller.$inject = ['$scope', '$http', '$rootScope', '$window', '$cookies'];
