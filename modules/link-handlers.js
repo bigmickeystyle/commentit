@@ -1,21 +1,5 @@
 const dbconnect = require('./dbconnect.js');
 
-// exports.string = function(tags){
-//     if (tags) {
-//         if (tags.search(",") == -1) {
-//             return [tags];
-//         } else {
-//             tags = tags.split(",");
-//             tags = tags.map(function(elem){
-//                 return elem.trim();
-//             });
-//             return tags;
-//         }
-//     } else {
-//         return [];
-//     }
-// };
-
 exports.retrieve = function (){
     return new Promise(function(resolve, reject){
         dbconnect.pgConnect('SELECT * from links').then(function(results){
@@ -26,7 +10,7 @@ exports.retrieve = function (){
     });
 };
 
-exports.upload = function(req,res){
+exports.upload = function(req){
     return new Promise(function(resolve,reject){
         var tags = req.query.tags;
         if (tags) {
@@ -43,8 +27,10 @@ exports.upload = function(req,res){
         }
 
         var data = req.query;
+
         //db save stuff
         //need to handle saving the username, once user is handled
+        
         var call = 'INSERT INTO links (url, username, siteName, siteType, headline, description, image, thumbnail, tags)\
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);';
         var params = [data.url, data.username, data.siteName, data.type, data.title, data.description, data.image, data.thumbnail, data.tags];
