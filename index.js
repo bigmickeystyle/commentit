@@ -129,6 +129,6 @@ app.post('/save/link', function(req,res){
     });
 });
 
-app.listen(8080, function(){
+app.listen(process.env.PORT || 8080, function(){
     console.log("I'm so turned on right now");
 });
