@@ -1,8 +1,10 @@
-var uploadcontroller = function($scope, $http, $window, $cookies) {
+var uploadcontroller = function($scope, $http, $rootScope, $window, $cookies) {
     $window.location.assign('/#/upload');
     $scope.username = $cookies.get("username");
     if ($scope.username == undefined) {
         $window.location.assign('/#/login');
+    } else {
+        $rootScope.username = $scope.username;
     }
     $scope.parsed = false;
     $scope.loading = false;
@@ -56,4 +58,4 @@ var uploadcontroller = function($scope, $http, $window, $cookies) {
     };
 };
 
-uploadcontroller.$inject = ['$scope', '$http', '$window', '$cookies'];
+uploadcontroller.$inject = ['$scope', '$http', '$rootScope', '$window', '$cookies'];
