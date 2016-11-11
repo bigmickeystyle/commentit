@@ -1,21 +1,5 @@
 const dbconnect = require('./dbconnect.js');
 
-// exports.string = function(tags){
-//     if (tags) {
-//         if (tags.search(",") == -1) {
-//             return [tags];
-//         } else {
-//             tags = tags.split(",");
-//             tags = tags.map(function(elem){
-//                 return elem.trim();
-//             });
-//             return tags;
-//         }
-//     } else {
-//         return [];
-//     }
-// };
-
 exports.retrieve = function (){
     return new Promise(function(resolve, reject){
         dbconnect.pgConnect('SELECT * from links').then(function(results){
@@ -26,7 +10,7 @@ exports.retrieve = function (){
     });
 };
 
-exports.upload = function(req,res){
+exports.upload = function(req){
     return new Promise(function(resolve,reject){
         var tags = req.query.tags;
         if (tags) {
