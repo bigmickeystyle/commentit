@@ -43,12 +43,14 @@ exports.upload = function(req,res){
         }
 
         var data = req.query;
+
         //db save stuff
         //need to handle saving the username, once user is handled
+        
         var call = 'INSERT INTO links (url, username, siteName, siteType, headline, description, image, thumbnail, tags)\
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);';
         var params = [data.url, data.username, data.siteName, data.type, data.title, data.description, data.image, data.thumbnail, data.tags];
-        dbconnect.pgConnect(call, params).catcht(function(error){
+        dbconnect.pgConnect(call, params).catch(function(error){
             reject(error);
         }).then(function(){
             resolve();
