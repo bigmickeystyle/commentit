@@ -25,12 +25,12 @@ function parseUrl(url){
                     thumbnail = ($('link[rel="apple-touch-icon"]').attr('href'));
                     info.thumbnail = thumbnail;
                     resolve(info);
-                } else if ($('link[rel="shortcut icon"]').attr('href')){
-                    thumbnail = $('link[rel="shortcut icon"]').attr('href');
-                    info.thumbnail = thumbnail;
-                    resolve(info);
                 } else if($('link[rel="icon"]').attr('href')){
                     var thumbnail = $('link[rel="icon"]').attr('href');
+                    info.thumbnail = thumbnail;
+                    resolve(info);
+                } else if ($('link[rel="shortcut icon"]').attr('href')){
+                    thumbnail = $('link[rel="shortcut icon"]').attr('href');
                     info.thumbnail = thumbnail;
                     resolve(info);
                 } else {
