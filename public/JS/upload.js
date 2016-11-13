@@ -47,6 +47,7 @@ var uploadcontroller = function($scope, $http, $rootScope, $window, $cookies) {
     };
     $scope.submit = function(){
         // splitTags($scope.parsed_info.original_tags);
+        $scope.parsed_info.username = $scope.username;
         $http({
             url: '/save/link',
             method: 'POST',
