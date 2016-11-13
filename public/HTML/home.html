@@ -1,20 +1,35 @@
 <div class="container-fluid">
     <div class="col-md-5 pull-right comments">
-        <div><img src="{{image}}" class="col-md-12 img-responsive"></div>
-        <textarea ng-model="commenttext"></textarea>
+        <a target="_blank" href="{{linkSelected.url}}"><div class="linked-pic-box"><img src="{{linkSelected.image}}" class="col-md-12 linked-pic"></div></a>
+        <div class=row>
+            <div class=col-md-11>Submitted By: {{linkSelected.user}} on {{linkSelected.created}}</div>
+        </div>
+        <form class="form-inline">
+          <div class="form-group">
+            <label for="commenttext">Leave a Comment:</label>
+            <textarea class="form-control" id="commenttext" ng-model="commenttext"></textarea>
+          </div>
+          <button type="submit" class="btn btn-default" ng-click="submitComment()">Submit</button>
+        </form>
+        {{commenttext}}
         <div ng-repeat="comment in comments track by $index">
-            <div class="row">
-                <div>{{comment.username}}: {{comment.comment}}</div>
+            <div class="row" ng-class="{active : commentIsSelected(comment)}" ng-click="expand(comment)">
+                <div class="col-md-10 comment">{{comment.username}}: {{comment.comment}}</div><div class="col-md-2">REPLY</div>
+                <div class="col-md-12" id="{{comment}}">
+                    <div ng-repeat="comment in childcomments track by $index">
+                        <div class="col-md-10 comment">{{comment.username}}: {{comment.comment}}</div><div class="col-md-2">REPLY</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-7">
         <div ng-repeat="link in links track by $index">
-            <div class="row item" ng-click="showComments()" ng-style="myStyle">
-                <div><a href="{{link.url}}"><img class="col-md-1 img-circle img-responsive" src="{{link.thumbnail}}"></a></div>
-                <div class="col-md-9 text-center">{{link.headline}}</div>
+            <div class="row item" ng-click="showComments(link)" ng-class="{active : linkIsSelected(link)}">
+                <div><a target="_blank" href="{{link.url}}"><img class="col-md-2 img-circle img-thumbnail" src="{{link.thumbnail}}"></a></div>
+                <div class="col-md-9 text-center"><h4>{{link.headline}}</h4></div>
                 <div class="row">
-                    <div class="col-md-7">{{link.description}}</div>
+                    <div class="col-md-9 pull-right">{{link.description}}</div>
                 </div>
             </div>
         </div>

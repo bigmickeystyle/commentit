@@ -24,7 +24,7 @@ CREATE TABLE links (
     url TEXT not null,
     -- Need to change username to username VARCHAR(25) not null references users(username),
     -- once users table is created
-    username VARCHAR(25),
+    username VARCHAR(25) not null references users(username),
     created TIMESTAMP DEFAULT now(),
     siteName VARCHAR(225),
     siteType VARCHAR(50),

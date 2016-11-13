@@ -27,6 +27,11 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         url: '/login',
         templateUrl: '..//HTML/login.html',
         controller: 'logincontroller'
+    })
+    .state('home.comments', {
+        url: '/comments',
+        templateUrl: '..//HTML/comments.html',
+        controller: 'homecontroller'
     });
 });
 

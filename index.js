@@ -93,6 +93,38 @@ app.get('/comments', function(req, res){
     });
 });
 
+app.get('/comments/child', function (req,res){
+    comments.retrieveChild(req.query.id).then(function(comments){
+        res.json({
+            success: true,
+            comments: comments
+        });
+    });
+});
+
+app.post('/comments', function (req, res){
+    if(req.body.parent){
+        console.log("has parent");
+        comments.postComment(req.body.comment, req.body.link, req.body.parent, req.body.user).then(function(returnedComments){
+            res.json({
+                success: true,
+                comments: returnedComments
+            });
+        }).catch(function(err){
+            console.log(err);
+        });
+    } else {
+        comments.postComment(req.body.comment, req.body.link, 0, req.body.user).then(function(returnedComments){
+            res.json({
+                success: true,
+                comments: returnedComments
+            });
+        }).catch(function(err){
+            console.log(err);
+        });
+    }
+});
+
 app.get('/links', function(req, res){
     link.retrieve().then(function(links){
         res.json({
