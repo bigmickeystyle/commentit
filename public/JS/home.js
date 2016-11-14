@@ -1,17 +1,19 @@
-var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
+var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
     $scope.image = "./public/images/logo.png";
     $scope.username = $cookies.get("username");
     var currentLink;
     if ($scope.username != undefined) {
         $rootScope.username = $scope.username;
     }
-
-    if ($window.location.hash.search("#/profile") == -1) {
+    if ($location.$$path.search("/profile") == -1) {
         $http.get('/links').then(function(links){
             $scope.links = links.data.links;
             $scope.showComments($scope.links[0]);
         });
+    } else if ($scope.links){
+        $scope.showComments($scope.links[0]);
     }
+
     $scope.linkIsSelected = function(link) {
         return $scope.linkSelected === link;
     };
@@ -35,6 +37,12 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
             console.log(err);
         });
         $scope.submitComment = function(){
+            if ($scope.username == undefined) {
+                console.log("Need to be logged in!");
+                //display this error
+                //save current window location so after the user logs in we can redirect them back here
+                return;
+            }
             if(!$scope.commentSelected){
                 $http.post('/comments', {
                     comment: $scope.commenttext,
@@ -56,7 +64,25 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
             }
         };
     };
-
+    $scope.upvote = function() {
+        if ($scope.username == undefined) {
+            console.log("Need to be logged in!");
+            //display this error
+            //save current window location so after the user logs in we can redirect them back here
+            return;
+        }
+        $http.post('/upvote', {
+            username: $scope.username,
+            link: $scope.linkSelected
+        }).success(function(){
+            if ($scope.upvotes) {
+                $scope.$parent.countUpvotes();
+            }
+            $scope.linkSelected.upvote_count++;
+            $scope.linkSelected.upvoted = true;
+        });
+        console.log("upvote");
+    };
     $scope.expand = function(comment){
         $scope.commentSelected = comment;
         console.log(comment);
@@ -80,4 +106,4 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
     };
 };
 
-homecontroller.$inject = ['$scope', '$http', '$rootScope', '$window', '$cookies'];
+homecontroller.$inject = ['$scope', '$http', '$rootScope', '$location', '$cookies'];

@@ -62,7 +62,18 @@ exports.editProfile = function(info){
         }
     });
 };
-
+exports.upvote = function(username){
+    return new Promise(function(resolve,reject){
+        var call = 'UPDATE users SET upvotes = upvotes+1 WHERE username=$1;';
+        callDB(call,[username],resolve,reject);
+    });
+};
+exports.upvotes = function(username){
+    return new Promise(function(resolve,reject){
+        var call = 'SELECT upvotes FROM users WHERE username = $1;';
+        callDB(call,[username],resolve,reject);
+    });
+};
 function callDB(call,params,resolve,reject){
     dbconnect.pgConnect(call, params).then(function(output){
         console.log(output.rows);
