@@ -12,7 +12,7 @@ exports.retrieve = function (){
 
 exports.upload = function(req){
     return new Promise(function(resolve,reject){
-        var tags = req.query.tags;
+        var tags = req.query.original_tags;
         if (tags) {
             if (tags.search(",") == -1) {
                 req.query.tags = [tags];
@@ -25,12 +25,7 @@ exports.upload = function(req){
         } else {
             req.query.tags = [];
         }
-
         var data = req.query;
-
-        //db save stuff
-        //need to handle saving the username, once user is handled
-
         var call = 'INSERT INTO links (url, username, siteName, siteType, headline, description, image, thumbnail, tags)\
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);';
         var params = [data.url, data.username, data.siteName, data.type, data.title, data.description, data.image, data.thumbnail, data.tags];
