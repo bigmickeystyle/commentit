@@ -59,7 +59,8 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     user: $scope.username,
                     parent: $scope.commentSelected.id
                 }).then(function(results){
-                    $scope.childcomments.push(results.data.comments[0]);
+                    $scope.comments.childcomments.push(results.data.comments[0]);
+                    $scope.commentSelected.replies += 1;
                 });
             }
         };
@@ -84,25 +85,28 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         console.log("upvote");
     };
     $scope.expand = function(comment){
-        $scope.commentSelected = comment;
-        console.log(comment);
-        var commentId = this.comment.id;
-        angular.element('#'+commentId).addClass("reveal-comments");
-        $http.get('/comments/child', {
-            params: {
-                id: commentId
-            }
-        }).then(function(results){
-            console.log(results);
-            $scope.comments.childcomments = results.data.comments;
-
-        });
+        if($scope.commentSelected == comment){
+            commentId = this.comment.id;
+            angular.element('#'+commentId).removeClass("reveal-comments");
+            $scope.comments.childcomments = null;
+            $scope.commentSelected = null;
+        } else {
+            $scope.commentSelected = comment;
+            var commentId = this.comment.id;
+            angular.element('#'+commentId).addClass("reveal-comments");
+            $http.get('/comments/child', {
+                params: {
+                    id: commentId
+                }
+            }).then(function(results){
+                $scope.comments.childcomments = results.data.comments;
+            });
+        }
     };
     $scope.replace = function(childcomment){
         $scope.comments = $scope.comments.childcomments;
+        $scope.comments.header = childcomment;
         $scope.comments.childcomments = null;
-        $scope.commentSelected = childcomment;
-        console.log(childcomment);
     };
 };
 
