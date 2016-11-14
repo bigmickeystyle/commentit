@@ -1,6 +1,6 @@
-DROP TABLE users CASCADE;
-DROP TABLE links CASCADE;
-DROP TABLE comments CASCADE;
+-- DROP TABLE users CASCADE;
+-- DROP TABLE links CASCADE;
+-- DROP TABLE comments CASCADE;
 
 CREATE TABLE users (
     id SERIAL primary key,
@@ -16,8 +16,7 @@ CREATE TABLE users (
     interests TEXT[],
     -- set equal to the URL ids bookmarked
     bookmarks TEXT[],
-    -- set equal to the URL ids already upvoted
-    upvotes TEXT[]
+    upvotes INT DEFAULT 0
 );
 CREATE TABLE links (
     id SERIAL primary key,
@@ -34,8 +33,7 @@ CREATE TABLE links (
     image TEXT,
     thumbnail TEXT,
     tags TEXT[],
-    upvote_count INT DEFAULT 0,
-    upvoted_users TEXT[]
+    upvote_count INT DEFAULT 0
 );
 CREATE TABLE comments (
     id SERIAL primary key,

@@ -28,12 +28,15 @@ exports.retrieveCommentsFromUser = function (username){
         // this is the hard one
     });
 };
-exports.retrieveUpvotesFromUser = function (username){
-    return new Promise(function(resolve, reject){
-        dbconnect.pgConnect('SELECT * from links WHERE upvoted_users && ARRAY[$1] ORDER BY created;', [username]).then(function(results){
-            resolve(results.rows);
-        }).catch(function(err){
-            reject(err);
+
+exports.upvote = function(link){
+    return new Promise(function(resolve,reject){
+        var call = 'UPDATE links SET upvote_count = upvote_count + 1 WHERE id = $1;';
+        var params = [link.id];
+        dbconnect.pgConnect(call, params).catch(function(error){
+            reject(error);
+        }).then(function(){
+            resolve();
         });
     });
 };
@@ -44,7 +47,6 @@ exports.upload = function(req){
         if (!Array.isArray(data.tags)){
             data.tags = [data.tags];
         }
-
         var call = 'INSERT INTO links (url, username, siteName, siteType, headline, description, image, thumbnail, tags)\
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);';
         var params = [data.url, data.username, data.siteName, data.type, data.title, data.description, data.image, data.thumbnail, data.tags];

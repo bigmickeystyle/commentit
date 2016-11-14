@@ -16,7 +16,10 @@
     border-style: groove;
     cursor: pointer;
 }
-
+.like {
+    width: 30px;
+    height: 30px;
+}
 #loader {
   position: absolute;
   left: 50%;
