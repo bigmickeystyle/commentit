@@ -58,25 +58,26 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
     };
 
     $scope.expand = function(comment){
-        $scope.commentSelected = comment;
-        console.log(comment);
-        var commentId = this.comment.id;
-        angular.element('#'+commentId).addClass("reveal-comments");
-        $http.get('/comments/child', {
-            params: {
-                id: commentId
-            }
-        }).then(function(results){
-            console.log(results);
-            $scope.comments.childcomments = results.data.comments;
-
-        });
+        if($scope.commentSelected == comment){
+            $scope.comments.childcomments = null;
+            $scope.commentSelected = null;
+        } else {
+            $scope.commentSelected = comment;
+            var commentId = this.comment.id;
+            angular.element('#'+commentId).addClass("reveal-comments");
+            $http.get('/comments/child', {
+                params: {
+                    id: commentId
+                }
+            }).then(function(results){
+                $scope.comments.childcomments = results.data.comments;
+            });
+        }
     };
     $scope.replace = function(childcomment){
         $scope.comments = $scope.comments.childcomments;
         $scope.comments.header = childcomment;
         $scope.comments.childcomments = null;
-        console.log(childcomment);
     };
 };
 
