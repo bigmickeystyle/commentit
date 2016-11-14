@@ -44,7 +44,7 @@ app.post('/register', function(req, res) {
                 console.log(blue("username already exists"));
                 //message "that username has already been registered. try logging in."
             } else {
-                user.save_registration(req.body.user).catch(function(err){
+                user.saveRegistration(req.body.user).catch(function(err){
                     console.log(error("error putting info in database"));
                     throw err;
                 }).then(function(){
@@ -133,10 +133,46 @@ app.get('/links', function(req, res){
         });
     });
 });
-
-app.get('/user-settings', function(req,res){
-    user.get_profile(req.query.username).catch(function(err){
+app.get('/user_links', function(req, res){
+    console.log(req.query.username);
+    link.retrieveLinksFromUser(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
+        throw err;
+    }).then(function(links){
+        console.log(blue("Info got"));
+        res.json({
+            success: true,
+            links: links
+        });
+    });
+});
+app.get('/user_comments', function(req, res){
+    link.retrieveCommentsFromUser(req.query.username).catch(function(err){
+        console.log(error("error getting profile info from database"));
+        throw err;
+    }).then(function(info){
+        console.log(blue("Info got"));
+        res.json({
+            success: true,
+            info: info[0]
+        });
+    });
+});
+app.get('/user_upvotes', function(req, res){
+    link.retrieveUpvotesFromUser(req.query.username).catch(function(err){
+        console.log(error("error getting profile info from database"));
+        throw err;
+    }).then(function(info){
+        console.log(blue("Info got"));
+        res.json({
+            success: true,
+            info: info[0]
+        });
+    });
+});
+app.get('/user-settings', function(req,res){
+    user.getUserSettings(req.query.username).catch(function(err){
+        console.log(error("error getting user settings from database"));
         throw err;
     }).then(function(info){
         console.log(blue("Info got"));
@@ -153,7 +189,7 @@ app.post('/edit-user', function(req,res){
         //make sure an error message shows up.
         throw error_field;
     }).then(function(){
-        user.edit_profile(req.body.info).catch(function(err){
+        user.editProfile(req.body.info).catch(function(err){
             console.log(error("error saving to the database"));
             throw err;
             //give message about error

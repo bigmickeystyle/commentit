@@ -20,8 +20,16 @@ myapp.config(function($stateProvider, $urlRouterProvider){
     })
     .state('profile', {
         url: '/profile/:user',
-        templateUrl: '..//HTML/profile.html',
-        controller: 'profilecontroller'
+        views: {
+            '': {
+                templateUrl: '..//HTML/profile.html',
+                controller: 'profilecontroller'
+            },
+            'links@profile': {
+                templateUrl: '..//HTML/home.html',
+                controller: 'homecontroller'
+            }
+        }
     })
     .state('login', {
         url: '/login',
@@ -32,12 +40,13 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         url: '/settings',
         templateUrl: '..//HTML/settings.html',
         controller: 'settingscontroller'
-    })   
+    })
     .state('home.comments', {
         url: '/comments',
         templateUrl: '..//HTML/comments.html',
         controller: 'homecontroller'
     });
+});
 
 myapp.controller('homecontroller', homecontroller);
 myapp.controller('uploadcontroller', uploadcontroller);

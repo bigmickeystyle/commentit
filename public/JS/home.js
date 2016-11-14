@@ -1,15 +1,17 @@
-var homecontroller = function($scope, $http, $rootScope, $cookies){
+var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
     $scope.image = "./public/images/logo.png";
     $scope.username = $cookies.get("username");
     var currentLink;
     if ($scope.username != undefined) {
         $rootScope.username = $scope.username;
     }
-    $http.get('/links').then(function(links){
-        $scope.links = links.data.links;
-        $scope.showComments($scope.links[0]);
-    });
 
+    if ($window.location.hash.search("#/profile") == -1) {
+        $http.get('/links').then(function(links){
+            $scope.links = links.data.links;
+            $scope.showComments($scope.links[0]);
+        });
+    }
     $scope.linkIsSelected = function(link) {
         return $scope.linkSelected === link;
     };
@@ -70,4 +72,4 @@ var homecontroller = function($scope, $http, $rootScope, $cookies){
     };
 };
 
-homecontroller.$inject = ['$scope', '$http', '$rootScope', '$cookies'];
+homecontroller.$inject = ['$scope', '$http', '$rootScope', '$window', '$cookies'];

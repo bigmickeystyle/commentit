@@ -13,7 +13,7 @@ exports.checkDB = function(username) {
         callDB(call,[username],resolve,reject);
     });
 };
-exports.save_registration = function(user) {
+exports.saveRegistration = function(user) {
     return new Promise(function(resolve,reject){
         bcrypt.hashPassword(user.password).catch(function(err){
             reject(err);
@@ -25,14 +25,14 @@ exports.save_registration = function(user) {
         });
     });
 };
-exports.get_profile = function(username){
+exports.getUserSettings = function(username){
     return new Promise(function(resolve,reject){
         console.log(username);
         var call = "SELECT username, email, age, location, interests FROM users WHERE username=$1;";
         callDB(call,[username],resolve,reject);
     });
 };
-exports.edit_profile = function(info){
+exports.editProfile = function(info){
     return new Promise(function(resolve,reject){
         var interests = info.interests;
         if (interests) {
