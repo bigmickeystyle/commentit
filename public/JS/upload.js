@@ -1,4 +1,4 @@
-var uploadcontroller = function($scope, $http, $rootScope, $window, $cookies) {
+var uploadcontroller = function($scope, $http, $rootScope, $window, $location, $cookies) {
     $window.location.assign('/#/upload');
     $scope.username = $cookies.get("username");
     if ($scope.username == undefined) {
@@ -37,6 +37,7 @@ var uploadcontroller = function($scope, $http, $rootScope, $window, $cookies) {
             } else {
                 $scope.parsed_info.tags = [];
             }
+            $scope.parsed_info.username = $scope.username;
             $scope.parsed = true;
             $scope.loading = false;
         });
@@ -46,7 +47,6 @@ var uploadcontroller = function($scope, $http, $rootScope, $window, $cookies) {
         $scope.editing = true;
     };
     $scope.submit = function(){
-        // splitTags($scope.parsed_info.original_tags);
         $scope.parsed_info.username = $scope.username;
         $http({
             url: '/save/link',
@@ -57,6 +57,9 @@ var uploadcontroller = function($scope, $http, $rootScope, $window, $cookies) {
             $scope.saved = true;
         });
     };
+    $scope.reload = function(){
+        $window.location.reload();
+    };
 };
 
-uploadcontroller.$inject = ['$scope', '$http', '$rootScope', '$window', '$cookies'];
+uploadcontroller.$inject = ['$scope', '$http', '$rootScope', '$window', '$location', '$cookies'];

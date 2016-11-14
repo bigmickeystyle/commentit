@@ -1,30 +1,18 @@
 <div class="fullpagedisplay" id="profilepage">
-    <h3>Welcome back {{user.username}}! Here's your CommentIt profile. Feel free to change things around!</h3>
-    <form name="profileform" ng-submit="edit()">
-        <div class="form-group">
-            <label>Password</label>
-            <input name="password" class="form-input" ng-model="user.password" type="password">
+    <h2>{{username}}'s CommentIt Profile'</h2>
+    <!-- Give the links they've upvoted a function and div and such -->
+        <p ng-show="upvotes">{{username}} has upvoted {{upvotes}} times! <a>Click here to see which links they were.</a></p>
+        <p><a>Click here to see {{username}}'s comments!</a></p>
+        <p><a>Click here to see {{username}}'s shared links!</a><p>
+        <div class="profile-div" ng-show="links">
+            <h3>Here are {{username}}'s shared links!</h3>
         </div>
-        <div class="form-group">
-            <label>Email</label>
-            <input name="email" class="form-input" ng-model="user.email" type="text">
+        <div class="profile-div" ng-show="upvotes">
+            <h3>Here are {{username}}'s upvoted links!</h3>
         </div>
-        <div class="form-group">
-            <label>Age</label>
-            <input name="age" class="form-input" ng-model="user.age" type="number">
+        <div class="profile-div" ng-show="comments">
+            <h3>Here are {{username}}'s comments!</h3>
         </div>
-        <div class="form-group">
-            <label>Location</location>
-            <input name="location" class="form-input" ng-model="user.location" type="text">
-        </div>
-        <div class="form-group">
-            <label>Interests</label>
-            <input name="interest" class="form-input" ng-model="user.interests" type="text">
-        </div>
-        <div class="form-group">
-            <button type="submit" class="submit-link">Submit</button>
-        </div>
-    </form>
 </div>
 
 <!-- add error handlers work -->
