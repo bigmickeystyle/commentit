@@ -67,7 +67,7 @@
             <div>Thanks for submitting {{parsed_info.title}}!</div>
             <!-- add this once the angular router is instantiated -->
             <div>Would you like to:</div>
-            <button ui-sref="upload">Submit another link!</button>
+            <button ng-click="reload()">Submit another link!</button>
             <!-- <button ui-sref=".link">Add some comments!</button> -->
             <button ui-sref="home">See all the links!</button>
         </div>

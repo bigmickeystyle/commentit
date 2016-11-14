@@ -19,7 +19,7 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         controller: 'registercontroller'
     })
     .state('profile', {
-        url: '/profile',
+        url: '/profile/:user',
         templateUrl: '..//HTML/profile.html',
         controller: 'profilecontroller'
     })
@@ -27,11 +27,21 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         url: '/login',
         templateUrl: '..//HTML/login.html',
         controller: 'logincontroller'
+    })
+    .state('settings', {
+        url: '/settings',
+        templateUrl: '..//HTML/settings.html',
+        controller: 'settingscontroller'
+    })   
+    .state('home.comments', {
+        url: '/comments',
+        templateUrl: '..//HTML/comments.html',
+        controller: 'homecontroller'
     });
-});
 
 myapp.controller('homecontroller', homecontroller);
 myapp.controller('uploadcontroller', uploadcontroller);
 myapp.controller('registercontroller', registercontroller);
 myapp.controller('profilecontroller', profilecontroller);
 myapp.controller('logincontroller', logincontroller);
+myapp.controller('settingscontroller', settingscontroller);

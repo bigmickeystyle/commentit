@@ -1,9 +1,13 @@
 const pg = require('pg');
 const fs = require('fs');
 
-var password = JSON.parse(fs.readFileSync('./passwords.json'));
+if (process.env.DATABASE_URL == undefined) {
+    var password = JSON.parse(fs.readFileSync('./passwords.json'));
+    var dbUrl = process.env.DATABASE_URL || 'postgres://' + password.username + ':' + password.password + '@localhost:5432/commentit';
+} else {
+    dbUrl = process.env.DATABASE_URL;
+}
 
-var dbUrl = process.env.DATABASE_URL || 'postgres://' + password.username + ':' + password.password + '@localhost/commentit';
 dbUrl = require('url').parse(dbUrl);
 var dbUser = dbUrl.auth.split(':');
 

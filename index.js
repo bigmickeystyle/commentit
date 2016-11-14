@@ -84,13 +84,48 @@ app.post('/login', function(req,res){
     });
 });
 app.get('/comments', function(req, res){
-    console.log(req.query.id);
     comments.retrieve(req.query.id).then(function(comments){
+
+        comments.sort(function(x, y){
+            return x.id - y.id;
+        });
+
         res.json({
             success: true,
             comments: comments
         });
     });
+});
+
+app.get('/comments/child', function (req,res){
+    comments.retrieveChild(req.query.id).then(function(comments){
+        res.json({
+            success: true,
+            comments: comments
+        });
+    });
+});
+
+app.post('/comments', function (req, res){
+    if(req.body.parent){
+        comments.postComment(req.body.comment, req.body.link, req.body.parent, req.body.user).then(function(returnedComments){
+            res.json({
+                success: true,
+                comments: returnedComments
+            });
+        }).catch(function(err){
+            console.log(err);
+        });
+    } else {
+        comments.postComment(req.body.comment, req.body.link, 0, req.body.user).then(function(returnedComments){
+            res.json({
+                success: true,
+                comments: returnedComments
+            });
+        }).catch(function(err){
+            console.log(err);
+        });
+    }
 });
 
 app.get('/links', function(req, res){
@@ -102,7 +137,7 @@ app.get('/links', function(req, res){
     });
 });
 
-app.get('/profile', function(req,res){
+app.get('/user-settings', function(req,res){
     user.get_profile(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
         throw err;
@@ -115,7 +150,7 @@ app.get('/profile', function(req,res){
     });
 });
 
-app.post('/profile', function(req,res){
+app.post('/edit-user', function(req,res){
     check_inputs.profile(req.body.info).catch(function(error_field){
         console.log(error("input " + error_field + " not correct"));
         //make sure an error message shows up.
@@ -146,7 +181,9 @@ app.post('/parse', function(req,res){
 });
 
 app.post('/save/link', function(req,res){
-    link.upload(req,res).catch(function(error){
+    console.log("saving to datavase");
+    console.log(req.query);
+    link.upload(req).catch(function(error){
         console.log(error("error saving to database"));
         //show this in a message
         throw error;

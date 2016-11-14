@@ -1,4 +1,4 @@
-var logincontroller = function($scope, $http, $window, $location, $cookies){
+var logincontroller = function($scope, $http, $rootScope, $window, $location, $cookies){
     $window.location.assign('/#/login');
     $scope.username = $cookies.get("username");
     if ($scope.username != undefined) {
@@ -10,9 +10,10 @@ var logincontroller = function($scope, $http, $window, $location, $cookies){
             user: user
         }).success(function(){
             $cookies.put("username", user.username);
+            $rootScope.username = user.username;
             $location.path('/home');
         });
     };
 };
 
-logincontroller.$inject = ['$scope', '$http', '$window', '$location', '$cookies'];
+logincontroller.$inject = ['$scope', '$http', '$rootScope', '$window', '$location', '$cookies'];

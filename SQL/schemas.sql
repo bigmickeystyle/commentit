@@ -24,7 +24,7 @@ CREATE TABLE links (
     url TEXT not null,
     -- Need to change username to username VARCHAR(25) not null references users(username),
     -- once users table is created
-    username VARCHAR(25),
+    username VARCHAR(25) not null references users(username),
     created TIMESTAMP DEFAULT now(),
     siteName VARCHAR(225),
     siteType VARCHAR(50),
@@ -43,5 +43,6 @@ CREATE TABLE comments (
     link_id INT not null references links(id),
     username VARCHAR(25) not null references users(username),
     comment TEXT not null,
-    upvote_count INT DEFAULT 0
+    upvote_count INT DEFAULT 0,
+    replies INT DEFAULT 0
 )

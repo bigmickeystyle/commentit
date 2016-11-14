@@ -1,27 +1,11 @@
-var profilecontroller = function($scope, $http, $window, $cookies){
-    $window.location.assign('/#/profile');
+var profilecontroller = function($scope, $stateParams, $http, $rootScope, $window, $cookies){
+    var user = $stateParams.user;
+    $window.location.assign('/#/profile/' + user);
     $scope.username = $cookies.get("username");
-    if ($scope.username == undefined) {
-        $window.location.assign('/#/login');
+    if ($scope.username){
+        $rootScope.username = $scope.username;
     }
-    $scope.user = {
-        username: $scope.username
-    };
-    $http.get('/profile', {
-        params: {
-            username: $scope.user.username
-        }
-    }).then(function(data){
-        $scope.user = data.data.info;
-    });
-    $scope.edit = function(){
-        $http.post('/profile', {
-            info: $scope.user
-        }).then(function(){
-            console.log("successfully edited");
-            //tell them it's been successfully submitted
-        });
-    };
+    $scope.links = true;
 };
 
-profilecontroller.$inject = ['$scope', '$http', '$window', '$cookies'];
+profilecontroller.$inject = ['$scope', '$stateParams', '$http', '$rootScope', '$window', '$cookies'];

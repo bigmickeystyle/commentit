@@ -4,6 +4,7 @@
     <title>Comment It</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="/CSS/stylesheet.css"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.js"></script>
@@ -12,18 +13,19 @@
     <script src="/JS/register.js"></script>
     <script src="/JS/profile.js"></script>
     <script src="/JS/login.js"></script>
+    <script src="/JS/settings.js"></script>
     <script src="/JS/angular-router.js"></script>
 </head>
 <body ng-app="CommentIt">
     <a ui-sref="home">Home</a>
     <div class="menu_options" ng-show="!username">
-        <p>{{username}}</p>
         <a ui-sref="login">Login</a> or <a ui-sref="register">Register</a>
     </div>
     <!-- make these two buttons only available with cookie -->
     <div class="menu_options" ng-show="username">
-        <a ui-sref="profile">Profile</a>
-        <a ui-sref="upload">Upload</a>
+        <p>{{username}}</p>
+        <a ui-sref="profile({user: username})">My Profile</a>
+        <a ui-sref="settings">My User Settings</a>
     </div>
     <div ui-view></div>
 </body>
