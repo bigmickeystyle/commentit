@@ -50,6 +50,8 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
                     link: currentLink,
                     user: $scope.username,
                     parent: $scope.commentSelected.id
+                }).then(function(results){
+                    $scope.childcomments.push(results.data.comments[0]);
                 });
             }
         };
@@ -59,7 +61,6 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
         $scope.commentSelected = comment;
         console.log(comment);
         var commentId = this.comment.id;
-        console.log(commentId);
         angular.element('#'+commentId).addClass("reveal-comments");
         $http.get('/comments/child', {
             params: {
@@ -67,8 +68,15 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
             }
         }).then(function(results){
             console.log(results);
-            $scope.childcomments = results.data.comments;
+            $scope.comments.childcomments = results.data.comments;
+
         });
+    };
+    $scope.replace = function(childcomment){
+        $scope.comments = $scope.comments.childcomments;
+        $scope.comments.childcomments = null;
+        $scope.commentSelected = childcomment;
+        console.log(childcomment);
     };
 };
 

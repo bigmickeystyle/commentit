@@ -84,8 +84,12 @@ app.post('/login', function(req,res){
     });
 });
 app.get('/comments', function(req, res){
-    console.log(req.query.id);
     comments.retrieve(req.query.id).then(function(comments){
+
+        comments.sort(function(x, y){
+            return x.id - y.id;
+        });
+
         res.json({
             success: true,
             comments: comments
@@ -104,7 +108,6 @@ app.get('/comments/child', function (req,res){
 
 app.post('/comments', function (req, res){
     if(req.body.parent){
-        console.log("has parent");
         comments.postComment(req.body.comment, req.body.link, req.body.parent, req.body.user).then(function(returnedComments){
             res.json({
                 success: true,

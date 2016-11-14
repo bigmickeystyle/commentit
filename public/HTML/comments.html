@@ -1,1 +1,12 @@
-heelo
+<div ng-repeat="comment in comments track by $index">
+    <div class="row" ng-class="{active : commentIsSelected(comment)}" ng-click="expand(comment)">
+        <div class="col-md-10 comment">{{comment.username}}: {{comment.comment}}</div><div class="col-md-2">REPLY</div>
+        <div class="col-md-12" id="{{comment}}">
+            <div ng-repeat="childComment in childcomments track by $index">
+                <div ng-if="childComment.parent_id == comment.id">
+                    <div class="col-md-10 comment">{{childComment.username}}: {{childComment.comment}}</div><div class="col-md-2">REPLY</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
