@@ -134,7 +134,7 @@ app.get('/links', function(req, res){
     });
 });
 
-app.get('/profile', function(req,res){
+app.get('/user-settings', function(req,res){
     user.get_profile(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
         throw err;
@@ -147,7 +147,7 @@ app.get('/profile', function(req,res){
     });
 });
 
-app.post('/profile', function(req,res){
+app.post('/edit-user', function(req,res){
     check_inputs.profile(req.body.info).catch(function(error_field){
         console.log(error("input " + error_field + " not correct"));
         //make sure an error message shows up.
