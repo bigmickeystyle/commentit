@@ -74,8 +74,8 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
     };
     $scope.replace = function(childcomment){
         $scope.comments = $scope.comments.childcomments;
+        $scope.comments.header = childcomment;
         $scope.comments.childcomments = null;
-        $scope.commentSelected = childcomment;
         console.log(childcomment);
     };
 };
