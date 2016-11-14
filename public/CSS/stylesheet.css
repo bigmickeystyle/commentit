@@ -62,10 +62,14 @@
   to{ bottom:0; opacity:1 }
 }
 
+.empty {
+    opacity: 0;
+}
 .reveal-comments {
-    transition-property: height;
-    transition-duration: 4s;
+    transition-property: opacity;
+    transition-duration: 1s;
     height: 100%;
+    opacity: 1;
 }
 
 .active {
