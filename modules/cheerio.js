@@ -1,8 +1,5 @@
 var request = require('request');
-const cheerio = require('cheerio'),
-    urlmod = require('url'),
-    util = require('util');
-
+const cheerio = require('cheerio');
 
 function parseUrl(url){
     return new Promise(function (resolve, reject){
@@ -16,10 +13,29 @@ function parseUrl(url){
                     "description": $('meta[property="og:description"]').attr('content'),
                     "title": $('meta[property="og:title"]').attr('content'),
                     "type": $('meta[property="og:type"]').attr('content'),
-                    "siteName": $('meta[property="og:site_name"]').attr('content'),
-                    "thumbnail": $('meta[name="thumbnail"]').attr('content')
+                    "siteName": $('meta[property="og:site_name"]').attr('content')
                 };
-                resolve(info);
+                var re = new RegExp("^\/[A-Za-z0-9]");
+                if(re.test(thumbnail)){
+                    var submittedurl = require('url').parse(info.url);
+                    thumbnail = submittedurl.protocol + '//' + submittedurl.hostname + thumbnail;
+                    info.thumbnail = thumbnail;
+                    resolve(info);
+                } else if ($('link[rel="apple-touch-icon"]').attr('href')) {
+                    thumbnail = ($('link[rel="apple-touch-icon"]').attr('href'));
+                    info.thumbnail = thumbnail;
+                    resolve(info);
+                } else if($('link[rel="icon"]').attr('href')){
+                    var thumbnail = $('link[rel="icon"]').attr('href');
+                    info.thumbnail = thumbnail;
+                    resolve(info);
+                } else if ($('link[rel="shortcut icon"]').attr('href')){
+                    thumbnail = $('link[rel="shortcut icon"]').attr('href');
+                    info.thumbnail = thumbnail;
+                    resolve(info);
+                } else {
+                    resolve(info);
+                }
             } else {
                 reject(error);
             }

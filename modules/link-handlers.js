@@ -12,20 +12,11 @@ exports.retrieve = function (){
 
 exports.upload = function(req){
     return new Promise(function(resolve,reject){
-        var tags = req.query.original_tags;
-        if (tags) {
-            if (tags.search(",") == -1) {
-                req.query.tags = [tags];
-            } else {
-                tags = tags.split(",");
-                req.query.tags = tags.map(function(elem){
-                    return elem.trim();
-                });
-            }
-        } else {
-            req.query.tags = [];
-        }
         var data = req.query;
+        if (!Array.isArray(data.tags)){
+            data.tags = [data.tags];
+        }
+
         var call = 'INSERT INTO links (url, username, siteName, siteType, headline, description, image, thumbnail, tags)\
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);';
         var params = [data.url, data.username, data.siteName, data.type, data.title, data.description, data.image, data.thumbnail, data.tags];

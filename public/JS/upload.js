@@ -47,6 +47,7 @@ var uploadcontroller = function($scope, $http, $rootScope, $window, $location, $
         $scope.editing = true;
     };
     $scope.submit = function(){
+        $scope.parsed_info.username = $scope.username;
         $http({
             url: '/save/link',
             method: 'POST',
