@@ -32,12 +32,13 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         url: '/settings',
         templateUrl: '..//HTML/settings.html',
         controller: 'settingscontroller'
-    })   
+    })
     .state('home.comments', {
         url: '/comments',
         templateUrl: '..//HTML/comments.html',
         controller: 'homecontroller'
     });
+});
 
 myapp.controller('homecontroller', homecontroller);
 myapp.controller('uploadcontroller', uploadcontroller);
