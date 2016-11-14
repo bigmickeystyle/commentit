@@ -1,0 +1,20 @@
+<div class="fullpagedisplay" id="loginpage">
+    <h2>Login</h2>
+    <button>Login with Facebook</button>
+    <button>Login with Twitter</button>
+    <form name="loginform" ng-submit="login()">
+        <div class="form-group">
+            <label>Username</label>
+            <input name="username" class="form-input" ng-model="user.username" type="text" required>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input name="password" class="form-input" ng-model="user.password" type="password" ng-minlength="6" ng-maxlength="10" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="submit-link">Register</button>
+        </div>
+    </form>
+</div>
+
+<!-- add in error handlers -->
