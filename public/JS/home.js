@@ -51,7 +51,8 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
                     user: $scope.username,
                     parent: $scope.commentSelected.id
                 }).then(function(results){
-                    $scope.childcomments.push(results.data.comments[0]);
+                    $scope.comments.childcomments.push(results.data.comments[0]);
+                    $scope.commentSelected.replies += 1;
                 });
             }
         };
@@ -59,6 +60,8 @@ var homecontroller = function($scope, $http, $rootScope, $window, $cookies){
 
     $scope.expand = function(comment){
         if($scope.commentSelected == comment){
+            commentId = this.comment.id;
+            angular.element('#'+commentId).removeClass("reveal-comments");
             $scope.comments.childcomments = null;
             $scope.commentSelected = null;
         } else {

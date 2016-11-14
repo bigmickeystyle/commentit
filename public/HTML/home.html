@@ -29,10 +29,12 @@
             <div class="row" ng-click="expand(comment)">
                 <div class="col-xs-10 comment" ng-class="{active : commentIsSelected(comment)}"><a ui-sref="profile/{{comment.username}}">{{comment.username}}</a>: {{comment.comment}}</div><div class="col-xs-2">{{comment.replies}} replies</div>
             </div>
-            <div ng-repeat="childComment in comments.childcomments track by $index">
-                <div ng-if="childComment.parent_id == comment.id" class="row" ng-click="replace(comment)">
-                    <div class="col-xs-12" id="{{comment.id}}">
-                            <div class="col-xs-10 comment"><a ui-sref="profile/{{comment.username}}">{{childComment.username}}</a>: {{childComment.comment}}</div><div class="col-xs-2">{{childComment.replies}} replies</div>
+            <div id="{{comment.id}}" class="empty">
+                <div ng-repeat="childComment in comments.childcomments track by $index">
+                    <div ng-if="childComment.parent_id == comment.id" class="row" ng-click="replace(comment)">
+                        <div class="col-xs-12" id="{{comment.id}}">
+                                <div class="col-xs-10 comment"><a ui-sref="profile/{{comment.username}}">{{childComment.username}}</a>: {{childComment.comment}}</div><div class="col-xs-2">{{childComment.replies}} replies</div>
+                        </div>
                     </div>
                 </div>
             </div>
