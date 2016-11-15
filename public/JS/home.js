@@ -1,4 +1,5 @@
 var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
+    console.log($cookies);
     $scope.image = "./public/images/logo.png";
     $scope.username = $cookies.get("username");
     var currentLink;
@@ -107,6 +108,9 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $scope.comments = $scope.comments.childcomments;
         $scope.comments.header = childcomment;
         $scope.comments.childcomments = null;
+    };
+    $scope.logout = function(){
+        console.log("signout");
     };
 };
 
