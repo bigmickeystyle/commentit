@@ -62,6 +62,28 @@ exports.editProfile = function(info){
         }
     });
 };
+exports.retrieveLinks = function (username){
+    return new Promise(function(resolve, reject){
+        dbconnect.pgConnect('SELECT * FROM links WHERE username = $1 ORDER BY created;', [username]).then(function(results){
+            resolve(results.rows);
+        }).catch(function(err){
+            reject(err);
+        });
+    });
+};
+exports.retrieveComments = function(username){
+    return new Promise(function(resolve,reject){
+        var call = "SELECT * FROM comments WHERE username = $1;";
+        callDB(call,[username],resolve,reject);
+    });
+};
+exports.retrieveCommentedLinks = function(link_ids){
+    return new Promise(function(resolve,reject){
+        //order by comment created date
+        var call = "SELECT * FROM links WHERE id = $1;"
+        callDB(call,link_ids,resolve,reject);
+    });
+};
 exports.upvote = function(username){
     return new Promise(function(resolve,reject){
         var call = 'UPDATE users SET upvotes = upvotes+1 WHERE username=$1;';
