@@ -33,7 +33,6 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $scope.linkSelected = link;
         var linkId = link.id;
         angular.element('#'+linkId).addClass("reveal-comments");
-        //try to see if it works at the home page. if not then try just $scope.$parent
         if ($scope.$parent.comments){
             $scope.comments = $scope.$parent.comments.filter(function(comment){
                 console.log(comment);
@@ -45,9 +44,15 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         } else {
             $http.get('/comments', {
                 params: {
-                    id: linkId
+                    id: linkId,
+                    username: $scope.username
                 }
             }).then(function(results){
+                if (results.data.upvoted) {
+                    console.log("hmmm");
+                    console.log(results.data);
+                    $scope.linkSelected.upvoted = true;
+                }
                 $scope.comments = results.data.comments;
             }).catch(function(err){
                 console.log(err);

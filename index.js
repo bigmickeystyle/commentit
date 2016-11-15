@@ -7,6 +7,7 @@ const express = require('express'),
     link = require('./modules/link-handlers.js'),
     comments = require('./modules/comment-handlers.js'),
     check_inputs = require('./modules/check-inputs.js'),
+    save = require('./modules/save-handlers.js'),
     cheerio = require('./modules/cheerio.js'),
     chalk = require('chalk'),
     green = chalk.green,
@@ -97,11 +98,13 @@ app.get('/comments', function(req, res){
         comments.sort(function(x, y){
             return x.id - y.id;
         });
-
-        res.json({
-            success: true,
-            comments: comments
-        });
+        save.retrieveUpvote(req.query).then(function(upvote_id){
+            res.json({
+                success: true,
+                comments: comments,
+                upvoted: upvote_id
+            });
+        })
     });
 });
 app.get('/comments/child', function (req,res){
@@ -162,9 +165,16 @@ app.post('/upvote', function(req,res){
     }).then(function(){
         console.log(blue("user update successful"));
     });
+    save.upvote(req.body).catch(function(err){
+        console.log(error("error putting upvote into its own table"));
+        throw err;
+    }).then(function(){
+        console.log(blue("upvote table successful"));
+    })
+
 });
 app.get('/user_links', function(req, res){
-    user.retrieveLinks(req.query.username).catch(function(err){
+    user.retrieveUserLinks(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
         throw err;
     }).then(function(links){
@@ -185,11 +195,29 @@ app.get('/user_comments', function(req, res){
         }).filter(function(linkNeeded, index, self) {
             return index == self.indexOf(linkNeeded);
         });
-        user.retrieveCommentedLinks(linksNeeded).then(function(links){
+        user.retrieveLink(linksNeeded).then(function(links){
             res.json({
                 success: true,
                 links: links,
                 comments: comments
+            });
+        });
+    });
+});
+app.get('/user_upvotes', function(req,res){
+    console.log(req.query.username);
+    save.retrieveAllUpvotes(req.query.username).catch(function(err){
+        console.log(error("error getting upvotes from database"));
+        throw err;
+    }).then(function(upvotes){
+        console.log("upvotes retrieved");
+        var linksNeeded = upvotes.map(function(link){
+            return link.link_id;
+        });
+        save.retrieveLinks(linksNeeded).then(function(links){
+            res.json({
+                succes: true,
+                links:links
             });
         });
     });

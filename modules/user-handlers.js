@@ -64,7 +64,7 @@ exports.editProfile = function(info){
         }
     });
 };
-exports.retrieveLinks = function (username){
+exports.retrieveUserLinks = function (username){
     return new Promise(function(resolve, reject){
         dbconnect.pgConnect('SELECT * FROM links WHERE username = $1 ORDER BY created;', [username]).then(function(results){
             resolve(results.rows);
@@ -79,7 +79,7 @@ exports.retrieveComments = function(username){
         callDB(call,[username],resolve,reject);
     });
 };
-exports.retrieveCommentedLinks = function(link_ids){
+exports.retrieveLink = function(link_ids){
     return new Promise(function(resolve,reject){
         //order by comment created date
         var call = "SELECT * FROM links WHERE id = $1;";
