@@ -125,9 +125,6 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $scope.comments.header = childcomment;
         $scope.comments.childcomments = null;
     };
-    $scope.logout = function(){
-        console.log("signout");
-    };
 };
 
 homecontroller.$inject = ['$scope', '$http', '$rootScope', '$location', '$cookies'];
