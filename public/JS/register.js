@@ -1,6 +1,7 @@
 var registercontroller = function($scope, $http, $rootScope, $window, $location, $cookies){
     $window.location.assign('/#/register');
     $scope.username = $cookies.get("username");
+console.log($scope.username);
     if ($scope.username != undefined) {
         $window.location.assign('/#/profile');
     }

@@ -1,7 +1,5 @@
 
 .comments {
-    height: 1000px;
-    background-color: grey;
 }
 
 .item {
@@ -94,8 +92,14 @@
 .linked-pic {
     width: 100%;
     height: 100%;
+    border-radius: 35px;
 }
 
 .header {
     border: 2px solid black;
+}
+
+.link-logo {
+    height: 75px;
+    width: 75px;
 }

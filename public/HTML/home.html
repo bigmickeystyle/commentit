@@ -1,11 +1,15 @@
 <div ng-cloak class="container-fluid">
     <div class="col-xs-7">
         <div ng-repeat="link in links track by $index">
-            <div class="row item" ng-click="showComments(link)" ng-class="{active : linkIsSelected(link)}">
-                <div><a target="_blank" href="{{link.url}}"><img class="col-xs-2 img-circle img-thumbnail" src="{{link.thumbnail}}"></a></div>
-                <div class="col-xs-9 text-center"><h4>{{link.headline}}</h4></div>
-                <div class="row">
-                    <div class="col-xs-9 pull-right">{{link.description}}</div>
+            <div class="row media item" ng-click="showComments(link)" ng-class="{active : linkIsSelected(link)}">
+                <div class="media-left media-middle">
+                    <a target="_blank" href="{{link.url}}"><img class="link-logo media-object" src="{{link.thumbnail}}"></a>
+                    </div>
+                <div class="media-body">
+                    <div class="col-xs-10 text-center"><h4>{{link.headline}}</h4></div>
+                    <div class="row">
+                        <div class="col-xs-11 pull-left">{{link.description}}</div>
+                    </div>
                 </div>
             </div>
         </div>

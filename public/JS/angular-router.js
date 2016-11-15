@@ -40,11 +40,6 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         url: '/settings',
         templateUrl: '..//HTML/settings.html',
         controller: 'settingscontroller'
-    })
-    .state('home.comments', {
-        url: '/comments',
-        templateUrl: '..//HTML/comments.html',
-        controller: 'homecontroller'
     });
 });
 
@@ -54,3 +49,10 @@ myapp.controller('registercontroller', registercontroller);
 myapp.controller('profilecontroller', profilecontroller);
 myapp.controller('logincontroller', logincontroller);
 myapp.controller('settingscontroller', settingscontroller);
+
+myapp.controller('logoutcontroller', function($scope, $cookies, $rootScope) {
+    $scope.logout = function(){
+        $rootScope.username = undefined;
+        $cookies.remove('username');
+    };
+});
