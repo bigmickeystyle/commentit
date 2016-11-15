@@ -36,3 +36,17 @@ exports.upload = function(req){
         });
     });
 };
+exports.checkExistence = function(url){
+    return new Promise(function(resolve,reject){
+        var call = 'SELECT id FROM links WHERE url = $1;';
+        dbconnect.pgConnect(call,[url]).catch(function(error){
+            reject(error);
+        }).then(function(info){
+            if (info.rows.length == 0) {
+                resolve(false);
+            } else {
+                resolve(true);
+            }
+        });
+    });
+};

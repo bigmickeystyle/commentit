@@ -224,14 +224,25 @@ app.post('/edit-user', function(req,res){
 
 app.post('/parse', function(req,res){
     cheerio(req.query.url).then(function(results){
-        res.json({
-            success: true,
-            info: results
-        });
+        console.log(results.url);
+        link.checkExistence(results.url).then(function(exists){
+            if (!exists) {
+                res.json({
+                    success: true,
+                    info: results
+                });
+            } else {
+                res.json({
+                    success: false,
+                    message: "This link has already been shared to CommentIt"
+                })
+            }
+        })
     }).catch(function(error){
+        console.log(error);
         res.json({
             success: false,
-            info: error
+            message: error
         });
     });
 });
