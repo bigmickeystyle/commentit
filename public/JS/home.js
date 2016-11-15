@@ -5,37 +5,46 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
     if ($scope.username != undefined) {
         $rootScope.username = $scope.username;
     }
+
     if ($location.$$path.search("/profile") == -1) {
         $http.get('/links').then(function(links){
             $scope.links = links.data.links;
             $scope.showComments($scope.links[0]);
         });
-    } else if ($scope.links){
-        $scope.showComments($scope.links[0]);
+    } else {
+        $scope.$watch('change', function(values){
+            $scope.links = $scope.$parent.links;
+            $scope.showComments($scope.links[0]);
+        });
     }
 
     $scope.linkIsSelected = function(link) {
         return $scope.linkSelected === link;
     };
-
     $scope.commentIsSelected = function(comment) {
         return $scope.commentSelected === comment;
     };
+
     $scope.showComments = function(link){
         $scope.commentSelected = null;
         currentLink = link;
         $scope.linkSelected = link;
         var linkId = link.id;
         angular.element('#'+linkId).addClass("reveal-comments");
-        $http.get('/comments', {
-            params: {
-                id: linkId
-            }
-        }).then(function(results){
-            $scope.comments = results.data.comments;
-        }).catch(function(err){
-            console.log(err);
-        });
+        //try to see if it works at the home page. if not then try just $scope.$parent
+        if ($scope.$parent.comments){
+            $scope.comments = $scope.$parent.comments
+        } else {
+            $http.get('/comments', {
+                params: {
+                    id: linkId
+                }
+            }).then(function(results){
+                $scope.comments = results.data.comments;
+            }).catch(function(err){
+                console.log(err);
+            });
+        }
         $scope.submitComment = function(){
             if ($scope.username == undefined) {
                 console.log("Need to be logged in!");

@@ -1,6 +1,7 @@
 const express = require('express'),
     util = require('util'),
     parser = require('body-parser'),
+    unique = require('array-unique'),
     bcrypt = require('./modules/bcrypt.js'),
     user = require('./modules/user-handlers.js'),
     link = require('./modules/link-handlers.js'),
@@ -93,7 +94,6 @@ app.get('/links', function(req, res){
 });
 app.get('/comments', function(req, res){
     comments.retrieve(req.query.id).then(function(comments){
-
         comments.sort(function(x, y){
             return x.id - y.id;
         });
@@ -164,7 +164,7 @@ app.post('/upvote', function(req,res){
     });
 });
 app.get('/user_links', function(req, res){
-    link.retrieveLinksFromUser(req.query.username).catch(function(err){
+    user.retrieveLinks(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
         throw err;
     }).then(function(links){
@@ -176,14 +176,24 @@ app.get('/user_links', function(req, res){
     });
 });
 app.get('/user_comments', function(req, res){
-    link.retrieveCommentsFromUser(req.query.username).catch(function(err){
+    user.retrieveComments(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
         throw err;
-    }).then(function(info){
-        console.log(blue("Info got"));
-        res.json({
-            success: true,
-            info: info[0]
+    }).then(function(comments){
+        console.log("comments retrieved");
+        console.log(linksNeeded);
+        var linksNeeded = comments.map(function(comment){
+            return comment.link_id;
+        }).filter(function(linkNeeded, index, self) {
+            return index == self.indexOf(linkNeeded);
+        });
+        console.log(linksNeeded);
+        user.retrieveCommentedLinks(linksNeeded).then(function(links){
+            res.json({
+                success: true,
+                links: links,
+                comments: comments
+            });
         });
     });
 });
