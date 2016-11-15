@@ -1,5 +1,4 @@
 var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
-    console.log($cookies);
     $scope.image = "./public/images/logo.png";
     $scope.username = $cookies.get("username");
     var currentLink;
