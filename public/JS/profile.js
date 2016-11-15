@@ -24,6 +24,7 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
         console.log("showComments");
         $scope.display.links = false;
         $scope.display.comments = true;
+        $scope.display.upvotes = false;
         $http.get('/user_comments', {
             params: {
                 username: user
@@ -38,6 +39,7 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
         console.log("showLinks");
         $scope.display.links = true;
         $scope.display.comments = false;
+        $scope.display.upvotes = false;
         $http.get('/user_links', {
             params: {
                 username: user
@@ -46,6 +48,20 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
             $scope.links = data.links;
             $scope.change = "links";
         });
+    };
+    $scope.displayUpvotes = function(){
+        console.log("showUpvotes");
+        $scope.display.links = false;
+        $scope.display.comments = false;
+        $scope.display.upvotes = true;
+        $http.get('/user_upvotes', {
+            params: {
+                username: user
+            }
+        }).success(function(data){
+            $scope.links = data.links;
+            $scope.change = "upvotes";
+        })
     };
     $scope.displayLinks();
 };
