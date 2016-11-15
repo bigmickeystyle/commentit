@@ -27,7 +27,6 @@ exports.saveRegistration = function(user) {
 };
 exports.getUserSettings = function(username){
     return new Promise(function(resolve,reject){
-        console.log(username);
         var call = "SELECT username, email, age, location, interests FROM users WHERE username=$1;";
         callDB(call,[username],resolve,reject);
     });
@@ -35,8 +34,11 @@ exports.getUserSettings = function(username){
 exports.editProfile = function(info){
     return new Promise(function(resolve,reject){
         var interests = info.interests;
+        console.log(interests);
         if (interests) {
-            if (interests.search(",") == -1) {
+            if(Array.isArray(interests)){
+                info.interests = interests;
+            } else if (interests.search(",") == -1) {
                 info.interests = [interests];
             } else {
                 interests = interests.split(",");
@@ -80,7 +82,7 @@ exports.retrieveComments = function(username){
 exports.retrieveCommentedLinks = function(link_ids){
     return new Promise(function(resolve,reject){
         //order by comment created date
-        var call = "SELECT * FROM links WHERE id = $1;"
+        var call = "SELECT * FROM links WHERE id = $1;";
         callDB(call,link_ids,resolve,reject);
     });
 };
