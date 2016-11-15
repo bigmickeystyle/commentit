@@ -14,7 +14,9 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
     } else {
         $scope.$watch('change', function(values){
             $scope.links = $scope.$parent.links;
-            $scope.showComments($scope.links[0]);
+            if ($scope.links) {
+                $scope.showComments($scope.links[0]);
+            }
         });
     }
 
@@ -33,7 +35,13 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         angular.element('#'+linkId).addClass("reveal-comments");
         //try to see if it works at the home page. if not then try just $scope.$parent
         if ($scope.$parent.comments){
-            $scope.comments = $scope.$parent.comments
+            $scope.comments = $scope.$parent.comments.filter(function(comment){
+                console.log(comment);
+                return comment.link_id == linkId;
+            }).filter(function(comment){
+                console.log(comment.parent_id);
+                return comment.parent_id == 0;
+            });
         } else {
             $http.get('/comments', {
                 params: {

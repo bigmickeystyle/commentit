@@ -180,14 +180,11 @@ app.get('/user_comments', function(req, res){
         console.log(error("error getting profile info from database"));
         throw err;
     }).then(function(comments){
-        console.log("comments retrieved");
-        console.log(linksNeeded);
         var linksNeeded = comments.map(function(comment){
             return comment.link_id;
         }).filter(function(linkNeeded, index, self) {
             return index == self.indexOf(linkNeeded);
         });
-        console.log(linksNeeded);
         user.retrieveCommentedLinks(linksNeeded).then(function(links){
             res.json({
                 success: true,
