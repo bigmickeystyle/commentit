@@ -1,14 +1,11 @@
 <div class="fullpagedisplay" id="profilepage">
     <h2>{{username}}'s CommentIt Profile'</h2>
     <!-- Give the links they've upvoted a function and div and such -->
-        <p ng-show="!display.upvotes"><a on-click="showUpvotes()">Click here to see the links {{username}} has upvoted.</a></p>
-        <p ng-show="!display.comments"><a on-click="showComments()">Click here to see {{username}}'s comments!</a></p>
-        <p ng-show="!display.links"><a on-click="showLinks()">Click here to see {{username}}'s shared links!</a><p>
+        <p>{{username}} has upvoted {{upvotes}} times!</p>
+        <p ng-show="!display.comments"><a ng-click="displayComments()">Click here to see {{username}}'s comments!</a></p>
+        <p ng-show="!display.links"><a ng-click="displayLinks()">Click here to see {{username}}'s shared links!</a><p>
         <div class="profile-div" ng-show="display.links">
             <h3>Here are {{username}}'s shared links!</h3>
-        </div>
-        <div class="profile-div" ng-show="display.upvotes">
-            <h3>Here are {{username}}'s upvoted links!</h3>
         </div>
         <div class="profile-div" ng-show="display.comments">
             <h3>Here are {{username}}'s comments!</h3>

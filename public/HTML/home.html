@@ -12,8 +12,14 @@
     </div>
     <div class="col-xs-5 pull-right comments">
         <a target="_blank" href="{{linkSelected.url}}"><div class="linked-pic-box"><img src="{{linkSelected.image}}" class="col-xs-12 linked-pic"></div></a>
-        <div class=row>
-            <div class=col-xs-11>Submitted By: {{linkSelected.username}} on {{linkSelected.created}}</div>
+        <div class="row">
+            <div class="col-xs-11">Submitted By: {{linkSelected.username}} on {{linkSelected.created}}</div>
+        </div>
+        <div class="row">
+            <p>{{linkSelected.upvote_count}}</p>
+            <img src="images/like.png" class="like"></img>
+            <button ng-show="!linkSelected.upvoted" ng-click="upvote()" ng-clsas="btn btn-default">Upvote now!</button>
+            <p ng-show="linkSelected.upvoted">Thanks for upvoting this!</p>
         </div>
         <form class="form-inline">
           <div class="form-group">

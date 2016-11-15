@@ -5,11 +5,25 @@ var profilecontroller = function($scope, $stateParams, $http, $rootScope, $windo
     if ($scope.username){
         $rootScope.username = $scope.username;
     }
+
+    $scope.countUpvotes = function(){
+        $http.get('/upvotes', {
+            params: {
+                username: user
+            }
+        }).success(function(data){
+            console.log("Final Upvote count");
+            console.log(data.upvotes[0].upvotes);
+            $scope.upvotes = data.upvotes[0].upvotes;
+        });
+    };
+    $scope.countUpvotes();
+
     $scope.display = {};
-    $scope.showComments = function(){
+    $scope.displayComments = function(){
+        console.log("showComments");
         $scope.display.links = false;
         $scope.display.comments = true;
-        $scope.display.upvotes = false;
         $http.get('/user_comments', {
             params: {
                 username: user
@@ -18,28 +32,12 @@ var profilecontroller = function($scope, $stateParams, $http, $rootScope, $windo
             console.log("success!");
             console.log(data);
             $scope.links = data.links;
-            $scope.showComments($scope.links[0]);
         });
     };
-    $scope.showUpvotes = function(){
-        $scope.display.links = false;
-        $scope.display.comments = false;
-        $scope.display.upvotes = true;
-        $http.get('/user_upvotes', {
-            params: {
-                username: user
-            }
-        }).success(function(data){
-            console.log("success!");
-            console.log(data);
-            $scope.links = data.links;
-            $scope.showComments($scope.links[0]);
-        });
-    };
-    $scope.showLinks = function(){
+    $scope.displayLinks = function(){
+        console.log("showLinks");
         $scope.display.links = true;
         $scope.display.comments = false;
-        $scope.display.upvotes = false;
         $http.get('/user_links', {
             params: {
                 username: user
@@ -48,10 +46,9 @@ var profilecontroller = function($scope, $stateParams, $http, $rootScope, $windo
             console.log("success!");
             console.log(data);
             $scope.links = data.links;
-            $scope.showComments($scope.links[0]);
         });
     };
-    $scope.showLinks();
+    $scope.displayLinks();
 };
 
 profilecontroller.$inject = ['$scope', '$stateParams', '$http', '$rootScope', '$window', '$cookies'];

@@ -83,6 +83,14 @@ app.post('/login', function(req,res){
         });
     });
 });
+app.get('/links', function(req, res){
+    link.retrieve().then(function(links){
+        res.json({
+            success: true,
+            links: links
+        });
+    });
+});
 app.get('/comments', function(req, res){
     comments.retrieve(req.query.id).then(function(comments){
 
@@ -96,7 +104,6 @@ app.get('/comments', function(req, res){
         });
     });
 });
-
 app.get('/comments/child', function (req,res){
     comments.retrieveChild(req.query.id).then(function(comments){
         res.json({
@@ -105,7 +112,6 @@ app.get('/comments/child', function (req,res){
         });
     });
 });
-
 app.post('/comments', function (req, res){
     if(req.body.parent){
         comments.postComment(req.body.comment, req.body.link, req.body.parent, req.body.user).then(function(returnedComments){
@@ -127,17 +133,37 @@ app.post('/comments', function (req, res){
         });
     }
 });
-
-app.get('/links', function(req, res){
-    link.retrieve().then(function(links){
+app.get('/upvotes', function(req,res){
+    user.upvotes(req.query.username).catch(function(){
+        console.log(error("error getting upvotes from database"));
+    }).then(function(upvotes){
+        console.log(blue("success"));
         res.json({
             success: true,
-            links: links
+            upvotes: upvotes
         });
     });
 });
+app.post('/upvote', function(req,res){
+    console.log(green("node.js"));
+    link.upvote(req.body.link).catch(function(err){
+        console.log(error("error putting upvote into link database"));
+        throw err;
+    }).then(function(upvotes){
+        console.log(blue("link update successful"));
+        res.json({
+            success: true,
+            upvotes: upvotes
+        });
+    });
+    user.upvote(req.body.username).catch(function(err){
+        console.log(error("error putting upvote into user database"));
+        throw err;
+    }).then(function(){
+        console.log(blue("user update successful"));
+    });
+});
 app.get('/user_links', function(req, res){
-    console.log(req.query.username);
     link.retrieveLinksFromUser(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
         throw err;
@@ -161,18 +187,6 @@ app.get('/user_comments', function(req, res){
         });
     });
 });
-app.get('/user_upvotes', function(req, res){
-    link.retrieveUpvotesFromUser(req.query.username).catch(function(err){
-        console.log(error("error getting profile info from database"));
-        throw err;
-    }).then(function(info){
-        console.log(blue("Info got"));
-        res.json({
-            success: true,
-            info: info[0]
-        });
-    });
-});
 app.get('/user-settings', function(req,res){
     user.getUserSettings(req.query.username).catch(function(err){
         console.log(error("error getting user settings from database"));
@@ -185,7 +199,6 @@ app.get('/user-settings', function(req,res){
         });
     });
 });
-
 app.post('/edit-user', function(req,res){
     check_inputs.profile(req.body.info).catch(function(error_field){
         console.log(error("input " + error_field + " not correct"));
