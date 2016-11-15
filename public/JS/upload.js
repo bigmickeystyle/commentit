@@ -1,4 +1,4 @@
-var uploadcontroller = function($scope, $http, $rootScope, $window, $location, $cookies) {
+var uploadcontroller = function($scope, $state, $stateParams, $http, $rootScope, $window, $location, $cookies) {
     $window.location.assign('/#/upload');
     $scope.username = $cookies.get("username");
     if ($scope.username == undefined) {
@@ -18,6 +18,14 @@ var uploadcontroller = function($scope, $http, $rootScope, $window, $location, $
                 'url': page.link.url
             }
         }).then(function(parsed_info){
+            if (parsed_info.data.message) {
+                console.log(parsed_info.data.message);
+                $scope.message = parsed_info.data.message;
+                $scope.parsed = true;
+                $scope.loading = false;
+                //add message in html and ask to try with a different link
+                return;
+            }
             var details = parsed_info.data.info;
             $scope.parsed_info = details;
             if (!$scope.parsed_info.thumbnail){
@@ -58,8 +66,8 @@ var uploadcontroller = function($scope, $http, $rootScope, $window, $location, $
         });
     };
     $scope.reload = function(){
-        $window.location.reload();
+        $state.transitionTo($state.current, $stateParams, { reload: true, inherit: false, notify: true });
     };
 };
 
-uploadcontroller.$inject = ['$scope', '$http', '$rootScope', '$window', '$location', '$cookies'];
+uploadcontroller.$inject = ['$scope', '$state', '$stateParams', '$http', '$rootScope', '$window', '$location', '$cookies'];
