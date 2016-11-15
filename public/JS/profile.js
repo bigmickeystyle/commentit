@@ -1,4 +1,4 @@
-var profilecontroller = function($scope, $stateParams, $http, $rootScope, $window, $cookies){
+var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope, $window, $cookies){
     var user = $stateParams.user;
     $window.location.assign('/#/profile/' + user);
     $scope.username = $cookies.get("username");
@@ -29,9 +29,9 @@ var profilecontroller = function($scope, $stateParams, $http, $rootScope, $windo
                 username: user
             }
         }).success(function(data){
-            console.log("success!");
-            console.log(data);
+            $scope.comments = data.comments;
             $scope.links = data.links;
+            $scope.change = "comments";
         });
     };
     $scope.displayLinks = function(){
@@ -43,12 +43,11 @@ var profilecontroller = function($scope, $stateParams, $http, $rootScope, $windo
                 username: user
             }
         }).success(function(data){
-            console.log("success!");
-            console.log(data);
             $scope.links = data.links;
+            $scope.change = "links";
         });
     };
     $scope.displayLinks();
 };
 
-profilecontroller.$inject = ['$scope', '$stateParams', '$http', '$rootScope', '$window', '$cookies'];
+profilecontroller.$inject = ['$scope', '$state', '$stateParams', '$http', '$rootScope', '$window', '$cookies'];

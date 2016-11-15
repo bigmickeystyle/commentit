@@ -9,26 +9,6 @@ exports.retrieve = function (){
         });
     });
 };
-exports.retrieveLinksFromUser = function (username){
-    return new Promise(function(resolve, reject){
-        dbconnect.pgConnect('SELECT * from links WHERE username = $1 ORDER BY created;', [username]).then(function(results){
-            resolve(results.rows);
-        }).catch(function(err){
-            reject(err);
-        });
-    });
-};
-exports.retrieveCommentsFromUser = function (username){
-    return new Promise(function(resolve, reject){
-        // dbconnect.pgConnect('SELECT * from links WHERE upvoted_users && ARRAY[$1] ORDER BY created;', [username]).then(function(results){
-        //     resolve(results.rows);
-        // }).catch(function(err){
-        //     reject(err);
-        // });
-        // this is the hard one
-    });
-};
-
 exports.upvote = function(link){
     return new Promise(function(resolve,reject){
         var call = 'UPDATE links SET upvote_count = upvote_count + 1 WHERE id = $1;';
@@ -40,7 +20,6 @@ exports.upvote = function(link){
         });
     });
 };
-
 exports.upload = function(req){
     return new Promise(function(resolve,reject){
         var data = req.query;

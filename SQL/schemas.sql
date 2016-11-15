@@ -43,4 +43,4 @@ CREATE TABLE comments (
     comment TEXT not null,
     upvote_count INT DEFAULT 0,
     replies INT DEFAULT 0
-)
+);
