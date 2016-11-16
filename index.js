@@ -242,6 +242,7 @@ app.post('/edit-user', function(req,res){
     }).then(function(){
         user.editProfile(req.body.info).catch(function(err){
             console.log(error("error saving to the database"));
+            console.log(err);
             throw err;
             //give message about error
         }).then(function(){
@@ -263,9 +264,9 @@ app.post('/parse', function(req,res){
                 res.json({
                     success: false,
                     message: "This link has already been shared to CommentIt"
-                })
+                });
             }
-        })
+        });
     }).catch(function(error){
         console.log(error);
         res.json({
@@ -276,8 +277,6 @@ app.post('/parse', function(req,res){
 });
 
 app.post('/save/link', function(req,res){
-    console.log("saving to datavase");
-    console.log(req.query);
     link.upload(req).catch(function(error){
         console.log(error("error saving to database"));
         //show this in a message

@@ -1,30 +1,61 @@
 <div ng-cloak class="fullpagedisplay" id="profilepage">
-    <h3>Welcome back {{user.username}}! Here's your CommentIt profile. Feel free to change things around!</h3>
+    <div class="row">
+        <div class="col-xs-6">
+            <h3>Welcome back {{user.username}}! Here's your CommentIt profile.</h3>
+        </div>
+    </div>
+    <div>
+        <h5>Feel free to change things around!</h5>
+    </div>
     <form name="profileform" ng-submit="edit()">
         <div class="form-group">
-            <label>Password</label>
-            <input name="password" class="form-input" ng-model="user.password" type="password">
+            <label class="col-xs-12" for="edit-password">Password</label>
+            <div class="col-xs-2">
+                <input name="password" class="form-control" ng-model="user.password" id="edit-password" type="password">
+            </div>
         </div>
         <div class="form-group">
-            <label>Email</label>
-            <input name="email" class="form-input" ng-model="user.email" type="text">
+            <label class="col-xs-12" for="edit-email">Email</label>
+            <div class="col-xs-2">
+                <input name="email" class="form-control" ng-model="user.email" id="edit-email" type="text">
+            </div>
         </div>
         <div class="form-group">
-            <label>Age</label>
-            <input name="age" class="form-input" ng-model="user.age" type="number">
+            <label class="col-xs-12" for="edit-age">Age</label>
+            <div class="col-xs-1">
+                <input name="age" class="form-control" ng-model="user.age" id="edit-age" type="number">
+            </div>
         </div>
         <div class="form-group">
-            <label>Location</location>
-            <input name="location" class="form-input" ng-model="user.location" type="text">
+            <label class="col-xs-12" for="edit-location">Location</label>
+            <div class="col-xs-2">
+                <input name="location" class="form-control" ng-model="user.location" id="edit-location" type="text">
+            </div>
         </div>
         <div class="form-group">
-            <label>Interests</label>
-            <input name="interest" class="form-input" ng-model="user.interests" type="text">
+            <label class="col-xs-12" for="edit-interests">Interests</label>
+            <div class="col-xs-2">
+                <input name="interest" class="form-control" ng-model="user.interests" id="edit-interests" type="text">
+            </div>
         </div>
-        <div class="form-group">
-            <button type="submit" class="submit-link">Submit</button>
+        <div class="form-group col-xs-12">
+            <button type="submit" class="submit-link" data-toggle="modal" data-target="#edit-profile">Submit</button>
         </div>
     </form>
+    <div id="edit-profile" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Profile Updated</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 <!-- add error handlers work -->
