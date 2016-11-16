@@ -1,47 +1,52 @@
 <div ng-cloak class="fullpagedisplay" id="profilepage">
-    <div class="row">
-        <div class="col-xs-6">
+    <div class="profile-title row">
+        <div class="col-xs-8">
             <h3>Welcome back {{user.username}}! Here's your CommentIt profile.</h3>
         </div>
     </div>
-    <div>
-        <h5>Feel free to change things around!</h5>
+    <div class="profile-title row">
+        <div class="col-xs-8">
+            <h5>Feel free to change things around!</h5>
+        </div>
     </div>
-    <form name="profileform" ng-submit="edit()">
-        <div class="form-group">
-            <label class="col-xs-12" for="edit-password">Password</label>
-            <div class="col-xs-2">
-                <input name="password" class="form-control" ng-model="user.password" id="edit-password" type="password">
+    <div class="profile-box row col-xs-7">
+        <form name="profileform" ng-submit="edit()">
+            <div class="form-group">
+                <label class="col-xs-12" for="edit-password">Password</label>
+                <div class="col-xs-6">
+                    <input name="password" class="form-control" ng-model="user.password" id="edit-password" type="password">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-12" for="edit-email">Email</label>
-            <div class="col-xs-2">
-                <input name="email" class="form-control" ng-model="user.email" id="edit-email" type="text">
+            <div class="form-group">
+                <label class="col-xs-12" for="edit-email">Email</label>
+                <div class="col-xs-6">
+                    <input name="email" class="form-control" ng-model="user.email" id="edit-email" type="text">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-12" for="edit-age">Age</label>
-            <div class="col-xs-1">
-                <input name="age" class="form-control" ng-model="user.age" id="edit-age" type="number">
+            <div class="form-group">
+                <label class="col-xs-12" for="edit-age">Age</label>
+                <div class="col-xs-2">
+                    <input name="age" class="form-control" ng-model="user.age" id="edit-age" type="number">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-12" for="edit-location">Location</label>
-            <div class="col-xs-2">
-                <input name="location" class="form-control" ng-model="user.location" id="edit-location" type="text">
+            <div class="form-group">
+                <label class="col-xs-12" for="edit-location">Location</label>
+                <div class="col-xs-6">
+                    <input name="location" class="form-control" ng-model="user.location" id="edit-location" type="text">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-12" for="edit-interests">Interests</label>
-            <div class="col-xs-2">
-                <input name="interest" class="form-control" ng-model="user.interests" id="edit-interests" type="text">
+            <div class="form-group">
+                <label class="col-xs-12" for="edit-interests">Interests</label>
+                <div class="col-xs-6">
+                    <input name="interest" class="form-control" ng-model="user.interests" id="edit-interests" type="text">
+                </div>
             </div>
-        </div>
-        <div class="form-group col-xs-12">
-            <button type="submit" class="submit-link" data-toggle="modal" data-target="#edit-profile">Submit</button>
-        </div>
-    </form>
+            <div class="save-button form-group col-xs-12">
+                <button type="submit" class="submit-link" data-toggle="modal" data-target="#edit-profile">Save</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-5"><img class=img-responsive src="./public/images/profile.png"></div>
     <div id="edit-profile" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">

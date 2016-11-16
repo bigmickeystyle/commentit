@@ -103,3 +103,18 @@
     height: 75px;
     width: 75px;
 }
+
+.profile-box {
+    background-color: darkseagreen;
+    border-radius: 15px;
+    margin-left: 10px;
+    min-width: 400px;
+}
+
+.save-button {
+    margin-top: 10px;
+}
+
+.profile-title {
+    margin-left: 10px;
+}
