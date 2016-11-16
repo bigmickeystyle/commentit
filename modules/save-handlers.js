@@ -42,7 +42,7 @@ exports.retrieveUpvote = function(info){
 exports.retrieveAllUpvotes = function(username){
     return new Promise(function(resolve,reject){
         console.log("in retrieveAllUpvotes");
-        var call = 'SELECT link_id FROM upvotes WHERE username = $1;';
+        var call = 'SELECT link_id FROM upvotes WHERE username = $1 ORDER BY created;';
         dbconnect.pgConnect(call, [username]).catch(function(err){
             reject(err);
         }).then(function(data){
