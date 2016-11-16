@@ -1,0 +1,8 @@
+<div ng-cloak class="fullpagedisplay" id="profilepage">
+    <h2>{{username}}'s CommentIt Profile'</h2>
+    <p class="profile-link"><a ui-sref="profile({user: username})">Click here to see {{username}}'s profile!</a><p>
+    <div class="profile-div">
+        <h3>Here are {{username}}'s bookmarked links!</h3>
+    </div>
+    <div ui-view="links"></div>
+</div>
