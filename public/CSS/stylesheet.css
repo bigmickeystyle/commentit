@@ -1,19 +1,4 @@
 
-.comments {
-}
-
-.item {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 15px;
-    border-style: inset;
-}
-
-.item:hover {
-    background-color: gainsboro;
-    border-style: groove;
-    cursor: pointer;
-}
 .like {
     width: 30px;
     height: 30px;
@@ -117,4 +102,37 @@
 
 .profile-title {
     margin-left: 10px;
+}
+
+
+.comments {
+}
+
+.item {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    border-style: inset;
+    height: 135px;
+    overflow-y: scroll;
+}
+
+.item:hover {
+    background-color: gainsboro;
+    border-style: groove;
+    cursor: pointer;
+}
+
+.news-thumb {
+    margin-top: 30px;
+}
+
+@media (max-width: 992px) {
+    .comments {
+        display: fixed;
+    }
+
+    .item {
+
+    }
 }
