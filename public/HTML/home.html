@@ -1,45 +1,14 @@
 <div ng-cloak class="container-fluid">
-    <div class="col-md-7">
-        <div ng-show="location == 'home'">
-            <div ng-show="recentSort"><a ng-click="sortByPopularity()">Sort by Popularity</a></div>
-            <div ng-show="popularitySort"><a ng-click="sortByTimestamp()">Sort by Most Recent</a></div>
-        </div>
-        <div class="message" ng-show="nolinks">There's nothing to display here.</div>
-        <div ng-repeat="link in links track by $index">
-            <div class="row media item" ng-click="showComments(link)" ng-class="{active : linkIsSelected(link)}">
-                <div class="media-left">
-                    <a target="_blank" href="{{link.url}}"><img class="link-logo media-object news-thumb" src="{{link.thumbnail}}"></a>
-                </div>
-                <div class="media-body">
-                    <div class="col-md-10 text-center"><h4>{{link.headline}}</h4></div>
-                    <div class="star pull-right col-md-1 {true: 'red', false: 'transparent'}[link.bookmarked]">
-                        <img class="img-responsive"  ng-click="bookmark(link)" src="./public/images/emptystar.png"></img>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-11 pull-left">{{link.description}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="col-md-5 col-xs-12 pull-right comments">
         <a target="_blank" href="{{linkSelected.url}}"><div class="linked-pic-box"><img src="{{linkSelected.image}}" class="col-md-12 col-xs-6 linked-pic"></div></a>
         <div class="row">
             <div class="col-md-11">Submitted By: {{linkSelected.username}} on {{linkSelected.created}}</div>
         </div>
         <div class="row">
-            <p>{{linkSelected.upvote_count}}</p>
-            <img src="images/like.png" class="like"></img>
-            <button ng-show="!linkSelected.upvoted" ng-click="upvote()" ng-clsas="btn btn-default">Upvote now!</button>
-            <p ng-show="linkSelected.upvoted">Thanks for upvoting this!</p>
+            <div class="col-xs-12"><img src="images/like.png" class="like"></img>
+                <button ng-show="!linkSelected.upvoted" ng-click="upvote()" ng-clsas="btn btn-default">Upvote now!</button>
+            </div>
         </div>
-        <form class="form-inline">
-          <div class="form-group">
-            <label for="commenttext">Leave a Comment:</label>
-            <textarea class="form-control" id="commenttext" ng-model="commenttext"></textarea>
-          </div>
-          <button type="submit" class="btn btn-default" ng-click="submitComment()">Submit</button>
-        </form>
         <div class="row" ng-if="comments.header">
             <div class="col-md-112 header">{{comments.header.username}}: {{comments.header.comment}}</div>
         </div>
@@ -53,6 +22,35 @@
                         <div class="col-md-12" id="{{comment.id}}">
                                 <div class="col-md-10 comment"><a ui-sref="profile/{{comment.username}}">{{childComment.username}}</a>: {{childComment.comment}}</div><div class="col-md-2">{{childComment.replies}} replies</div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="form-group">
+                <label class="col-xs-12" for="commenttext">Leave a Comment:</label>
+                <textarea class="col-xs-11 pull-right" id="commenttext" ng-model="commenttext"></textarea><br>
+                <button type="submit" class="btn btn-default pull-right" ng-click="submitComment()">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-7">
+        <div ng-show="location == 'home'">
+            <div ng-show="recentSort"><a ng-click="sortByPopularity()">Sort by Popularity</a></div>
+            <div ng-show="popularitySort"><a ng-click="sortByTimestamp()">Sort by Most Recent</a></div>
+        </div>
+        <div class="message" ng-show="nolinks">There's nothing to display here.</div>
+        <div ng-repeat="link in links track by $index">
+            <div class="row media item" ng-click="showComments(link)" ng-class="{active : linkIsSelected(link)}">
+                <div class="media-left">
+                    <a target="_blank" href="{{link.url}}"><img class="link-logo media-object news-thumb" src="{{link.thumbnail}}"></a>
+                </div>
+                <div class="media-body">
+                    <div class="col-md-10 text-center"><h4>{{link.headline}}</h4></div>
+                    <div class="star pull-right col-xs-1 {true: 'red', false: 'transparent'}[link.bookmarked]">
+                        <img class="img-responsive"  ng-click="bookmark(link)" src="./public/images/emptystar.png"></img>
+                        <div class="col-xs-1"<p>{{link.upvote_count}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-11 pull-left">{{link.description}}</div>
                     </div>
                 </div>
             </div>
