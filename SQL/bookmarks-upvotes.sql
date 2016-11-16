@@ -13,3 +13,4 @@ CREATE TABLE bookmarks (
 );
 
 -- ALTER TABLE comments ADD COLUMN created TIMESTAMP DEFAULT now();
+-- ALTER TABLE bookmarks ADD COLUMN bookmarked BOOLEAN DEFAULT TRUE;

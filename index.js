@@ -85,7 +85,7 @@ app.post('/login', function(req,res){
     });
 });
 app.get('/links', function(req, res){
-    link.retrieve().then(function(links){
+    link.retrieve(req.query.loggedin).then(function(links){
         res.json({
             success: true,
             links: links
@@ -93,7 +93,8 @@ app.get('/links', function(req, res){
     });
 });
 app.get('/popularlinks', function(req, res){
-    link.retrievePopular().then(function(links){
+    link.retrievePopular(req.query.loggedin).then(function(links){
+        console.log(links);
         res.json({
             success: true,
             links: links
@@ -199,7 +200,7 @@ app.post('/remove-bookmark', function(req,res){
     });
 });
 app.get('/user_links', function(req, res){
-    user.retrieveUserLinks(req.query.username).catch(function(err){
+    user.retrieveUserLinks(req.query).catch(function(err){
         console.log(error("error getting profile info from database"));
         throw err;
     }).then(function(links){
@@ -220,7 +221,7 @@ app.get('/user_comments', function(req, res){
         }).filter(function(linkNeeded, index, self) {
             return index == self.indexOf(linkNeeded);
         });
-        user.retrieveLink(linksNeeded).then(function(links){
+        user.retrieveLink(linksNeeded, req.query.loggedin).then(function(links){
             res.json({
                 success: true,
                 links: links,
@@ -230,8 +231,7 @@ app.get('/user_comments', function(req, res){
     });
 });
 app.get('/user_upvotes', function(req,res){
-    console.log(req.query.username);
-    user.retrieveUpvotedLinks(req.query.username).catch(function(err){
+    user.retrieveUpvotedLinks(req.query).catch(function(err){
         console.log(error("error getting upvoted links from database"));
         throw err;
     }).then(function(links){
@@ -242,7 +242,7 @@ app.get('/user_upvotes', function(req,res){
     });
 });
 app.get('/user_bookmarks', function(req,res){
-    user.retrieveBookmarkedLinks(req.query.username).catch(function(err){
+    user.retrieveBookmarkedLinks(req.query).catch(function(err){
         console.log(error("error getting bookmarked links from database"));
         throw err;
     }).then(function(links){
