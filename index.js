@@ -214,19 +214,13 @@ app.get('/user_comments', function(req, res){
 });
 app.get('/user_upvotes', function(req,res){
     console.log(req.query.username);
-    save.retrieveAllUpvotes(req.query.username).catch(function(err){
-        console.log(error("error getting upvotes from database"));
+    save.retrieveUpvotedLinks(req.query.username).catch(function(err){
+        console.log(error("error getting upvoted links from database"));
         throw err;
-    }).then(function(upvotes){
-        console.log("upvotes retrieved");
-        var linksNeeded = upvotes.map(function(link){
-            return link.link_id;
-        });
-        save.retrieveLinks(linksNeeded).then(function(links){
-            res.json({
-                succes: true,
-                links:links
-            });
+    }).then(function(links){
+        res.json({
+            success: true,
+            links:links
         });
     });
 });

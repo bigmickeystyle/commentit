@@ -39,17 +39,6 @@ exports.retrieveUpvote = function(info){
         });
     });
 };
-exports.retrieveAllUpvotes = function(username){
-    return new Promise(function(resolve,reject){
-        console.log("in retrieveAllUpvotes");
-        var call = 'SELECT link_id FROM upvotes WHERE username = $1 ORDER BY created;';
-        dbconnect.pgConnect(call, [username]).catch(function(err){
-            reject(err);
-        }).then(function(data){
-            resolve(data.rows)
-        });
-    });
-};
 exports.retrieveLinks = function(link_ids){
     return new Promise(function(resolve,reject){
         //order by comment created date
@@ -59,6 +48,18 @@ exports.retrieveLinks = function(link_ids){
             reject(err);
         }).then(function(data){
             resolve(data.rows)
+        });
+    });
+};
+exports.retrieveUpvotedLinks = function(username){
+    return new Promise(function(resolve,reject){
+        console.log("retrieving");
+        var call = "SELECT * FROM links LEFT JOIN upvotes ON upvotes.link_id = links.id\
+        WHERE upvotes.username = $1 ORDER BY upvotes.created DESC;";
+        dbconnect.pgConnect(call,[username]).catch(function(err){
+            reject(err);
+        }).then(function(data){
+            resolve(data.rows);
         });
     });
 };
