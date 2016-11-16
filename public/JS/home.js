@@ -7,7 +7,11 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
     }
 
     $scope.sortByPopularity = function(){
-        $http.get('/popularlinks').then(function(links){
+        $http.get('/popularlinks', {
+            params: {
+                loggedin: $rootScope.username
+            }
+        }).then(function(links){
             $scope.links = links.data.links;
             console.log($scope.links);
             if ($scope.links != undefined) {
@@ -23,7 +27,11 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $scope.popularitySort = true;
     };
     $scope.sortByTimestamp = function(){
-        $http.get('/links').then(function(links){
+        $http.get('/links', {
+            params: {
+                loggedin: $rootScope.username
+            }
+        }).then(function(links){
             $scope.links = links.data.links;
             console.log($scope.links);
             if ($scope.links != undefined) {
@@ -175,6 +183,7 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
             return;
         }
         if (!link.bookmarked) {
+            console.log(link);
             $http.post('/bookmark',{
                 username: $scope.username,
                 link_id: link.id
