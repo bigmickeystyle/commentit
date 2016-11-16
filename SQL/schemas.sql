@@ -37,6 +37,7 @@ CREATE TABLE links (
 );
 CREATE TABLE comments (
     id SERIAL primary key,
+    created TIMESTAMP DEFAULT now(),
     parent_id INT,
     link_id INT not null references links(id),
     username VARCHAR(25) not null references users(username),
