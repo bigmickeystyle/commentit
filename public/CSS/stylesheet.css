@@ -127,6 +127,10 @@
     margin-top: 30px;
 }
 
+.star {
+    margin-top: 5px;
+}
+
 @media (max-width: 992px) {
     .comments {
         display: fixed;
