@@ -6,6 +6,7 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
     if ($scope.username){
         $rootScope.username = $scope.username;
     }
+    $scope.username = user;
 
     $scope.countUpvotes = function(){
         $http.get('/upvotes', {
