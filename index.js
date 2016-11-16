@@ -112,7 +112,7 @@ app.get('/comments', function(req, res){
                 comments: comments,
                 upvoted: upvote_id
             });
-        })
+        });
     });
 });
 app.get('/comments/child', function (req,res){
@@ -178,7 +178,7 @@ app.post('/upvote', function(req,res){
         throw err;
     }).then(function(){
         console.log(blue("upvote table successful"));
-    })
+    });
 
 });
 app.get('/user_links', function(req, res){
