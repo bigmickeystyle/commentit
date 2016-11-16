@@ -13,8 +13,6 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
                 username: user
             }
         }).success(function(data){
-            console.log("Final Upvote count");
-            console.log(data.upvotes[0].upvotes);
             $scope.upvotes = data.upvotes[0].upvotes;
         });
     };
