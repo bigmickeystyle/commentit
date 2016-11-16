@@ -6,8 +6,8 @@
         </div>
         <div ng-repeat="link in links track by $index">
             <div class="row media item" ng-click="showComments(link)" ng-class="{active : linkIsSelected(link)}">
-                <div class="flag" ng-click="bookmark()">
-                    <button ng-click="bookmark()">Bookmark!</div>
+                <div class="{true: 'red', false: 'transparent'}[link.bookmarked]">
+                    <button ng-click="bookmark(link)">Bookmark!</div>
                 </div>
                 <div class="media-left media-middle">
                     <a target="_blank" href="{{link.url}}"><img class="link-logo media-object" src="{{link.thumbnail}}"></a>
