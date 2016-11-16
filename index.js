@@ -246,8 +246,6 @@ app.get('/user_bookmarks', function(req,res){
         console.log(error("error getting bookmarked links from database"));
         throw err;
     }).then(function(links){
-        console.log("success getting bookmarks");
-        console.log(links);
         res.json({
             success: true,
             links: links

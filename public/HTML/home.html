@@ -4,6 +4,7 @@
             <div ng-show="recentSort"><a ng-click="sortByPopularity()">Sort by Popularity</a></div>
             <div ng-show="popularitySort"><a ng-click="sortByTimestamp()">Sort by Most Recent</a></div>
         </div>
+        <div class="message" ng-show="nolinks">There's nothing to display here.</div>
         <div ng-repeat="link in links track by $index">
             <div class="row media item" ng-click="showComments(link)" ng-class="{active : linkIsSelected(link)}">
                 <div class="media-left">
