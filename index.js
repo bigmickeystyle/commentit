@@ -93,6 +93,14 @@ app.get('/links', function(req, res){
         });
     });
 });
+app.get('/popularlinks', function(req, res){
+    link.retrievePopular().then(function(links){
+        res.json({
+            success: true,
+            links: links
+        });
+    });
+});
 app.get('/comments', function(req, res){
     comments.retrieve(req.query.id).then(function(comments){
         comments.sort(function(x, y){

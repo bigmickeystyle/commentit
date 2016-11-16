@@ -6,12 +6,28 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $rootScope.username = $scope.username;
     }
 
-    if ($location.$$path.search("/profile") == -1) {
+    $scope.sortByPopularity = function(){
+        $http.get('/popularlinks').then(function(links){
+            $scope.links = links.data.links;
+            $scope.showComments($scope.links[0]);
+        });
+        $scope.recentSort = false;
+        $scope.popularitySort = true;
+    };
+    $scope.sortByTimestamp = function(){
         $http.get('/links').then(function(links){
             $scope.links = links.data.links;
             $scope.showComments($scope.links[0]);
         });
+        $scope.recentSort = true;
+        $scope.popularitySort = false;
+    };
+
+    if ($location.$$path.search("/profile") == -1) {
+        $scope.location = "home";
+        $scope.sortByTimestamp();
     } else {
+        $scope.location = "profile";
         $scope.$watch('change', function(values){
             $scope.links = $scope.$parent.links;
             if ($scope.links) {
@@ -130,6 +146,7 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $scope.comments.header = childcomment;
         $scope.comments.childcomments = null;
     };
+
 };
 
 homecontroller.$inject = ['$scope', '$http', '$rootScope', '$location', '$cookies'];

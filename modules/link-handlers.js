@@ -2,7 +2,16 @@ const dbconnect = require('./dbconnect.js');
 
 exports.retrieve = function (){
     return new Promise(function(resolve, reject){
-        dbconnect.pgConnect('SELECT * from links ORDER BY Created;').then(function(results){
+        dbconnect.pgConnect('SELECT * from links ORDER BY Created DESC;').then(function(results){
+            resolve(results.rows);
+        }).catch(function(err){
+            reject(err);
+        });
+    });
+};
+exports.retrievePopular = function (){
+    return new Promise(function(resolve, reject){
+        dbconnect.pgConnect('SELECT * from links ORDER BY upvote_count DESC;').then(function(results){
             resolve(results.rows);
         }).catch(function(err){
             reject(err);
