@@ -31,6 +31,19 @@ myapp.config(function($stateProvider, $urlRouterProvider){
             }
         }
     })
+    .state('bookmarks', {
+        url: '/bookmarks/:user',
+        views: {
+            '': {
+                templateUrl: '../HTML/bookmarks.html',
+                controller: 'bookmarkscontroller'
+            },
+            'links@bookmarks': {
+                templateUrl: '..//HTML/home.html',
+                controller: 'homecontroller'
+            }
+        }
+    })
     .state('login', {
         url: '/login',
         templateUrl: '..//HTML/login.html',
@@ -49,6 +62,7 @@ myapp.controller('registercontroller', registercontroller);
 myapp.controller('profilecontroller', profilecontroller);
 myapp.controller('logincontroller', logincontroller);
 myapp.controller('settingscontroller', settingscontroller);
+myapp.controller('bookmarkscontroller', bookmarkscontroller);
 
 myapp.controller('logoutcontroller', function($scope, $cookies, $rootScope) {
     $scope.logout = function(){

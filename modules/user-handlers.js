@@ -73,6 +73,30 @@ exports.retrieveUserLinks = function (username){
         });
     });
 };
+exports.retrieveUpvotedLinks = function(username){
+    return new Promise(function(resolve,reject){
+        console.log("retrieving");
+        var call = "SELECT * FROM links LEFT JOIN upvotes ON upvotes.link_id = links.id\
+        WHERE upvotes.username = $1 ORDER BY upvotes.created DESC;";
+        dbconnect.pgConnect(call,[username]).catch(function(err){
+            reject(err);
+        }).then(function(data){
+            resolve(data.rows);
+        });
+    });
+};
+exports.retrieveBookmarkedLinks = function(username){
+    return new Promise(function(resolve,reject){
+        console.log("retrieving");
+        var call = "SELECT * FROM links LEFT JOIN bookmarks ON bookmarks.link_id = links.id\
+        WHERE bookmarks.username = $1 ORDER BY bookmarks.created DESC;";
+        dbconnect.pgConnect(call,[username]).catch(function(err){
+            reject(err);
+        }).then(function(data){
+            resolve(data.rows);
+        });
+    });
+};
 exports.retrieveComments = function(username){
     return new Promise(function(resolve,reject){
         var call = "SELECT * FROM comments WHERE username = $1;";

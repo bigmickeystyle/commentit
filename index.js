@@ -31,7 +31,6 @@ app.get('/', function(req,res){
 
 app.post('/register', function(req, res) {
     //handle passport registration
-    //console.log("serverside");
     check_inputs.signin(req.body.user).catch(function(error_field){
         console.log(error("input " + error_field + " not correct"));
         //make sure an error message shows up.
@@ -181,6 +180,24 @@ app.post('/upvote', function(req,res){
     });
 
 });
+app.post('/bookmark', function(req,res){
+    save.bookmark(req.body).catch(function(err){
+        console.log(error("error bookmarking in database"));
+        throw err;
+    }).then(function(){
+        console.log(blue("bookmarking successful"));
+        res.json({success:true});
+    });
+});
+app.post('/remove-bookmark', function(req,res){
+    save.removeBookmark(req.body).catch(function(err){
+        console.log(error("error removing bookmark from database"));
+        throw err;
+    }).then(function(){
+        console.log(blue("bookmark removed"));
+        res.json({success:true});
+    });
+});
 app.get('/user_links', function(req, res){
     user.retrieveUserLinks(req.query.username).catch(function(err){
         console.log(error("error getting profile info from database"));
@@ -214,13 +231,26 @@ app.get('/user_comments', function(req, res){
 });
 app.get('/user_upvotes', function(req,res){
     console.log(req.query.username);
-    save.retrieveUpvotedLinks(req.query.username).catch(function(err){
+    user.retrieveUpvotedLinks(req.query.username).catch(function(err){
         console.log(error("error getting upvoted links from database"));
         throw err;
     }).then(function(links){
         res.json({
             success: true,
             links:links
+        });
+    });
+});
+app.get('/user_bookmarks', function(req,res){
+    user.retrieveBookmarkedLinks(req.query.username).catch(function(err){
+        console.log(error("error getting bookmarked links from database"));
+        throw err;
+    }).then(function(links){
+        console.log("success getting bookmarks");
+        console.log(links);
+        res.json({
+            success: true,
+            links: links
         });
     });
 });

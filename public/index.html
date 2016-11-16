@@ -14,6 +14,7 @@
     <script src="/JS/register.js"></script>
     <script src="/JS/profile.js"></script>
     <script src="/JS/login.js"></script>
+    <script src="/JS/bookmarks.js"></script>
     <script src="/JS/settings.js"></script>
     <script src="/JS/angular-router.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -32,7 +33,7 @@
             <!-- make these two buttons only available with cookie -->
             <ul class="nav navbar-nav" ng-cloak ng-show="username">
                 <li><a ui-sref="home">Home</a></li>
-                <li><a href="#">Hi {{username}}!</a></li>
+                <li><a ui-sref="#">Hi {{username}}!</a></li>
             </ul>
             <form class="navbar-form navbar-left">
                 <div class="form-group">
@@ -42,6 +43,7 @@
              </form>
             <ul class="nav navbar-nav navbar-right nav-pills" ng-cloak ng-show="username">
                 <li><a ui-sref="profile({user: username})"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                <li><a ui-sref="bookmarks({user: username})"><span class="glyphicon glyphicon-user"></span> Bookmarks</a></li>
                 <li><a ui-sref="settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
                 <li><a ui-sref="upload"><span class="glyphicon glyphicon-link"></span> Submit a Link</a></li>
                 <li><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signout"><span class="glyphicon glyphicon-log-out"></span> Log Out</button></li>

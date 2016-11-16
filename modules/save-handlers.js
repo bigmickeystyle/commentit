@@ -2,10 +2,8 @@ const dbconnect = require('./dbconnect.js');
 
 exports.upvote = function(info){
     return new Promise(function(resolve, reject){
-        var username = info.username;
-        var link_id = info.link.id;
         var call = 'INSERT INTO upvotes (username, link_id) VALUES ($1, $2);';
-        var params = [username, link_id];
+        var params = [info.username, info.link.id];
         dbconnect.pgConnect(call, params).catch(function(err){
             reject(err);
         }).then(function(){
@@ -15,11 +13,20 @@ exports.upvote = function(info){
 };
 exports.bookmark = function(info){
     return new Promise(function(resolve, reject){
-        var username = info.username;
-        var link_id = info.link.id;
         var call = 'INSERT INTO bookmarks (username, link_id) VALUES ($1, $2);';
-        var params = [username, link_id];
+        var params = [info.username, info.link_id];
         dbconnect.pgConnect(call, params).catch(function(err){
+            reject(err);
+        }).then(function(){
+            resolve();
+        });
+    });
+};
+exports.removeBookmark = function(info){
+    return new Promise(function(resolve,reject){
+        var call = 'DELETE FROM bookmarks WHERE username = $1 AND link_id = $2;';
+        var params = [info.username, info.link_id];
+        dbconnect.pgConnect(call,params).catch(function(err){
             reject(err);
         }).then(function(){
             resolve();
@@ -28,10 +35,8 @@ exports.bookmark = function(info){
 };
 exports.retrieveUpvote = function(info){
     return new Promise(function(resolve,reject){
-        var username = info.username;
-        var link_id = info.id;
         var call = 'SELECT id FROM upvotes WHERE username = $1 AND link_id = $2;';
-        var params = [username, link_id];
+        var params = [info.username, info.id];
         dbconnect.pgConnect(call, params).catch(function(err){
             reject(err);
         }).then(function(data){
@@ -48,18 +53,6 @@ exports.retrieveLinks = function(link_ids){
             reject(err);
         }).then(function(data){
             resolve(data.rows)
-        });
-    });
-};
-exports.retrieveUpvotedLinks = function(username){
-    return new Promise(function(resolve,reject){
-        console.log("retrieving");
-        var call = "SELECT * FROM links LEFT JOIN upvotes ON upvotes.link_id = links.id\
-        WHERE upvotes.username = $1 ORDER BY upvotes.created DESC;";
-        dbconnect.pgConnect(call,[username]).catch(function(err){
-            reject(err);
-        }).then(function(data){
-            resolve(data.rows);
         });
     });
 };

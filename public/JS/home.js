@@ -23,17 +23,17 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $scope.popularitySort = false;
     };
 
-    if ($location.$$path.search("/profile") == -1) {
-        $scope.location = "home";
-        $scope.sortByTimestamp();
-    } else {
-        $scope.location = "profile";
+    if ($location.$$path.search("/profile") != -1 || $location.$$path.search("/bookmarks") != -1) {
+        $scope.location = "nothome";
         $scope.$watch('change', function(values){
             $scope.links = $scope.$parent.links;
             if ($scope.links) {
                 $scope.showComments($scope.links[0]);
             }
         });
+    } else {
+        $scope.location = "home";
+        $scope.sortByTimestamp();
     }
 
     $scope.linkIsSelected = function(link) {
@@ -42,7 +42,6 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
     $scope.commentIsSelected = function(comment) {
         return $scope.commentSelected === comment;
     };
-
     $scope.showComments = function(link){
         $scope.commentSelected = null;
         currentLink = link;
@@ -146,7 +145,29 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $scope.comments.header = childcomment;
         $scope.comments.childcomments = null;
     };
-
+    $scope.bookmark = function(link){
+        if ($scope.username == undefined) {
+            console.log("Need to be logged in!");
+            //display this error
+            //save current window location so after the user logs in we can redirect them back here
+            return;
+        }
+        if (!link.bookmarked) {
+            $http.post('/bookmark',{
+                username: $scope.username,
+                link_id: link.id
+            }).then(function(){
+                link.bookmarked = true;
+            });
+        } else {
+            $http.post('/remove-bookmark',{
+                username: $scope.username,
+                link_id: link.id
+            }).then(function(){
+                link.bookmarked = false;
+            });
+        }
+    };
 };
 
 homecontroller.$inject = ['$scope', '$http', '$rootScope', '$location', '$cookies'];

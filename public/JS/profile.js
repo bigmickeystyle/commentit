@@ -1,6 +1,7 @@
 var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope, $window, $cookies){
     var user = $stateParams.user;
     $window.location.assign('/#/profile/' + user);
+
     $scope.username = $cookies.get("username");
     if ($scope.username){
         $rootScope.username = $scope.username;
@@ -12,8 +13,6 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
                 username: user
             }
         }).success(function(data){
-            console.log("Final Upvote count");
-            console.log(data.upvotes[0].upvotes);
             $scope.upvotes = data.upvotes[0].upvotes;
         });
     };
@@ -61,8 +60,9 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
         }).success(function(data){
             $scope.links = data.links;
             $scope.change = "upvotes";
-        })
+        });
     };
+
     $scope.displayLinks();
 };
 
