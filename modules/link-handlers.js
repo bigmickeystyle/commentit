@@ -7,13 +7,11 @@ exports.retrieve = function (loggedin){
             var params = [];
             console.log('no' + loggedin);
         } else {
-            // call = 'SELECT * FROM links LEFT JOIN bookmarks ON bookmarks.link_id = links.id AND bookmarks.username = $1 ORDER BY links.created DESC;';
-            call = "select * from links order by links.created DESC";
-            // params = [loggedin];
-            console.log("yes" + loggedin);
+            call = 'SELECT * FROM links LEFT JOIN bookmarks ON bookmarks.link_id = links.id AND bookmarks.username = $1 ORDER BY links.created DESC;';
+            // call = "select * from links order by links.created DESC";
+            params = [loggedin];
         }
-        // dbconnect.pgConnect(call, params).then(function(results){
-        dbconnect.pgConnect(call).then(function(results){
+        dbconnect.pgConnect(call, params).then(function(results){
             console.log(results.rows);
             resolve(results.rows);
         }).catch(function(err){
