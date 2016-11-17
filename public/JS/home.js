@@ -73,6 +73,7 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         return $scope.commentSelected === comment;
     };
     $scope.showComments = function(link){
+        console.log(link);
         $scope.commentSelected = null;
         currentLink = link;
         $scope.linkSelected = link;
@@ -108,6 +109,7 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                 //save current window location so after the user logs in we can redirect them back here
                 return;
             }
+            console.log(currentLink);
             if(!$scope.commentSelected){
                 $http.post('/comments', {
                     comment: $scope.commenttext,
