@@ -94,8 +94,6 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                 }
             }).then(function(results){
                 if (results.data.upvoted) {
-                    console.log("hmmm");
-                    console.log(results.data);
                     $scope.linkSelected.upvoted = true;
                 }
                 $scope.comments = results.data.comments;
@@ -126,7 +124,8 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     user: $scope.username,
                     parent: $scope.commentSelected.id
                 }).then(function(results){
-                    $scope.comments.childcomments.push(results.data.comments[0]);
+                    console.log($scope.comments.indexOf($scope.commentSelected));
+                    $scope.comments.splice($scope.comments.indexOf($scope.commentSelected) + 1, 0, results.data.comments[0]);
                     $scope.commentSelected.replies += 1;
                 });
             }
@@ -152,12 +151,8 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         console.log("upvote");
     };
     $scope.expand = function(comment){
-        if($scope.commentSelected == comment){
-            commentId = this.comment.id;
-            angular.element('#'+commentId).removeClass("reveal-comments");
-            $scope.comments.childcomments = null;
-            $scope.commentSelected = null;
-        } else {
+        if(!$scope.expandedComments){
+            $scope.expandedComments = [comment];
             $scope.commentSelected = comment;
             var commentId = this.comment.id;
             angular.element('#'+commentId).addClass("reveal-comments");
@@ -166,14 +161,61 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     id: commentId
                 }
             }).then(function(results){
-                $scope.comments.childcomments = results.data.comments;
+                if (results.data.comments.length){
+                    results.data.comments.forEach(function(comment){
+                        comment.level = 1;
+                    });
+                    var index = $scope.comments.indexOf(comment) + 1;
+                    var first = $scope.comments.slice(0, index);
+                    var second = $scope.comments.slice(index, $scope.comments.length);
+                    if ($scope.childcomments){
+                        $scope.childcomments.push(results.data.comments);
+                    } else {
+                        $scope.childcomments = [results.data.comments];
+                    }
+                    $scope.comments = first.concat(results.data.comments).concat(second);
+                }
             });
+        } else if ($scope.expandedComments.indexOf(comment) == -1){
+            $scope.expandedComments.push(comment);
+            $scope.commentSelected = comment;
+            commentId = this.comment.id;
+            angular.element('#'+commentId).addClass("reveal-comments");
+            $http.get('/comments/child', {
+                params: {
+                    id: commentId
+                }
+            }).then(function(results){
+                if (results.data.comments.length){
+                    if (comment.level){
+                        results.data.comments.forEach(function(commentIteration){
+                            commentIteration.level = comment.level + 1;
+                        });
+                    } else {
+                        results.data.comments.forEach(function(commentIteration){
+                            commentIteration.level = 1;
+                        });
+                    }
+                    var index = $scope.comments.indexOf(comment) + 1;
+                    var first = $scope.comments.slice(0, index);
+                    var second = $scope.comments.slice(index, $scope.comments.length);
+                    if ($scope.childcomments){
+                        $scope.childcomments.push(results.data.comments);
+                    } else {
+                        $scope.childcomments = [results.data.comments];
+                    }
+                    $scope.comments = first.concat(results.data.comments).concat(second);
+                }
+            });
+        } else {
+            $scope.expandedComments.splice($scope.expandedComments.indexOf(comment), 1);
+            $scope.comments = $scope.comments.filter(function(commentToFilter){
+                return (commentToFilter['parent_id'] != comment.id);
+            });
+            commentId = this.comment.id;
+            angular.element('#'+commentId).removeClass("reveal-comments");
         }
-    };
-    $scope.replace = function(childcomment){
-        $scope.comments = $scope.comments.childcomments;
-        $scope.comments.header = childcomment;
-        $scope.comments.childcomments = null;
+
     };
     $scope.bookmark = function(link){
         if ($scope.username == undefined) {
