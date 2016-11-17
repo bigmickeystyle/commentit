@@ -6,9 +6,11 @@ var bookmarkscontroller = function($scope, $state, $stateParams, $http, $rootSco
     if ($scope.username){
         $rootScope.username = $scope.username;
     }
+    $scope.username = user;
 
     $http.get('/user_bookmarks', {
         params: {
+            loggedin: $rootScope.username,
             username: user
         }
     }).success(function(data){

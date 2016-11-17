@@ -64,33 +64,53 @@ exports.editProfile = function(info){
         }
     });
 };
-exports.retrieveUserLinks = function (username){
+exports.retrieveUserLinks = function (info){
     return new Promise(function(resolve, reject){
-        dbconnect.pgConnect('SELECT * FROM links WHERE username = $1 ORDER BY created;', [username]).then(function(results){
+        if (!info.loggedin) {
+            var call = 'SELECT * FROM links WHERE username = $1 ORDER BY created;';
+            var params = [info.username];
+        } else {
+            call = 'SELECT * FROM links LEFT JOIN bookmarks ON bookmarks.link_id = links.id\
+             AND bookmarks.username = $1 WHERE links.username = $2 ORDER BY links.created DESC;';
+            params = [info.username, info.loggedin];
+        }
+        dbconnect.pgConnect(call, params).then(function(results){
             resolve(results.rows);
         }).catch(function(err){
             reject(err);
         });
     });
 };
-exports.retrieveUpvotedLinks = function(username){
+exports.retrieveUpvotedLinks = function(info){
     return new Promise(function(resolve,reject){
-        console.log("retrieving");
-        var call = "SELECT * FROM links LEFT JOIN upvotes ON upvotes.link_id = links.id\
-        WHERE upvotes.username = $1 ORDER BY upvotes.created DESC;";
-        dbconnect.pgConnect(call,[username]).catch(function(err){
+        if (!info.loggedin) {
+            var call = "SELECT * FROM links LEFT JOIN upvotes ON upvotes.link_id = links.id\
+            WHERE upvotes.username = $1 ORDER BY upvotes.created DESC;";
+            var params = [info.username];
+        } else {
+            call = 'SELECT * FROM links LEFT JOIN upvotes ON upvotes.link_id = links.id\
+            LEFT JOIN bookmarks ON bookmarks.link_id = links.id AND bookmarks.username = $1 WHERE upvotes.username = $2 ORDER BY upvotes.created DESC;';
+            params = [info.loggedin, info.username];
+        }
+        dbconnect.pgConnect(call, params).catch(function(err){
             reject(err);
         }).then(function(data){
             resolve(data.rows);
         });
     });
 };
-exports.retrieveBookmarkedLinks = function(username){
+exports.retrieveBookmarkedLinks = function(info){
     return new Promise(function(resolve,reject){
-        console.log("retrieving");
-        var call = "SELECT * FROM links LEFT JOIN bookmarks ON bookmarks.link_id = links.id\
-        WHERE bookmarks.username = $1 ORDER BY bookmarks.created DESC;";
-        dbconnect.pgConnect(call,[username]).catch(function(err){
+        if (!info.loggedin) {
+            var call = "SELECT * FROM links LEFT JOIN bookmarks ON bookmarks.link_id = links.id\
+            WHERE bookmarks.username = $1 ORDER BY bookmarks.created DESC;";
+            var params = [info.username];
+        } else {
+            call = 'SELECT * FROM links LEFT JOIN bookmarks AS b1 ON b1.link_id = links.id AND b1.username = $1\
+            LEFT JOIN bookmarks AS b2 ON b2.link_id = links.id WHERE b2.username = $2 NOT b2.bookmarked ORDER BY b2.created DESC;';
+            params = [info.loggedin, info.username];
+        }
+        dbconnect.pgConnect(call, params).catch(function(err){
             reject(err);
         }).then(function(data){
             resolve(data.rows);
@@ -99,15 +119,20 @@ exports.retrieveBookmarkedLinks = function(username){
 };
 exports.retrieveComments = function(username){
     return new Promise(function(resolve,reject){
-        var call = "SELECT * FROM comments WHERE username = $1;";
+        var call = "SELECT * FROM comments WHERE username = $1 ORDER BY created DESC;";
         callDB(call,[username],resolve,reject);
     });
 };
-exports.retrieveLink = function(link_ids){
+exports.retrieveLink = function(link_ids,loggedin){
     return new Promise(function(resolve,reject){
-        //order by comment created date
-        var call = "SELECT * FROM links WHERE id = $1;";
-        callDB(call,link_ids,resolve,reject);
+        if (!loggedin) {
+            var call = "SELECT * FROM links WHERE id = ANY($1);";
+            var params = [link_ids];
+        } else {
+            call = 'SELECT * FROM links LEFT JOIN bookmarks ON bookmarks.link_id = links.id AND bookmarks.username = $1 WHERE links.id = ANY($2);';
+            params = [loggedin, link_ids];
+        }
+        callDB(call,params,resolve,reject);
     });
 };
 exports.upvote = function(username){

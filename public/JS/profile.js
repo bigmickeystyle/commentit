@@ -6,6 +6,7 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
     if ($scope.username){
         $rootScope.username = $scope.username;
     }
+    $scope.username = user;
 
     $scope.countUpvotes = function(){
         $http.get('/upvotes', {
@@ -26,6 +27,7 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
         $scope.display.upvotes = false;
         $http.get('/user_comments', {
             params: {
+                loggedin: $rootScope.username,
                 username: user
             }
         }).success(function(data){
@@ -41,6 +43,7 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
         $scope.display.upvotes = false;
         $http.get('/user_links', {
             params: {
+                loggedin: $rootScope.username,
                 username: user
             }
         }).success(function(data){
@@ -55,6 +58,7 @@ var profilecontroller = function($scope, $state, $stateParams, $http, $rootScope
         $scope.display.upvotes = true;
         $http.get('/user_upvotes', {
             params: {
+                loggedin: $rootScope.username,
                 username: user
             }
         }).success(function(data){

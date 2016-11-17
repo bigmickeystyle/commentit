@@ -13,6 +13,7 @@ exports.upvote = function(info){
 };
 exports.bookmark = function(info){
     return new Promise(function(resolve, reject){
+        console.log(info);
         var call = 'INSERT INTO bookmarks (username, link_id) VALUES ($1, $2);';
         var params = [info.username, info.link_id];
         dbconnect.pgConnect(call, params).catch(function(err){
@@ -41,18 +42,6 @@ exports.retrieveUpvote = function(info){
             reject(err);
         }).then(function(data){
             resolve(data.rows[0]);
-        });
-    });
-};
-exports.retrieveLinks = function(link_ids){
-    return new Promise(function(resolve,reject){
-        //order by comment created date
-        console.log("retrieving");
-        var call = "SELECT * FROM links WHERE id = ANY($1);";
-        dbconnect.pgConnect(call, [link_ids]).catch(function(err){
-            reject(err);
-        }).then(function(data){
-            resolve(data.rows)
         });
     });
 };

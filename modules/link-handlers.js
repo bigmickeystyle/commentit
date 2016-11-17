@@ -1,17 +1,33 @@
 const dbconnect = require('./dbconnect.js');
 
-exports.retrieve = function (){
+exports.retrieve = function (loggedin){
     return new Promise(function(resolve, reject){
-        dbconnect.pgConnect('SELECT * from links ORDER BY Created DESC;').then(function(results){
+        if (!loggedin) {
+            var call = 'SELECT * FROM links ORDER BY Created DESC;';
+            var params = [];
+            console.log('no' + loggedin);
+        } else {
+            call = 'SELECT * FROM links LEFT JOIN bookmarks ON bookmarks.link_id = links.id AND bookmarks.username = $1 ORDER BY links.created DESC;';
+            params = [loggedin];
+            console.log("yes" + loggedin);
+        }
+        dbconnect.pgConnect(call, params).then(function(results){
             resolve(results.rows);
         }).catch(function(err){
             reject(err);
         });
     });
 };
-exports.retrievePopular = function (){
+exports.retrievePopular = function (loggedin){
     return new Promise(function(resolve, reject){
-        dbconnect.pgConnect('SELECT * from links ORDER BY upvote_count DESC;').then(function(results){
+        if (!loggedin) {
+            var call = 'SELECT * FROM links ORDER BY upvote_count DESC;';
+            var params = [];
+        } else {
+            call = 'SELECT * FROM links LEFT JOIN bookmarks ON bookmarks.link_id = links.id AND bookmarks.username = $1 ORDER BY links.upvote_count DESC;';
+            params = [loggedin];
+        }
+        dbconnect.pgConnect(call, params).then(function(results){
             resolve(results.rows);
         }).catch(function(err){
             reject(err);

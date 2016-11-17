@@ -7,18 +7,41 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
     }
 
     $scope.sortByPopularity = function(){
-        $http.get('/popularlinks').then(function(links){
+        $http.get('/popularlinks', {
+            params: {
+                loggedin: $rootScope.username
+            }
+        }).then(function(links){
             $scope.links = links.data.links;
-            $scope.showComments($scope.links[0]);
+            console.log($scope.links);
+            if ($scope.links != undefined) {
+                if ($scope.links.length != 0) {
+                    $scope.nolinks = false;
+                    $scope.showComments($scope.links[0]);
+                }
+            } else {
+                $scope.nolinks = true;
+            }
         });
         $scope.recentSort = false;
         $scope.popularitySort = true;
     };
     $scope.sortByTimestamp = function(){
-        $http.get('/links').then(function(links){
+        $http.get('/links', {
+            params: {
+                loggedin: $rootScope.username
+            }
+        }).then(function(links){
             $scope.links = links.data.links;
-            $scope.showComments($scope.links[0]);
-            console.log(links);
+            console.log($scope.links);
+            if ($scope.links != undefined) {
+                if ($scope.links.length != 0) {
+                    $scope.nolinks = false;
+                    $scope.showComments($scope.links[0]);
+                }
+            } else {
+                $scope.nolinks = true;
+            }
         });
         $scope.recentSort = true;
         $scope.popularitySort = false;
@@ -28,8 +51,14 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $scope.location = "nothome";
         $scope.$watch('change', function(values){
             $scope.links = $scope.$parent.links;
-            if ($scope.links) {
-                $scope.showComments($scope.links[0]);
+            console.log($scope.links);
+            if ($scope.links != undefined) {
+                if ($scope.links.length != 0) {
+                    $scope.nolinks = false;
+                    $scope.showComments($scope.links[0]);
+                }
+            } else {
+                $scope.nolinks = true;
             }
         });
     } else {
@@ -196,10 +225,12 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
             return;
         }
         if (!link.bookmarked) {
+            console.log(link);
             $http.post('/bookmark',{
                 username: $scope.username,
                 link_id: link.id
             }).then(function(){
+                console.log("successfully bookmarked");
                 link.bookmarked = true;
             });
         } else {
@@ -207,6 +238,7 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                 username: $scope.username,
                 link_id: link.id
             }).then(function(){
+                console.log("successfully unbookmarked");
                 link.bookmarked = false;
             });
         }
