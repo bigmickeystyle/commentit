@@ -106,8 +106,11 @@ exports.retrieveBookmarkedLinks = function(info){
             WHERE bookmarks.username = $1 ORDER BY bookmarks.created DESC;";
             var params = [info.username];
         } else {
-            call = 'SELECT * FROM links LEFT JOIN bookmarks AS b1 ON b1.link_id = links.id AND b1.username = $1\
-            LEFT JOIN bookmarks AS b2 ON b2.link_id = links.id WHERE b2.username = $2 NOT b2.bookmarked ORDER BY b2.created DESC;';
+            call = 'SELECT links.id, links.url, links.username, links.created, links.siteName, links.siteType, links.headline, links.description,\
+            links.image, links.thumbnail, links.tags, links.upvote_count, b1.bookmark_id, b1.created, b1.username, b1.link_id, b1.bookmarked,\
+            b2.bookmark_id, b2.created, b2.username, b2.link_id FROM links\
+            LEFT JOIN bookmarks AS b1 ON b1.link_id = links.id AND b1.username = $1\
+            LEFT JOIN bookmarks AS b2 ON b2.link_id = links.id WHERE b2.username = $2 ORDER BY b2.created DESC;';
             params = [info.loggedin, info.username];
         }
         dbconnect.pgConnect(call, params).catch(function(err){
