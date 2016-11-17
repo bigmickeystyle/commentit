@@ -19,6 +19,7 @@ exports.postComment = function (comment, link, parent, user) {
         if (parent){
             dbconnect.pgConnect("UPDATE comments SET replies = replies + 1 WHERE id=$1", [parent]);
         }
+        console.log(link);
         var call = "INSERT INTO comments (parent_id, link_id, username, comment, upvote_count) VALUES ($1, $2, $3, $4, $5) RETURNING *";
         var vals = [parent, link.id, user, comment, 1];
         callDB(call, vals, resolve, reject);
