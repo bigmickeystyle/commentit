@@ -68,6 +68,7 @@
 
 .comment {
     border: 1px solid black;
+    margin-left: 40px;
 }
 
 .linked-pic-box {
@@ -105,7 +106,8 @@
 }
 
 
-.comments {
+.comment {
+
 }
 
 .item {
@@ -129,6 +131,35 @@
 
 .star {
     margin-top: 5px;
+}
+
+.bookmarked {
+    background-color: yellow;
+}
+
+.liked {
+    background-color: yellow;
+}
+
+#comments-box {
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.child1 {
+    margin-left: 50px;
+    background-color: whitesmoke;
+}
+
+.child2 {
+    margin-left: 60px;
+    background-color: lavenderblush;
+}
+
+.child0 {
+    margin-left: 70px;
+    background-color: lightgoldenrodyellow;
 }
 
 @media (max-width: 992px) {
