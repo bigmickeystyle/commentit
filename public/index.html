@@ -2,8 +2,9 @@
 <html>
 <head>
     <title>Comment It</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link type="text/css" rel="stylesheet" href="/CSS/stylesheet.css"/>
+    <link rel="shortcut icon" type="image/png" href="/public/images/logo.png">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
@@ -13,20 +14,52 @@
     <script src="/JS/register.js"></script>
     <script src="/JS/profile.js"></script>
     <script src="/JS/login.js"></script>
+    <script src="/JS/bookmarks.js"></script>
     <script src="/JS/settings.js"></script>
     <script src="/JS/angular-router.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body ng-app="CommentIt">
-    <a ui-sref="home">Home</a>
-    <div class="menu_options" ng-show="!username">
-        <a ui-sref="login">Login</a> or <a ui-sref="register">Register</a>
-    </div>
-    <!-- make these two buttons only available with cookie -->
-    <div class="menu_options" ng-show="username">
-        <p>{{username}}</p>
-        <a ui-sref="profile({user: username})">My Profile</a>
-        <a ui-sref="settings">My User Settings</a>
-    </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="https://comment-on-it.herokuapp.com">ComntIt</a>
+            </div>
+            <ul class="nav nav-pills" ng-show="!username">
+                <li><a ui-sref="home">Home</a></li>
+                <li><a ui-sref="login">Login</a></li>
+                <li><a ui-sref="register">Register</a></li>
+            </ul>
+            <!-- make these two buttons only available with cookie -->
+            <ul class="nav navbar-nav" ng-cloak ng-show="username">
+                <li><a ui-sref="home">Home</a></li>
+                <li><a ui-sref="home">Hi {{username}}!</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right nav-pills" ng-cloak ng-show="username">
+                <li><a ui-sref="profile({user: username})"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                <li><a ui-sref="bookmarks({user: username})"><span class="glyphicon glyphicon-user"></span> Bookmarks</a></li>
+                <li><a ui-sref="settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                <li><a ui-sref="upload"><span class="glyphicon glyphicon-link"></span> Submit a Link</a></li>
+                <li><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signout"><span class="glyphicon glyphicon-log-out"></span> Log Out</button></li>
+            </ul>
+            <div ng-controller="logoutcontroller" id="signout" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Log Out?! Are you sure?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <a ui-sref="home"><button ng-click="logout()" type="button" class="btn btn-default" data-dismiss="modal">YES!</button></a>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </nav>
+
     <div ui-view></div>
 </body>
 </html>

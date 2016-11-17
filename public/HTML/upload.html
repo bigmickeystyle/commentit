@@ -1,4 +1,4 @@
-    <div class="fullpagedisplay" id="uploadpage">
+    <div ng-cloak class="fullpagedisplay" id="uploadpage">
         <h2>Upload a link to share!</h2>
         <form name="uploadform" ng-submit="parse()" ng-show="!parsed">
             <div class="form-group" ng-class="{'input-error': uploadform.link.$error && uploadform.link.$touched}">
@@ -18,7 +18,7 @@
             <!-- add error handlers -->
         </form>
         <div name="spinner" id="loader" ng-show="loading"></div>
-        <div name="verification" id="verify-parse" ng-show="parsed && !editing && !saved">
+        <div name="verification" id="verify-parse" ng-show="parsed && !editing && !saved && !message">
             <div class="row">
                 <img class="parsed-info col-md-3 img-circle img-responsive" name="image" src="{{parsed_info.image}}"/>
                 <img class="parsed-info col-md-1 img-circle img-responsive" name="thumbnail" src="{{parsed_info.thumbnail}}"/>
@@ -37,7 +37,7 @@
             </div>
         </div>
         <!-- work on this div including the form to edit information.  -->
-        <div name="editlink" id="verify-parse" ng-show="parsed && editing">
+        <div name="editlink" id="verify-parse" ng-show="parsed && editing && !message">
             <form ng-submit="submit()">
                 <div class="parsed-info" name="url">{{parsed_info.url}}</div>
                 <div class="parsed-info" name="title">{{parsed_info.title}}</div>
@@ -63,11 +63,15 @@
                 <!-- add an error block for anything -->
             </form>
         </div>
-        <div name="saved" id="saved-parse" ng-show="parsed && !editing && saved">
+        <div name="saved" id="saved-parse" ng-show="parsed && !editing && saved && !message">
             <div>Thanks for submitting {{parsed_info.title}}!</div>
             <!-- add this once the angular router is instantiated -->
             <div>Would you like to:</div>
             <button ng-click="reload()">Submit another link!</button>
             <!-- <button ui-sref=".link">Add some comments!</button> -->
             <button ui-sref="home">See all the links!</button>
+        </div>
+        <div name="message" id="error-message" ng-show="message">
+            <div class="parsed-info" name="message">{{message}}</div>
+            <button class="parsed-info" ng-click="reload()">Try again!</button>
         </div>

@@ -1,22 +1,8 @@
 
-.comments {
-    height: 1000px;
-    background-color: grey;
+.like {
+    width: 30px;
+    height: 30px;
 }
-
-.item {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 15px;
-    border-style: inset;
-}
-
-.item:hover {
-    background-color: gainsboro;
-    border-style: groove;
-    cursor: pointer;
-}
-
 #loader {
   position: absolute;
   left: 50%;
@@ -62,10 +48,11 @@
   to{ bottom:0; opacity:1 }
 }
 
-.reveal-comments {
-    transition-property: height;
-    transition-duration: 4s;
-    height: 100%;
+.empty {
+    opacity: 0;
+}
+.revealcomments {
+    font-weight: bold;
 }
 
 .active {
@@ -78,6 +65,7 @@
 
 .comment {
     border: 1px solid black;
+    margin-left: 40px;
 }
 
 .linked-pic-box {
@@ -87,4 +75,125 @@
 .linked-pic {
     width: 100%;
     height: 100%;
+    border-radius: 35px;
+}
+
+.header {
+    border: 2px solid black;
+}
+
+.link-logo {
+    height: 75px;
+    width: 75px;
+}
+
+.profile-box {
+    background-color: darkseagreen;
+    border-radius: 15px;
+    margin-left: 10px;
+    min-width: 400px;
+}
+
+.save-button {
+    margin-top: 10px;
+}
+
+.profile-title {
+    margin-left: 10px;
+}
+
+
+.comment {
+
+}
+
+.item {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    border-style: inset;
+    height: 135px;
+    overflow-y: auto;
+}
+
+.item:hover {
+    background-color: gainsboro;
+    border-style: groove;
+    cursor: pointer;
+}
+
+.news-thumb {
+    margin-top: 30px;
+}
+
+.star {
+    margin-top: 5px;
+}
+
+.bookmarked {
+    background-color: yellow;
+}
+
+.liked {
+    background-color: yellow;
+}
+
+#comments-box {
+    max-height: 1000px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.child1 {
+    margin-left: 50px;
+    background-color: whitesmoke;
+    transition-property: opacity;
+    transition-duration: 1s;
+    height: 100%;
+    opacity: 1;
+}
+
+.child2 {
+    margin-left: 60px;
+    background-color: lavenderblush;
+    transition-property: opacity;
+    transition-duration: 1s;
+    height: 100%;
+    opacity: 1;
+}
+
+.child3 {
+    margin-left: 70px;
+    background-color: lightgoldenrodyellow;
+    transition-property: opacity;
+    transition-duration: 1s;
+    opacity: 1;
+}
+
+.inline-commentBox {
+    margin-top: 5px;
+    margin-bottom: 60px;
+}
+
+@media (max-width: 992px) {
+    .comments {
+        position: fixed;
+        height: 45%;
+        overflow-x: auto;
+    }
+
+    .item {
+        width: 100%;
+    }
+
+    p {
+        font-size: xx-small;
+    }
+
+    .links {
+        position: fixed;
+        top: 50%;
+        height: 45%;
+        overflow-x: auto;
+    }
 }

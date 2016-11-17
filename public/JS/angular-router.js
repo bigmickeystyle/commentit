@@ -20,8 +20,29 @@ myapp.config(function($stateProvider, $urlRouterProvider){
     })
     .state('profile', {
         url: '/profile/:user',
-        templateUrl: '..//HTML/profile.html',
-        controller: 'profilecontroller'
+        views: {
+            '': {
+                templateUrl: '..//HTML/profile.html',
+                controller: 'profilecontroller'
+            },
+            'links@profile': {
+                templateUrl: '..//HTML/home.html',
+                controller: 'homecontroller'
+            }
+        }
+    })
+    .state('bookmarks', {
+        url: '/bookmarks/:user',
+        views: {
+            '': {
+                templateUrl: '../HTML/bookmarks.html',
+                controller: 'bookmarkscontroller'
+            },
+            'links@bookmarks': {
+                templateUrl: '..//HTML/home.html',
+                controller: 'homecontroller'
+            }
+        }
     })
     .state('login', {
         url: '/login',
@@ -32,12 +53,8 @@ myapp.config(function($stateProvider, $urlRouterProvider){
         url: '/settings',
         templateUrl: '..//HTML/settings.html',
         controller: 'settingscontroller'
-    })   
-    .state('home.comments', {
-        url: '/comments',
-        templateUrl: '..//HTML/comments.html',
-        controller: 'homecontroller'
     });
+});
 
 myapp.controller('homecontroller', homecontroller);
 myapp.controller('uploadcontroller', uploadcontroller);
@@ -45,3 +62,11 @@ myapp.controller('registercontroller', registercontroller);
 myapp.controller('profilecontroller', profilecontroller);
 myapp.controller('logincontroller', logincontroller);
 myapp.controller('settingscontroller', settingscontroller);
+myapp.controller('bookmarkscontroller', bookmarkscontroller);
+
+myapp.controller('logoutcontroller', function($scope, $cookies, $rootScope) {
+    $scope.logout = function(){
+        $rootScope.username = undefined;
+        $cookies.remove('username');
+    };
+});

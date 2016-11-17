@@ -1,6 +1,8 @@
 DROP TABLE users CASCADE;
 DROP TABLE links CASCADE;
 DROP TABLE comments CASCADE;
+DROP TABLE upvotes CASCADE;
+DROP TABLE bookmarks CASCADE;
 
 CREATE TABLE users (
     id SERIAL primary key,
@@ -16,8 +18,7 @@ CREATE TABLE users (
     interests TEXT[],
     -- set equal to the URL ids bookmarked
     bookmarks TEXT[],
-    -- set equal to the URL ids already upvoted
-    upvotes TEXT[]
+    upvotes INT DEFAULT 0
 );
 CREATE TABLE links (
     id SERIAL primary key,
@@ -34,15 +35,28 @@ CREATE TABLE links (
     image TEXT,
     thumbnail TEXT,
     tags TEXT[],
-    upvote_count INT DEFAULT 0,
-    upvoted_users TEXT[]
+    upvote_count INT DEFAULT 0
 );
 CREATE TABLE comments (
     id SERIAL primary key,
+    created TIMESTAMP DEFAULT now(),
     parent_id INT,
     link_id INT not null references links(id),
     username VARCHAR(25) not null references users(username),
     comment TEXT not null,
     upvote_count INT DEFAULT 0,
     replies INT DEFAULT 0
-)
+);
+CREATE TABLE upvotes (
+    id SERIAL primary key,
+    created TIMESTAMP DEFAULT now(),
+    username VARCHAR(25) not null references users(username),
+    link_id INT not null references links(id)
+);
+CREATE TABLE bookmarks (
+    bookmark_id SERIAL primary key,
+    created TIMESTAMP DEFAULT now(),
+    username VARCHAR(25) not null references users(username),
+    link_id INT not null references links(id),
+    bookmarked BOOLEAN DEFAULT true
+);
