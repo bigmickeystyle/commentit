@@ -73,12 +73,10 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         return $scope.commentSelected === comment;
     };
     $scope.showComments = function(link){
-        console.log(link);
         $scope.commentSelected = null;
         currentLink = link;
         $scope.linkSelected = link;
         var linkId = link.id;
-        angular.element('#'+linkId).addClass("reveal-comments");
         if ($scope.$parent.comments){
             $scope.comments = $scope.$parent.comments.filter(function(comment){
                 console.log(comment);
@@ -98,6 +96,9 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     $scope.linkSelected.upvoted = true;
                 }
                 $scope.comments = results.data.comments;
+                $scope.comments.forEach(function(each){
+                    each.level = 0;
+                });
             }).catch(function(err){
                 console.log(err);
             });
@@ -109,7 +110,6 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                 //save current window location so after the user logs in we can redirect them back here
                 return;
             }
-            console.log(currentLink);
             if(!$scope.commentSelected){
                 $http.post('/comments', {
                     comment: $scope.commenttext,
@@ -119,15 +119,17 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     $scope.comments.push(results.data.comments[0]);
                 });
             }
-            else{
+            else {
                 $http.post('/comments', {
                     comment: $scope.commenttext,
                     link: currentLink,
                     user: $scope.username,
                     parent: $scope.commentSelected.id
                 }).then(function(results){
-                    console.log($scope.comments.indexOf($scope.commentSelected));
-                    $scope.comments.splice($scope.comments.indexOf($scope.commentSelected) + 1, 0, results.data.comments[0]);
+                    results.data.comments[0].displayCommentBox = true;
+                    console.log($scope.commentBox);
+                    $scope.comments.splice($scope.comments.indexOf($scope.commentBox) + 1, 0, results.data.comments[0]);
+                    $scope.commentBox.displayCommentBox = false;
                     $scope.commentSelected.replies += 1;
                 });
             }
@@ -157,7 +159,6 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
             $scope.expandedComments = [comment];
             $scope.commentSelected = comment;
             var commentId = this.comment.id;
-            angular.element('#'+commentId).addClass("reveal-comments");
             $http.get('/comments/child', {
                 params: {
                     id: commentId
@@ -175,14 +176,17 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     } else {
                         $scope.childcomments = [results.data.comments];
                     }
-                    $scope.comments = first.concat(results.data.comments).concat(second);
+                    $scope.comments = first.concat(results.data.comments);
+                    $scope.commentBox = $scope.comments[$scope.comments.length -1];
+                    $scope.commentBox.displayCommentBox = true;
+                    $scope.comments  = $scope.comments.concat(second);
                 }
             });
         } else if ($scope.expandedComments.indexOf(comment) == -1){
             $scope.expandedComments.push(comment);
-            $scope.commentSelected = comment;
             commentId = this.comment.id;
-            angular.element('#'+commentId).addClass("reveal-comments");
+            // angular.element('#'+commentId).addClass("revealcomments").removeClass("comment");
+            $scope.commentSelected = comment;
             $http.get('/comments/child', {
                 params: {
                     id: commentId
@@ -206,13 +210,29 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     } else {
                         $scope.childcomments = [results.data.comments];
                     }
-                    $scope.comments = first.concat(results.data.comments).concat(second);
+                    $scope.comments.forEach(function(each){
+                        if(each.displayCommentBox){
+                            each.displayCommentBox = false;
+                        }
+                    });
+                    $scope.comments = first.concat(results.data.comments);
+                    $scope.commentBox = $scope.comments[$scope.comments.length -1];
+                    $scope.commentBox.displayCommentBox = true;
+                    $scope.comments  = $scope.comments.concat(second);
+                } else {
+                    $scope.comments.forEach(function(each){
+                        if(each.displayCommentBox){
+                            each.displayCommentBox = false;
+                        }
+                    });
+                    comment.displayCommentBox = true;
+
                 }
             });
         } else {
             $scope.expandedComments.splice($scope.expandedComments.indexOf(comment), 1);
             $scope.comments = $scope.comments.filter(function(commentToFilter){
-                return (commentToFilter['parent_id'] != comment.id);
+                return (commentToFilter.level <= comment.level);
             });
             commentId = this.comment.id;
             angular.element('#'+commentId).removeClass("reveal-comments");

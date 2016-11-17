@@ -2,44 +2,48 @@
     <div class="col-md-5 col-xs-12 pull-right comments">
         <a target="_blank" href="{{linkSelected.url}}"><div class="linked-pic-box"><img src="{{linkSelected.image}}" class="col-md-12 col-xs-6 linked-pic"></div></a>
         <div class="row">
-            <div class="col-md-11">Submitted By: {{linkSelected.username}} on {{linkSelected.created}}</div>
+            <div class="col-xs-11">Submitted By: {{linkSelected.username}} on {{linkSelected.created}}</div>
         </div>
         <div class="row">
             <div ng-click="upvote()" class="col-xs-12"><img src="images/like.png" class="like" ng-class="{'liked': linkSelected.upvoted}"></img></div>
         </div>
-        <div id="comments-box">
-            <div class="row" ng-if="comments.header">
-                <div class="col-md-12 header">{{comments.header.username}}: {{comments.header.comment}}</div>
-            </div>
+        <div id="comments-box" class="col-xs-12">
+            <form class="form-group col-xs-4 col-md-12">
+                    <label for="commenttext">Leave a Comment:</label>
+                    <textarea id="commenttext" ng-model="commenttext"></textarea><br>
+                    <button type="submit" class="btn btn-default"ng-click="submitComment()">Submit</button>
+            </form>
 
-
-
-
-                <div ng-repeat="comment in comments track by $index">
-                    <div class="row" ng-click="expand(comment)">
-                        <div class="col-md-8 comment child{{comment.level % 3}}" ng-class="{active : commentIsSelected(comment)}"><a ui-sref="profile">{{comment.username}}</a>: {{comment.comment}}</div><div class="col-md-2">{{comment.replies}}<span class="glyphicon glyphicon-menu-down"></div>
-                    </div>
-                    <!-- <div id="{{comment.id}}" class="empty">
-                        <div ng-repeat="childComment in comments.childcomments track by $index">
-                            <div ng-if="childComment.parent_id == comment.id" class="row" ng-click="replace(comment)">
-                                <div class="col-md-12" id="{{comment.id}}">
-                                        <div class="col-md-9 comment"><a ui-sref="profile">{{childComment.username}}</a>: {{childComment.comment}}</div><div class="col-md-2">{{childComment.replies}}<span class="glyphicon glyphicon-menu-down"></span> </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+            <div class="col-xs-8 col-md-12" ng-repeat="comment in comments track by $index">
+                <div class="row" ng-click="expand(comment)">
+                    <div ng-class="{revealcomments : commentIsSelected(comment)}" class="col-md-8 comment child{{comment.level % 4}}"><a ui-sref="profile">{{comment.username}}</a>: <p>{{comment.comment}}</p></div><div class="col-xs-2">{{comment.replies}}<span class="glyphicon glyphicon-menu-down"></div>
                 </div>
-
-
-
+                <div ng-if="comment.displayCommentBox">
+                    <button type="button" class ="col-xs-12" data-toggle="modal" data-target="#leavecomment">Reply?</button>
+                </div>
+            </div>
         </div>
-        <form class="form-group">
-                <label class="col-xs-12" for="commenttext">Leave a Comment:</label>
-                <textarea class="col-xs-11 pull-right" id="commenttext" ng-model="commenttext"></textarea><br>
-                <button type="submit" class="btn btn-default pull-right" ng-click="submitComment()">Submit</button>
-        </form>
+        <div id="leavecomment" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Reply<h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group">
+                                <label class="col-xs-12" for="commenttext">Reply:</label>
+                                <textarea class="col-xs-11 pull-right" id="commenttext" ng-model="commenttext"></textarea><br>
+                                <button type="submit" class="btn btn-default" data-dismiss="modal" ng-click="submitComment()">Submit</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-xs-12 col-md-7 links">
         <div ng-show="location == 'home'">
             <div ng-show="recentSort"><a ng-click="sortByPopularity()">Sort by Popularity</a></div>
             <div ng-show="popularitySort"><a ng-click="sortByTimestamp()">Sort by Most Recent</a></div>
@@ -51,13 +55,13 @@
                     <a target="_blank" href="{{link.url}}"><img class="link-logo media-object news-thumb" src="{{link.thumbnail}}"></a>
                 </div>
                 <div class="media-body">
-                    <div class="col-md-10 text-center"><h4>{{link.headline}}</h4></div>
-                    <div class="star pull-right col-xs-1" ng-class="{'bookmarked': link.bookmarked}">
-                        <img class="img-responsive"  ng-click="bookmark(link)" src="./public/images/emptystar.png"></img>
-                        <div class="col-xs-1"<p>{{link.upvote_count}}</p></div>
+                    <div class="col-xs-10 text-center"><h4>{{link.headline}}</h4></div>
+                    <div class="star pull-right col-xs-1">
+                        <img class="img-responsive img-circle"   ng-class="{'bookmarked': link.bookmarked}" ng-click="bookmark(link)" src="./public/images/emptystar.png"></img>
+                        <div class="col-xs-1"<h3>{{link.upvote_count}}</h3></div>
                     </div>
                     <div class="row">
-                        <div class="col-md-11 pull-left">{{link.description}}</div>
+                        <div class="col-xs-11 pull-left"><p>{{link.description}}</p></div>
                     </div>
                 </div>
             </div>

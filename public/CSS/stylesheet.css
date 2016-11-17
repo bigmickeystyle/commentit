@@ -51,11 +51,8 @@
 .empty {
     opacity: 0;
 }
-.reveal-comments {
-    transition-property: opacity;
-    transition-duration: 1s;
-    height: 100%;
-    opacity: 1;
+.revealcomments {
+    font-weight: bold;
 }
 
 .active {
@@ -116,7 +113,7 @@
     border-radius: 15px;
     border-style: inset;
     height: 135px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .item:hover {
@@ -142,32 +139,61 @@
 }
 
 #comments-box {
-    max-height: 500px;
-    overflow-y: scroll;
+    max-height: 1000px;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
 .child1 {
     margin-left: 50px;
     background-color: whitesmoke;
+    transition-property: opacity;
+    transition-duration: 1s;
+    height: 100%;
+    opacity: 1;
 }
 
 .child2 {
     margin-left: 60px;
     background-color: lavenderblush;
+    transition-property: opacity;
+    transition-duration: 1s;
+    height: 100%;
+    opacity: 1;
 }
 
-.child0 {
+.child3 {
     margin-left: 70px;
     background-color: lightgoldenrodyellow;
+    transition-property: opacity;
+    transition-duration: 1s;
+    opacity: 1;
+}
+
+.inline-commentBox {
+    margin-top: 5px;
+    margin-bottom: 60px;
 }
 
 @media (max-width: 992px) {
     .comments {
-        display: fixed;
+        position: fixed;
+        height: 45%;
+        overflow-x: auto;
     }
 
     .item {
+        width: 100%;
+    }
 
+    p {
+        font-size: xx-small;
+    }
+
+    .links {
+        position: fixed;
+        top: 50%;
+        height: 45%;
+        overflow-x: auto;
     }
 }
