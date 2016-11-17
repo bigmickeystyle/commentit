@@ -52,7 +52,7 @@
                 </div>
                 <div class="media-body">
                     <div class="col-md-10 text-center"><h4>{{link.headline}}</h4></div>
-                    <div class="star pull-right col-xs-1 {'bookmarked': [link.bookmarked]}">
+                    <div class="star pull-right col-xs-1" ng-class="{'bookmarked': link.bookmarked}">
                         <img class="img-responsive"  ng-click="bookmark(link)" src="./public/images/emptystar.png"></img>
                         <div class="col-xs-1"<p>{{link.upvote_count}}</p></div>
                     </div>
