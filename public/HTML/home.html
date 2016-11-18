@@ -19,7 +19,7 @@
 
             <div class="col-xs-8 col-md-12" ng-repeat="comment in comments track by $index">
                 <div class="row" ng-click="expand(comment)">
-                    <div ng-class="{revealcomments : commentIsSelected(comment)}" class="col-md-8 comment child{{comment.level % 4}}"><a ui-sref="profile">{{comment.username}}</a>: <p>{{comment.comment}}</p></div><div class="col-xs-2">{{comment.replies}}<span class="glyphicon glyphicon-menu-down"></div>
+                    <div ng-class="{revealcomments : commentIsSelected(comment)}" class="col-md-8 comment child{{comment.level % 4}}"><a href="/#/profile/{{comment.username}}">{{comment.username}}</a>: <p>{{comment.comment}}</p></div><div class="col-xs-2">{{comment.replies}}<span class="glyphicon glyphicon-menu-down"></div>
                 </div>
                 <div ng-if="comment.displayCommentBox">
                     <button type="button" class ="col-xs-12" data-toggle="modal" data-target="#leavecomment">Reply?</button>
