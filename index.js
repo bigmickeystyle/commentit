@@ -33,20 +33,34 @@ app.post('/register', function(req, res) {
     //handle passport registration
     check_inputs.signin(req.body.user).catch(function(error_field){
         console.log(error("input " + error_field + " not correct"));
-        //make sure an error message shows up.
+        res.json({
+            success: false,
+            message: error_field + " Please try again."
+        });
         throw error_field;
     }).then(function(){
         user.checkDB(req.body.user.username).catch(function(err){
             console.log(error("Error in Register Post"));
+            res.json({
+                success: false,
+                message: "Unknown error. Please try again."
+            });
             throw err;
-            //message
         }).then(function(id){
             if (id.id) {
                 console.log(blue("username already exists"));
-                //message "that username has already been registered. try logging in."
+                res.json({
+                    success: false,
+                    message: "That username has already been registered. Try logging in."
+                });
+                throw "taken";
             } else {
                 user.saveRegistration(req.body.user).catch(function(err){
                     console.log(error("error putting info in database"));
+                    res.json({
+                        success: false,
+                        message: "Error putting info in database. Please try again."
+                    });
                     throw err;
                 }).then(function(){
                     res.json({
@@ -60,25 +74,38 @@ app.post('/register', function(req, res) {
 app.post('/login', function(req,res){
     check_inputs.signin(req.body.user).catch(function(error_field){
         console.log(error("input " + error_field + " not correct"));
-        //make sure an error message shows up.
+        res.json({
+            success: false,
+            message: error_field + " was not correct. Please try again."
+        });
         throw error_field;
     }).then(function(){
         user.checkDB(req.body.user.username).catch(function(){
             console.log(error("Username not found"));
+            res.json({
+                success: false,
+                message: "Username not found"
+            });
             throw "error";
-            //message for username not found, please try again or register
         }).then(function(data){
             bcrypt.checkPassword(req.body.user.password, data[0].password).catch(function(err){
                 console.log(error("Error checking password"));
+                res.json({
+                    success: false,
+                    message: "Error checking password"
+                });
                 throw err;
-                //message please try again
             }).then(function(matches){
                 //set cookie
                 if (matches) {
                     res.json({success:true});
                 } else {
                     console.log(blue("Incorrect password"));
-                    //message
+                    res.json({
+                        success: false,
+                        message: "Incorrect password"
+                    });
+                    throw "incorrect";
                 }
             });
         });
@@ -132,6 +159,9 @@ app.post('/comments', function (req, res){
             });
         }).catch(function(err){
             console.log(err);
+            res.json({
+                success: false
+            });
         });
     } else {
         comments.postComment(req.body.comment, req.body.link, 0, req.body.user).then(function(returnedComments){
@@ -141,6 +171,9 @@ app.post('/comments', function (req, res){
             });
         }).catch(function(err){
             console.log(err);
+            res.json({
+                success: false
+            });
         });
     }
 });
@@ -257,7 +290,6 @@ app.get('/user-settings', function(req,res){
         console.log(error("error getting user settings from database"));
         throw err;
     }).then(function(info){
-        console.log(blue("Info got"));
         res.json({
             success: true,
             info: info[0]
@@ -267,14 +299,19 @@ app.get('/user-settings', function(req,res){
 app.post('/edit-user', function(req,res){
     check_inputs.profile(req.body.info).catch(function(error_field){
         console.log(error("input " + error_field + " not correct"));
-        //make sure an error message shows up.
+        res.json({
+            success: false,
+            message: error_field + " Please try again."
+        });
         throw error_field;
     }).then(function(){
         user.editProfile(req.body.info).catch(function(err){
             console.log(error("error saving to the database"));
-            console.log(err);
+            res.json({
+                success: false,
+                message: "Error saving to database. Please try again."
+            });
             throw err;
-            //give message about error
         }).then(function(){
             res.json({success:true});
         });
@@ -309,7 +346,10 @@ app.post('/parse', function(req,res){
 app.post('/save/link', function(req,res){
     link.upload(req).catch(function(error){
         console.log(error("error saving to database"));
-        //show this in a message
+        res.json({
+            success: false,
+            message: "Error saving to database. Please try again."
+        });
         throw error;
     }).then(function(){
         res.json({success:true});

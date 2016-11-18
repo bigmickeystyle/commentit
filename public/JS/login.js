@@ -8,10 +8,15 @@ var logincontroller = function($scope, $http, $rootScope, $window, $location, $c
         var user = this.user;
         $http.post('/login', {
             user: user
-        }).success(function(){
-            $cookies.put("username", user.username);
-            $rootScope.username = user.username;
-            $location.path('/home');
+        }).then(function(info){
+            if (info.data.success) {
+                $scope.message = undefined;
+                $cookies.put("username", user.username);
+                $rootScope.username = user.username;
+                $location.path('/home');
+            } else {
+                $scope.message = info.data.message;
+            }
         });
     };
 };

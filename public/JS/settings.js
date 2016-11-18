@@ -20,10 +20,13 @@ var settingscontroller = function($scope, $http, $rootScope, $window, $cookies){
     $scope.edit = function(){
         $http.post('/edit-user', {
             info: $scope.user
-        }).then(function(){
-            console.log("updated");
-        }).catch(function(err){
-            console.log(err);
+        }).then(function(info){
+            if (info.data.success) {
+                console.log("updated");
+                $scope.message = "Profile updated successfully";
+            } else {
+                $scope.message = info.data.message;
+            }
         });
     };
 };

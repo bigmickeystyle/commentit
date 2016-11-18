@@ -106,8 +106,8 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         $scope.submitComment = function(){
             if ($scope.username == undefined) {
                 console.log("Need to be logged in!");
-                //display this error
-                //save current window location so after the user logs in we can redirect them back here
+                $scope.comment = {};
+                $scope.comment.message = "Need to be logged in to comment!";
                 return;
             }
             if(!$scope.commentSelected){
@@ -126,11 +126,15 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     user: $scope.username,
                     parent: $scope.commentSelected.id
                 }).then(function(results){
-                    results.data.comments[0].displayCommentBox = true;
-                    console.log($scope.commentBox);
-                    $scope.comments.splice($scope.comments.indexOf($scope.commentBox) + 1, 0, results.data.comments[0]);
-                    $scope.commentBox.displayCommentBox = false;
-                    $scope.commentSelected.replies += 1;
+                    if (results.success){
+                        results.data.comments[0].displayCommentBox = true;
+                        console.log($scope.commentBox);
+                        $scope.comments.splice($scope.comments.indexOf($scope.commentBox) + 1, 0, results.data.comments[0]);
+                        $scope.commentBox.displayCommentBox = false;
+                        $scope.commentSelected.replies += 1;
+                    } else {
+                        $scope.comments.message = "Error posting comment";
+                    }
                 });
             }
         };
