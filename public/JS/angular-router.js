@@ -64,9 +64,10 @@ myapp.controller('logincontroller', logincontroller);
 myapp.controller('settingscontroller', settingscontroller);
 myapp.controller('bookmarkscontroller', bookmarkscontroller);
 
-myapp.controller('logoutcontroller', function($scope, $cookies, $rootScope) {
+myapp.controller('logoutcontroller', function($scope, $state, $stateParams, $window, $cookies, $rootScope) {
     $scope.logout = function(){
         $rootScope.username = undefined;
         $cookies.remove('username');
+        $state.transitionTo($state.current, $stateParams, { reload: true, inherit: false, notify: true });
     };
 });

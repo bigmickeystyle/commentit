@@ -9,10 +9,15 @@ console.log($scope.username);
         var user = this.user;
         $http.post('/register', {
             user: user
-        }).then(function(){
-            $cookies.put("username", user.username);
-            $rootScope.username = user.username;
-            $location.path('/profile');
+        }).then(function(info){
+            if (info.data.success) {
+                $scope.message = undefined;
+                $cookies.put("username", user.username);
+                $rootScope.username = user.username;
+                $location.path('/profile');
+            } else {
+                $scope.message = info.data.message;
+            }
         });
     };
 };

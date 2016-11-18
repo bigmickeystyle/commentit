@@ -9,6 +9,9 @@
             <h5>Feel free to change things around!</h5>
         </div>
     </div>
+    <div class="message" ng-show="message">
+        <p>{{message}}</p>
+    </div>
     <div class="profile-box row col-xs-7">
         <form name="profileform" ng-submit="edit()">
             <div class="form-group">
@@ -42,24 +45,11 @@
                 </div>
             </div>
             <div class="save-button form-group col-xs-12">
-                <button type="submit" class="submit-link" data-toggle="modal" data-target="#edit-profile">Save</button>
+                <button type="submit" class="submit-link" data-target="#edit-profile">Save</button>
             </div>
         </form>
     </div>
     <div class="col-xs-5"><img class=img-responsive src="./public/images/profile.png"></div>
-    <div id="edit-profile" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Profile Updated</h4>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 </div>
 

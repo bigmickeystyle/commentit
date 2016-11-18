@@ -2,7 +2,7 @@
 exports.signin = function(inputs){
     return new Promise(function(resolve,reject){
         if (!inputs.username){
-            reject("username");
+            reject("Username not correct.");
         } else {
             var error = checkPassword(inputs.password);
             if (error) {
@@ -16,12 +16,12 @@ exports.signin = function(inputs){
 exports.profile = function(inputs){
     return new Promise(function(resolve,reject){
         var error = checkPassword(inputs.password);
-        if (error == "password length") {
+        if (error == "Password length needs to be between 6 and 10 characters.") {
             reject(error);
-        } else if (error == "password not defined" || error == undefined){
+        } else if (error == "Password not defined." || error == undefined){
             if(inputs.email){
                 if (inputs.email.search("@") == -1){
-                    reject("email");
+                    reject("Email address not valid.");
                 } else {
                     resolve();
                 }
@@ -35,9 +35,9 @@ exports.profile = function(inputs){
 function checkPassword(password){
     if (password) {
         if (password.length < 6 || password.length > 10){
-            return "password length";
+            return "Password length needs to be between 6 and 10 characters.";
         }
     } else {
-        return "password not defined";
+        return "Password not defined.";
     }
 }
