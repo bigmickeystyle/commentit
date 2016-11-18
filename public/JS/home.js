@@ -73,6 +73,7 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
         return $scope.commentSelected === comment;
     };
     $scope.showComments = function(link){
+        $scope.justSubmitted = null;
         $scope.commentSelected = null;
         currentLink = link;
         $scope.linkSelected = link;
@@ -104,6 +105,11 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
             });
         }
         $scope.submitComment = function(){
+            if ($scope.justSubmitted){
+                $scope.justSubmitted.forEach(function(submission){
+                    submission.displayCommentBox = false;
+                });
+            }
             if ($scope.username == undefined) {
                 console.log("Need to be logged in!");
                 //display this error
@@ -126,9 +132,15 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     user: $scope.username,
                     parent: $scope.commentSelected.id
                 }).then(function(results){
+                    if ($scope.justSubmitted){
+                        $scope.justSubmitted.push(results.data.comments[0]);
+                    } else {
+                        $scope.justSubmitted = [results.data.comments[0]];
+                    }
                     results.data.comments[0].displayCommentBox = true;
                     console.log($scope.commentBox);
-                    $scope.comments.splice($scope.comments.indexOf($scope.commentBox) + 1, 0, results.data.comments[0]);
+                    var index = $scope.comments.indexOf($scope.commentBox) + $scope.justSubmitted.length;
+                    $scope.comments.splice(index, 0, results.data.comments[0]);
                     $scope.commentBox.displayCommentBox = false;
                     $scope.commentSelected.replies += 1;
                 });
@@ -176,6 +188,7 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     } else {
                         $scope.childcomments = [results.data.comments];
                     }
+                    console.log($scope.comments.length -1);
                     $scope.comments = first.concat(results.data.comments);
                     $scope.commentBox = $scope.comments[$scope.comments.length -1];
                     $scope.commentBox.displayCommentBox = true;

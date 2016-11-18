@@ -43,8 +43,12 @@ function parseUrl(url){
                         var submittedurl = require('url').parse(info.url);
                         thumb = submittedurl.protocol + '//' + submittedurl.hostname + thumbnail;
                         info.thumbnail = thumb;
+                        console.log("info");
+                        console.log(info);
                         resolve(info);
                     } else {
+                        console.log("info");
+                        console.log(info);
                         resolve(info);
                     }
                 }
