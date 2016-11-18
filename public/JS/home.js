@@ -112,8 +112,8 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
             }
             if ($scope.username == undefined) {
                 console.log("Need to be logged in!");
-                //display this error
-                //save current window location so after the user logs in we can redirect them back here
+                $scope.comment = {};
+                $scope.comment.message = "Need to be logged in to comment!";
                 return;
             }
             if(!$scope.commentSelected){
@@ -132,17 +132,21 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     user: $scope.username,
                     parent: $scope.commentSelected.id
                 }).then(function(results){
-                    if ($scope.justSubmitted){
-                        $scope.justSubmitted.push(results.data.comments[0]);
+                    if(results.success){
+                        if ($scope.justSubmitted){
+                            $scope.justSubmitted.push(results.data.comments[0]);
+                        } else {
+                            $scope.justSubmitted = [results.data.comments[0]];
+                        }
+                        results.data.comments[0].displayCommentBox = true;
+                        console.log($scope.commentBox);
+                        var index = $scope.comments.indexOf($scope.commentBox) + $scope.justSubmitted.length;
+                        $scope.comments.splice(index, 0, results.data.comments[0]);
+                        $scope.commentBox.displayCommentBox = false;
+                        $scope.commentSelected.replies += 1;
                     } else {
-                        $scope.justSubmitted = [results.data.comments[0]];
+                        $scope.comments.message = "Error posting comment";
                     }
-                    results.data.comments[0].displayCommentBox = true;
-                    console.log($scope.commentBox);
-                    var index = $scope.comments.indexOf($scope.commentBox) + $scope.justSubmitted.length;
-                    $scope.comments.splice(index, 0, results.data.comments[0]);
-                    $scope.commentBox.displayCommentBox = false;
-                    $scope.commentSelected.replies += 1;
                 });
             }
         };
