@@ -1,6 +1,5 @@
 <div ng-cloak class="fullpagedisplay" id="profilepage">
     <h2>{{username}}'s CommentIt Profile'</h2>
-    <!-- Give the links they've upvoted a function and div and such -->
         <p class="profile-link" ng-show="!display.upvotes">{{username}} has upvoted {{upvotes}} times!<a ng-click="displayUpvotes()">Click here to see which links they were.</a></p>
         <!-- <p ng-show="!display.bookmarks">{{username}} has bookmarked {{bookmarks}} links!<a ng-click="displayBookmarks()">Click here to see which ones they were.</a></p> -->
         <p class="profile-link" ng-show="!display.comments"><a ng-click="displayComments()">Click here to see {{username}}'s comments!</a></p>

@@ -23,7 +23,6 @@ var uploadcontroller = function($scope, $state, $stateParams, $http, $rootScope,
                 $scope.message = parsed_info.data.message;
                 $scope.parsed = true;
                 $scope.loading = false;
-                //add message in html and ask to try with a different link
                 return;
             }
             var details = parsed_info.data.info;
