@@ -132,7 +132,8 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                     user: $scope.username,
                     parent: $scope.commentSelected.id
                 }).then(function(results){
-                    if(results.success){
+                    console.log(results);
+                    if(results.data.success){
                         if ($scope.justSubmitted){
                             $scope.justSubmitted.push(results.data.comments[0]);
                         } else {
@@ -145,6 +146,7 @@ var homecontroller = function($scope, $http, $rootScope, $location, $cookies){
                         $scope.commentBox.displayCommentBox = false;
                         $scope.commentSelected.replies += 1;
                     } else {
+                        console.log("error");
                         $scope.comments.message = "Error posting comment";
                     }
                 });
